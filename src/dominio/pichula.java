@@ -6,7 +6,7 @@
 package dominio;
 
 /**
- *
+ *asdsa
  * @author jaime
  */
 public class pichula {
