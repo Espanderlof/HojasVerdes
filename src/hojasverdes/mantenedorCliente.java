@@ -345,6 +345,13 @@ public class mantenedorCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Error al agregar, cliente duplicada.");
             //sw = 1;
         }       
+        txt_rutCliente.setText("");
+        txt_nombre.setText("");
+        txt_direccion.setText("");
+        txt_giro.setText("");
+        txt_telefono.setText("");
+        txt_contacto.setText("");
+        txt_razonSocial.setText("");
         limpiartabla();
         mostrardatostabla(""); 
     }//GEN-LAST:event_btn_agregarActionPerformed
