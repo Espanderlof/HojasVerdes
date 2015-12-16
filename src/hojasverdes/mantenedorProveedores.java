@@ -5,12 +5,27 @@
  */
 package hojasverdes;
 
+import dominio.proveedor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Fralkayg
  */
 public class mantenedorProveedores extends javax.swing.JFrame {
-
+    DefaultTableModel modelo = new DefaultTableModel();
+    conectar cnx = new conectar();
+    Connection reg = cnx.conexion();
+    int columna = 0 ;
+    int sw = 0 ;
+    String sql;
     /**
      * Creates new form mantenedorProveedores
      */
@@ -18,7 +33,50 @@ public class mantenedorProveedores extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Mantenedor Proveedores");
+        tbl_proveedor.setAutoCreateRowSorter(true);
+        modelo.addColumn("Rut Proveedor");
+        modelo.addColumn("Nombre Proveedor");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Telefono");
+        tbl_proveedor.setModel(modelo);
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        mostrardatostabla("");
     }
+    
+    void mostrardatostabla (String valor){
+        String []datos = new String[4];
+        int cod;
+        String sql="";
+        if(valor.equals("")){
+            sql = "SELECT * FROM proveedor";
+        }else{
+            sql = "SELECT * FROM proveedor WHERE rut_proveedor='"+valor+"'";
+        }
+        try {
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                modelo.addRow(datos);
+            }
+            tbl_proveedor.setModel(modelo);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void limpiartabla(){
+       // tabla.setModel(new DefaultTableModel());
+        for (int i = 0; i < tbl_proveedor.getRowCount(); i++) {
+           modelo.removeRow(i);
+           i-=1;
+       }
+    }  
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,15 +94,17 @@ public class mantenedorProveedores extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txt_rutproveedor = new javax.swing.JTextField();
+        txt_nombreproveedor = new javax.swing.JTextField();
+        txt_direccionproveedor = new javax.swing.JTextField();
+        txt_telefonoproveedor = new javax.swing.JTextField();
+        btn_agregar = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_aceptar = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbl_proveedor = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,20 +131,51 @@ public class mantenedorProveedores extends javax.swing.JFrame {
 
         jLabel4.setText("Telefono:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_rutproveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_rutproveedorActionPerformed(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.setText("Agregar");
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
-        jButton2.setText("Modificar");
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
-        jButton3.setText("Eliminar");
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
+        btn_aceptar.setText("Aceptar");
+        btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptarActionPerformed(evt);
+            }
+        });
+
+        btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,26 +190,30 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                            .addComponent(txt_rutproveedor)
+                            .addComponent(txt_direccionproveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addComponent(btn_aceptar)
+                        .addGap(39, 39, 39)
+                        .addComponent(btn_modificar)
                         .addGap(31, 31, 31)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_nombreproveedor)
+                            .addComponent(txt_telefonoproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addGap(11, 11, 11)
+                        .addComponent(btn_cancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_agregar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -128,23 +223,25 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_rutproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nombreproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_direccionproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_telefonoproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_modificar)
+                    .addComponent(btn_aceptar)
+                    .addComponent(btn_cancelar))
                 .addContainerGap())
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_proveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -155,7 +252,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                 "Rut proveedor", "Nombre proveedor", "Direccion", "Telefono"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbl_proveedor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,9 +278,125 @@ public class mantenedorProveedores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_rutproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_rutproveedorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_rutproveedorActionPerformed
+
+    private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        sql = "Update proveedor SET nom_proveedor='"+txt_nombreproveedor.getText()+"',direccion='"+txt_direccionproveedor.getText()+"',telefono='"+txt_telefonoproveedor.getText()+"' WHERE rut_proveedor="+txt_rutproveedor.getText()+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartabla();
+            mostrardatostabla("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_rutproveedor.setEnabled(true);
+        txt_rutproveedor.setEditable(true);
+        txt_rutproveedor.requestFocus();
+        txt_rutproveedor.setText("");
+        txt_nombreproveedor.setText("");
+        txt_telefonoproveedor.setText("");
+        txt_direccionproveedor.setText("");
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_aceptarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_rutproveedor.setEnabled(true);
+        txt_rutproveedor.requestFocus();
+        txt_rutproveedor.setText("");
+        txt_nombreproveedor.setText("");
+        txt_telefonoproveedor.setText("");
+        txt_direccionproveedor.setText("");
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        proveedor dto = new proveedor();
+        dto.setRut_proveedor(Integer.parseInt(txt_rutproveedor.getText()));
+        dto.setNom_proveedor(txt_nombreproveedor.getText());
+        dto.setDireccion_proveedor(txt_direccionproveedor.getText());
+        dto.setTelefono_proveedor(Integer.parseInt(txt_telefonoproveedor.getText()));
+        
+        sql = "INSERT INTO proveedor (rut_proveedor, nom_proveedor, direccion, telefono) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.setInt(1, dto.getRut_proveedor());
+            pst.setString(2, dto.getNom_proveedor());
+            pst.setString(3, dto.getDireccion_proveedor());
+            pst.setInt(4, dto.getTelefono_proveedor());
+            
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Usuario registrado satisfactoriamente.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar, Usuario duplicado.");
+        }
+        txt_rutproveedor.setText("");
+        txt_nombreproveedor.setText("");
+        txt_direccionproveedor.setText("");
+        txt_telefonoproveedor.setText("");
+        
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila = tbl_proveedor.getSelectedRow();
+        if (fila>=0){
+            txt_rutproveedor.setText(tbl_proveedor.getValueAt(fila, 0).toString());
+            txt_nombreproveedor.setText(tbl_proveedor.getValueAt(fila, 1).toString());
+            txt_direccionproveedor.setText(tbl_proveedor.getValueAt(fila, 2).toString());
+            txt_telefonoproveedor.setText(tbl_proveedor.getValueAt(fila, 3).toString());
+            txt_rutproveedor.setEditable(false);
+            txt_rutproveedor.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_proveedor.getSelectedRow();
+        if (fila >= 0){
+            if (JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+                fila = tbl_proveedor.getSelectedRow();
+                txt_rutproveedor.setText(tbl_proveedor.getValueAt(fila, 0).toString());
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM proveedor WHERE rut_proveedor="+Integer.parseInt(txt_rutproveedor.getText()+""));
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                    txt_rutproveedor.setText("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,9 +434,11 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btn_aceptar;
+    private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,10 +447,10 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable tbl_proveedor;
+    private javax.swing.JTextField txt_direccionproveedor;
+    private javax.swing.JTextField txt_nombreproveedor;
+    private javax.swing.JTextField txt_rutproveedor;
+    private javax.swing.JTextField txt_telefonoproveedor;
     // End of variables declaration//GEN-END:variables
 }
