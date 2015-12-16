@@ -5,12 +5,32 @@
  */
 package hojasverdes;
 
-/**
- *
- * @author Fralkayg
- */
-public class mantenedorNotaPedido extends javax.swing.JFrame {
+import dominio.notapedido;
+import java.sql.Connection;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+public class mantenedorNotaPedido extends javax.swing.JFrame {
+    DefaultTableModel modelo = new DefaultTableModel();
+    Calendar c2 = new GregorianCalendar();
+    conectar cnx = new conectar();
+    Connection reg = cnx.conexion();
+    int columna = 0 ;
+    int sw = 0 ;
+    String sql;
+    /**
     /**
      * Creates new form mantenedorNotaPedido
      */
@@ -18,7 +38,66 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Mantenedor Nota Pedido");
+        tbl_notapedido.setAutoCreateRowSorter(true);
+        modelo.addColumn("Numero Nota");
+        modelo.addColumn("Rut Cliente");
+        modelo.addColumn("Fecha");
+        tbl_notapedido.setModel(modelo);
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        
+        cmb_date.setCalendar(c2);
+        mostrardatostabla("");
     }
+    
+    
+    void mostrardatostabla (String valor){
+        String []datos = new String[3];
+        int cod;
+        String sql="";
+        if(valor.equals("")){
+            sql = "SELECT * FROM nota_pedido";
+        }else{
+            sql = "SELECT * FROM nota_pedido WHERE nro_nota='"+valor+"'";
+        }
+        try {
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                modelo.addRow(datos);
+            }
+            tbl_notapedido.setModel(modelo);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        llenarcmb();
+    }
+    public void llenarcmb(){
+        try{
+                cmb_rutcliente.removeAllItems();
+                String sql="select rut_cliente from cliente";
+                Statement st = reg.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()){
+                    String name = rs.getString(1);
+                    cmb_rutcliente.addItem(name);
+                }
+            }catch(Exception e){
+                
+            }
+    }
+    
+    public void limpiartabla(){
+       // tabla.setModel(new DefaultTableModel());
+        for (int i = 0; i < tbl_notapedido.getRowCount(); i++) {
+           modelo.removeRow(i);
+           i-=1;
+       }
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,18 +110,20 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_codigonotapedido = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        cmb_rutcliente = new javax.swing.JComboBox();
+        btn_agregarrutcliente = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btn_agregar = new javax.swing.JButton();
+        btn_agregardetalle = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_aceptar = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+        cmb_date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_notapedido = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -52,28 +133,62 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
 
         jLabel2.setText("Rut cliente:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-
-        jLabel3.setText("Fecha:");
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton2.setText("Agregar");
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pedido.png"))); // NOI18N
-        jButton3.setText("Agregar detalle");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarrutcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarrutcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_agregarrutclienteActionPerformed(evt);
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
-        jButton4.setText("Modificar");
+        jLabel3.setText("Fecha:");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
-        jButton5.setText("Eliminar");
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
+
+        btn_agregardetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pedido.png"))); // NOI18N
+        btn_agregardetalle.setText("Agregar detalle");
+        btn_agregardetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregardetalleActionPerformed(evt);
+            }
+        });
+
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
+        btn_aceptar.setText("Aceptar");
+        btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptarActionPerformed(evt);
+            }
+        });
+
+        btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,11 +198,15 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(203, 203, 203)
-                        .addComponent(jButton4)
+                        .addComponent(btn_eliminar)
+                        .addGap(58, 58, 58)
+                        .addComponent(btn_aceptar)
+                        .addGap(50, 50, 50)
+                        .addComponent(btn_modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_cancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(btn_agregar)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,17 +215,17 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmb_rutcliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_codigonotapedido, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 246, Short.MAX_VALUE))
+                                .addComponent(btn_agregarrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
+                                .addComponent(btn_agregardetalle)
                                 .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -114,28 +233,34 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_codigonotapedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btn_agregarrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1)
+                        .addComponent(cmb_rutcliente)
                         .addComponent(jLabel2)))
-                .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jButton3))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(btn_agregardetalle)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_modificar)
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_aceptar)
+                    .addComponent(btn_cancelar))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_notapedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -146,7 +271,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                 "Codigo", "Rut", "Fecha"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl_notapedido);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,10 +299,148 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_agregardetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregardetalleActionPerformed
         mantenedorDetallePedido abrirDetallePedido = new mantenedorDetallePedido();
         abrirDetallePedido.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_agregardetalleActionPerformed
+
+    private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        String rut=(cmb_rutcliente.getSelectedItem().toString());
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        
+        System.out.println("fecha:"+sqlfecha);
+        sql = "Update nota_pedido SET rut_cliente='"+rut+"',fecha='"+sqlfecha+"' WHERE nro_nota="+txt_codigonotapedido.getText()+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartabla();
+            mostrardatostabla("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_codigonotapedido.setEnabled(true);
+        txt_codigonotapedido.setEditable(true);
+        txt_codigonotapedido.setText("");
+        cmb_rutcliente.removeAllItems();
+        cmb_date.setCalendar(c2);
+        
+        
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_aceptarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_codigonotapedido.setEnabled(true);
+        txt_codigonotapedido.requestFocus();
+        txt_codigonotapedido.setText("");
+        cmb_rutcliente.removeAllItems();
+        cmb_date.setCalendar(c2);
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        notapedido dto = new notapedido();
+        dto.setNro_nota(Integer.parseInt(txt_codigonotapedido.getText()));
+        dto.setRut_cliente(Integer.parseInt(cmb_rutcliente.getSelectedItem().toString()));
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        dto.setFecha(sqlfecha);
+        
+        
+        sql = "INSERT INTO nota_pedido (nro_nota, rut_cliente, fecha) VALUES (?,?,?)";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.setInt(1, dto.getNro_nota());
+            pst.setInt(2, dto.getRut_cliente());
+            pst.setDate(3, dto.getFecha());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar.");
+        }
+        txt_codigonotapedido.setText("");
+        cmb_rutcliente.removeAllItems();
+        cmb_date.setCalendar(c2);
+        
+        
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila = tbl_notapedido.getSelectedRow();
+        if (fila>=0){
+            txt_codigonotapedido.setText(tbl_notapedido.getValueAt(fila, 0).toString());
+            
+            String rut=(tbl_notapedido.getValueAt(fila, 1).toString());
+            cmb_rutcliente.setSelectedItem(rut);
+            String fecha=(tbl_notapedido.getValueAt(fila, 2).toString());
+            
+            
+            /*String[] fechArray = fecha.split("/");
+            int año = Integer.valueOf(fechArray[0]);
+            int mes = Integer.valueOf(fechArray[1]) - 1;
+            int dia = Integer.valueOf(fechArray[2]);
+            Calendar c1 = new GregorianCalendar(año, mes, dia);
+            
+            cmb_date.setCalendar(c1);*/
+            
+            
+            
+            txt_codigonotapedido.setEditable(false);
+            txt_codigonotapedido.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_notapedido.getSelectedRow();
+        if (fila >= 0){
+            if (JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+                fila = tbl_notapedido.getSelectedRow();
+                txt_codigonotapedido.setText(tbl_notapedido.getValueAt(fila, 0).toString());
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM nota_pedido WHERE nro_nota="+Integer.parseInt(txt_codigonotapedido.getText()+""));
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                    txt_codigonotapedido.setText("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_agregarrutclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarrutclienteActionPerformed
+        mantenedorCliente abrir = new mantenedorCliente();
+        abrir.setVisible(true);
+    }//GEN-LAST:event_btn_agregarrutclienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,19 +478,21 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btn_aceptar;
+    private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_agregardetalle;
+    private javax.swing.JButton btn_agregarrutcliente;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modificar;
+    private com.toedter.calendar.JDateChooser cmb_date;
+    private javax.swing.JComboBox cmb_rutcliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tbl_notapedido;
+    private javax.swing.JTextField txt_codigonotapedido;
     // End of variables declaration//GEN-END:variables
 }
