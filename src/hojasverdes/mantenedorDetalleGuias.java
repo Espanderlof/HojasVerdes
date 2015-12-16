@@ -67,7 +67,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         String []datos=new String[5];
         String sql="";
         if(valor.equals("")){
-            sql="SELECT e.cod_envio, p.nom_producto, p.variedad, e.kilogramos, e.num_bins FROM detalle_envio e, producto p where cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and e.cod_producto="+getCodProducto()+" and e.cod_producto = p.cod_producto ";
+            sql="SELECT e.cod_envio, p.nom_producto, p.variedad, e.kilogramos, e.num_bins FROM detalle_envio e, producto p where cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+"  and e.cod_producto = p.cod_producto ";
         }else{
             sql="SELECT * FROM detalle_envio WHERE cod_envio="+valor+"";
         }
@@ -250,19 +250,9 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jLabel3.setText("Kilogramos:");
         jLabel3.setToolTipText("");
 
-        cmb_nomProducto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmb_nomProductoMouseClicked(evt);
-            }
-        });
         cmb_nomProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_nomProductoActionPerformed(evt);
-            }
-        });
-        cmb_nomProducto.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cmb_nomProductoPropertyChange(evt);
             }
         });
 
@@ -283,12 +273,6 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
 
         jLabel7.setText("Variedad:");
-
-        cmb_variedad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_variedadActionPerformed(evt);
-            }
-        });
 
         jLabel9.setText("Numero bins:");
 
@@ -551,17 +535,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
     private void cmb_nomProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_nomProductoActionPerformed
         cmb_variedad(cmb_nomProducto.getSelectedItem().toString());
-        limpiartablaEnvio();
-        mostrardatostablaEnvio("");
     }//GEN-LAST:event_cmb_nomProductoActionPerformed
-
-    private void cmb_nomProductoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmb_nomProductoPropertyChange
-
-    }//GEN-LAST:event_cmb_nomProductoPropertyChange
-
-    private void cmb_nomProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmb_nomProductoMouseClicked
-
-    }//GEN-LAST:event_cmb_nomProductoMouseClicked
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         detalleEnvio dto = new detalleEnvio();
@@ -569,7 +543,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         dto.setCod_producto(getCodProducto());
         dto.setKilogramos(Integer.parseInt(txt_kilogramos.getText()));
         dto.setN_bins(Integer.parseInt(txt_numBins.getText()));
-        sql = "INSERT INTO detalle_envio (cod_envio, cod_producto, kilogramos, n_bins) VALUES (?,?,?,?)";
+        sql = "INSERT INTO detalle_envio (cod_envio, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.setInt(1, dto.getCod_envio());
@@ -583,14 +557,9 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
         }
-        //limpiartabla();
-        //mostrardatostabla("");
-    }//GEN-LAST:event_btn_agregarActionPerformed
-
-    private void cmb_variedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_variedadActionPerformed
         limpiartablaEnvio();
         mostrardatostablaEnvio("");
-    }//GEN-LAST:event_cmb_variedadActionPerformed
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
     /**
      * @param args the command line arguments
