@@ -182,8 +182,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
                 codigo = Integer.parseInt(rs.getString(1));
-            }
-            
+            }   
         }catch(Exception e){
             
         }
@@ -266,9 +265,19 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
 
@@ -278,9 +287,19 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
+        btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptarActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -529,12 +548,21 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmb_guiaEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_guiaEnvioActionPerformed
-        limpiartablaEnvio();
-        mostrardatostablaEnvio("");
+        if (cmb_guiaEnvio.getSelectedItem() == null){
+            
+        }else{
+            limpiartablaEnvio();
+            mostrardatostablaEnvio("");
+        }
+        
     }//GEN-LAST:event_cmb_guiaEnvioActionPerformed
 
     private void cmb_nomProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_nomProductoActionPerformed
-        cmb_variedad(cmb_nomProducto.getSelectedItem().toString());
+        if (cmb_nomProducto.getSelectedItem() ==null){
+            
+        }else{
+            cmb_variedad(cmb_nomProducto.getSelectedItem().toString());   
+        }
     }//GEN-LAST:event_cmb_nomProductoActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
@@ -560,6 +588,106 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         limpiartablaEnvio();
         mostrardatostablaEnvio("");
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila=tbl_envio.getSelectedRow();
+        if (fila>=0){
+            cmb_guiaEnvio.removeAllItems();
+            cmb_guiaEnvio.addItem(tbl_envio.getValueAt(fila, 0).toString());
+            cmb_nomProducto.removeAllItems();
+            cmb_nomProducto.addItem(tbl_envio.getValueAt(fila, 1).toString());
+            cmb_variedad.removeAllItems();
+            cmb_variedad.addItem(tbl_envio.getValueAt(fila, 2).toString());
+            txt_kilogramos.setText(tbl_envio.getValueAt(fila, 3).toString());
+            txt_numBins.setText(tbl_envio.getValueAt(fila, 4).toString());
+            cmb_guiaEnvio.setEditable(false);
+            cmb_guiaEnvio.setEnabled(false);
+            cmb_nomProducto.setEditable(false);
+            cmb_nomProducto.setEnabled(false);
+            cmb_variedad.setEditable(false);
+            cmb_variedad.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        sql="UPDATE detalle_envio SET kilogramos="+Integer.parseInt(txt_kilogramos.getText())+",num_bins= "+Integer.parseInt(txt_numBins.getText())+"  WHERE cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartablaEnvio();
+            mostrardatostablaEnvio("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_guiaEnvio.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nomProducto.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad.setEnabled(true);
+        txt_kilogramos.setText("");
+        txt_numBins.setText("");
+        //cmb_guiaEnvio.removeAllItems();
+        //cmb_nomProducto.removeAllItems();
+        //cmb_variedad.removeAllItems();
+        limpiartablaEnvio();
+        mostrardatostablaEnvio("");
+    }//GEN-LAST:event_btn_aceptarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_guiaEnvio.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nomProducto.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad.setEnabled(true);
+        cmb_guiaEnvio.requestFocus();
+        txt_kilogramos.setText("");
+        txt_numBins.setText("");
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_envio.getSelectedRow();
+        if (fila >= 0){   
+            if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+            //qui se pone lo que hara si le das aceptar
+                fila=tbl_envio.getSelectedRow();
+                //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
+                cmb_guiaEnvio.setSelectedItem(tbl_envio.getValueAt(fila, 0).toString());
+                
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_envio WHERE cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+" ");
+                    pst.executeUpdate();
+                    limpiartablaEnvio();
+                    mostrardatostablaEnvio("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+            //aqui se pone lo que hara si le das cancelar
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
