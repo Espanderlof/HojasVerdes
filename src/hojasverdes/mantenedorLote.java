@@ -124,7 +124,7 @@ public class mantenedorLote extends javax.swing.JFrame {
         btn_eliminar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txt_kilosfinal = new javax.swing.JTextField();
-        cmb_codigoproducto = new javax.swing.JComboBox<>();
+        cmb_codigoproducto = new javax.swing.JComboBox<String>();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         cmb_date = new com.toedter.calendar.JDateChooser();
