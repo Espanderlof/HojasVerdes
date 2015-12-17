@@ -43,8 +43,8 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         txt_codproducto.setEnabled(false);
-        
         mostrardatostabla("");
+        
     }
     
     void mostrardatostabla (String valor){
@@ -100,6 +100,33 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             }catch(Exception e){
                 
             }
+        try{
+            cmb_variedad.removeAllItems();
+            String sql="select variedad from producto where nom_producto ='"+cmb_nombreproducto.getSelectedItem()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_variedad.addItem(rs.getString(1));
+            }  
+        }catch(Exception e){
+            
+        }
+    }
+    
+    
+    public String getCodProducto(){
+        String codigo="";
+        try{
+            String sql="select cod_producto from producto where nom_producto ='"+cmb_nombreproducto.getSelectedItem()+"' and variedad='"+cmb_variedad.getSelectedItem()+"' ";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                codigo = rs.getString(1);
+            }   
+        }catch(Exception e){
+            
+        }
+        return codigo;
     }
     
     public void limpiartabla(){
@@ -153,6 +180,11 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         jLabel2.setText("Nombre producto:");
 
         cmb_nombreproducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_nombreproducto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_nombreproductoItemStateChanged(evt);
+            }
+        });
 
         btn_agregarproducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregarproducto.addActionListener(new java.awt.event.ActionListener() {
@@ -164,17 +196,37 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         jLabel3.setText("Variedad:");
 
         cmb_variedad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_variedad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_variedadItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Cantidad:");
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Precio:");
 
@@ -186,6 +238,12 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
 
         jLabel6.setText("Codigo Producto:");
+
+        txt_codproducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_codproductoActionPerformed(evt);
+            }
+        });
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -327,12 +385,10 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-       /* String rut=(cmb_rutcliente.getSelectedItem().toString());
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-
-        System.out.println("fecha:"+sqlfecha);
-        sql = "Update nota_pedido SET rut_cliente='"+rut+"',fecha='"+sqlfecha+"' WHERE nro_nota="+txt_codigonotapedido.getText()+"";
+       String envio = cmb_notapedido.getSelectedItem().toString();
+        String nom = cmb_nombreproducto.getSelectedItem().toString();
+        String var = cmb_variedad.getSelectedItem().toString();
+        sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_codproducto.getText()+"";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
@@ -347,29 +403,45 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         btn_eliminar.setVisible(true);
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
-        txt_codigonotapedido.setEnabled(true);
-        txt_codigonotapedido.setEditable(true);
-        txt_codigonotapedido.setText("");
-        cmb_rutcliente.removeAllItems();
-        cmb_date.setCalendar(c2);
-
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_notapedido.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nombreproducto.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad.setEnabled(true);
+        txt_cantidad.setText("");
+        txt_precio.setText("");
+        cmb_notapedido.removeAllItems();
+        cmb_nombreproducto.removeAllItems();
+        cmb_variedad.removeAllItems();
+        
         limpiartabla();
-        mostrardatostabla("");*/
+        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-       /* btn_aceptar.setVisible(false);
+        String envio = cmb_notapedido.getSelectedItem().toString();
+        String nom = cmb_nombreproducto.getSelectedItem().toString();
+        String var = cmb_variedad.getSelectedItem().toString();
+        btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         btn_eliminar.setVisible(true);
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
-        txt_codigonotapedido.setEnabled(true);
-        txt_codigonotapedido.requestFocus();
-        txt_codigonotapedido.setText("");
-        cmb_rutcliente.removeAllItems();
-        cmb_date.setCalendar(c2);
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_notapedido.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nombreproducto.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad.setEnabled(true);
+        cmb_notapedido.requestFocus();
+        txt_cantidad.setText("");
+        txt_precio.setText("");
+        cmb_notapedido.removeAllItems();
+        cmb_nombreproducto.removeAllItems();
+        cmb_variedad.removeAllItems();
         limpiartabla();
-        mostrardatostabla("");*/
+        mostrardatostabla("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_agregarnotapedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarnotapedidoActionPerformed
@@ -381,6 +453,110 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         mantenedorProductos abrir = new mantenedorProductos();
         abrir.setVisible(true);
     }//GEN-LAST:event_btn_agregarproductoActionPerformed
+
+    private void cmb_nombreproductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_nombreproductoItemStateChanged
+        try{
+            cmb_variedad.removeAllItems();
+            String sql="select variedad from producto where nom_producto ='"+cmb_nombreproducto.getSelectedItem()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_variedad.addItem(rs.getString(1));
+            }  
+        }catch(Exception e){
+            
+        }
+        String cod = getCodProducto();
+        txt_codproducto.setText(cod);
+    }//GEN-LAST:event_cmb_nombreproductoItemStateChanged
+
+    private void txt_codproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_codproductoActionPerformed
+
+    }//GEN-LAST:event_txt_codproductoActionPerformed
+
+    private void cmb_variedadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_variedadItemStateChanged
+        String cod = getCodProducto();
+        txt_codproducto.setText(cod);
+    }//GEN-LAST:event_cmb_variedadItemStateChanged
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_detallepedido.getSelectedRow();
+        if (fila >= 0){   
+            if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+            //qui se pone lo que hara si le das aceptar
+                fila=tbl_detallepedido.getSelectedRow();
+                //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
+                cmb_notapedido.setSelectedItem(tbl_detallepedido.getValueAt(fila, 0).toString());
+                
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_pedido WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+" ");
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+            //aqui se pone lo que hara si le das cancelar
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila=tbl_detallepedido.getSelectedRow();
+        if (fila>=0){
+            cmb_notapedido.removeAllItems();
+            cmb_notapedido.addItem(tbl_detallepedido.getValueAt(fila, 0).toString());
+            cmb_nombreproducto.removeAllItems();
+            cmb_nombreproducto.addItem(tbl_detallepedido.getValueAt(fila, 2).toString());
+            cmb_variedad.removeAllItems();
+            cmb_variedad.addItem(tbl_detallepedido.getValueAt(fila, 3).toString());
+            
+            txt_cantidad.setText(tbl_detallepedido.getValueAt(fila, 4).toString());
+            txt_precio.setText(tbl_detallepedido.getValueAt(fila, 5).toString());
+            String cod = getCodProducto();
+            txt_codproducto.setText(cod);
+            cmb_notapedido.setEditable(false);
+            cmb_notapedido.setEnabled(false);
+            cmb_nombreproducto.setEditable(false);
+            cmb_nombreproducto.setEnabled(false);
+            cmb_variedad.setEditable(false);
+            cmb_variedad.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        detallePedido dto = new detallePedido();
+        dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
+        dto.setCod_producto(Integer.parseInt(getCodProducto()));
+        dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+        dto.setPrecio(Integer.parseInt(txt_precio.getText()));
+        sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.setInt(1, dto.getNro_nota());
+            pst.setInt(2, dto.getCod_producto());
+            pst.setInt(3, dto.getCantidad());
+            pst.setInt(4, dto.getPrecio());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+        }
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
     /**
      * @param args the command line arguments
