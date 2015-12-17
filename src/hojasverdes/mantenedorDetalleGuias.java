@@ -6,6 +6,7 @@
 package hojasverdes;
 
 import dominio.detalleEnvio;
+import dominio.detalleRecepcion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,8 +59,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         btn_aceptar2.setVisible(false);
         btn_cancelar2.setVisible(false);
         cmb_guiaEnvio("");
+        cmb_guiaRecepcion("");
         cmb_productoVariedad("");
+        cmb_productoVariedad2("");
+        limpiartablaRecepcion();
         limpiartablaEnvio();
+        mostrardatostablaRecepcion("");
         mostrardatostablaEnvio("");
     }
 
@@ -103,9 +108,9 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         String []datos=new String[5];
         String sql="";
         if(valor.equals("")){
-            sql="SELECT * FROM detalle_recepcion";
+            sql="SELECT r.cod_recepcion, p.nom_producto, p.variedad, r.kilogramos, r.num_bins FROM detalle_recepcion r, producto p where cod_recepcion="+Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString())+"  and r.cod_producto = p.cod_producto ";
         }else{
-            sql="SELECT * FROM detalle_recepcion WHERE cod_recepcion="+valor+" ";
+            sql="SELECT * FROM detalle_recepcion WHERE cod_recepcion="+valor+"";
         }
         try {
             Statement st = reg.createStatement();
@@ -117,23 +122,26 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);
                 datos[4]=rs.getString(5);
-                modelo.addRow(datos);
+                modelo2.addRow(datos);
             }
-            tbl_envio.setModel(modelo);
+            tbl_recepcion.setModel(modelo2);
             
         } catch (SQLException ex) {
             Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
         }   
     }
     
+   
     public void limpiartablaRecepcion(){
        // tabla.setModel(new DefaultTableModel());
         for (int i = 0; i < tbl_recepcion.getRowCount(); i++) {
-           modelo.removeRow(i);
+           modelo2.removeRow(i);
            i-=1;
        }
     } 
     
+    //-----------------------------------------------------------------------------------------------------------
+    //-------------------- Detalle envio ------------------------------------------------------------------------
     
     void cmb_guiaEnvio(String valor){
         try{
@@ -188,7 +196,69 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         }
         return codigo;
     }
+    
 
+ 
+
+    
+    //-------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------- Guia recepcion ------------------------------------------------------------
+    
+    void cmb_guiaRecepcion(String valor){
+        try{
+            String sql="select cod_recepcion from guia_recepcion order by cod_recepcion";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_guiaRecepcion.addItem(rs.getString(1));
+            }    
+        }catch(Exception e){
+            }
+    }
+
+    void cmb_productoVariedad2(String valor){
+        try{
+            String sql="select nom_producto from producto";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_nomProducto2.addItem(rs.getString(1));
+            }    
+        }catch(Exception e){
+            
+        }
+    }
+    
+    void cmb_variedad2(String nombre){
+        cmb_variedad2.removeAllItems();
+        try{
+            String sql="select variedad from producto where nom_producto ='"+nombre+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_variedad2.addItem(rs.getString(1));
+            }  
+        }catch(Exception e){
+            
+        }
+    }
+    
+    public int getCodProducto2(){
+        int codigo=0;
+        try{
+            String sql="select cod_producto from producto where nom_producto ='"+cmb_nomProducto2.getSelectedItem()+"' and variedad='"+cmb_variedad2.getSelectedItem()+"' ";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                codigo = Integer.parseInt(rs.getString(1));
+            }   
+        }catch(Exception e){
+            
+        }
+        return codigo;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -383,7 +453,19 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         jLabel4.setText("Codigo guia recepcion:");
 
+        cmb_guiaRecepcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_guiaRecepcionActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Nombre producto:");
+
+        cmb_nomProducto2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_nomProducto2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Kilogramos:");
 
@@ -391,12 +473,27 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         btn_agregar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar2.setText("Agregar");
+        btn_agregar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregar2ActionPerformed(evt);
+            }
+        });
 
         btn_modificar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar2.setText("Modificar");
+        btn_modificar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificar2ActionPerformed(evt);
+            }
+        });
 
         btn_eliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar2.setText("Eliminar");
+        btn_eliminar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminar2ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Variedad:");
 
@@ -404,55 +501,67 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         btn_aceptar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar2.setText("Aceptar");
+        btn_aceptar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptar2ActionPerformed(evt);
+            }
+        });
 
         btn_cancelar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar2.setText("Cancelar");
+        btn_cancelar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelar2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmb_guiaRecepcion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmb_nomProducto2, 0, 124, Short.MAX_VALUE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(62, 62, 62)
-                                .addComponent(cmb_variedad2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(51, 51, 51))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(44, 44, 44)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt_numBins2, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                    .addComponent(txt_kilogramos2))))
+                            .addComponent(cmb_nomProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmb_guiaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btn_eliminar2)
-                        .addGap(31, 31, 31)
-                        .addComponent(btn_aceptar2)
-                        .addGap(26, 26, 26)
-                        .addComponent(btn_modificar2)
-                        .addGap(27, 27, 27)
-                        .addComponent(btn_cancelar2)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(85, 85, 85)
+                            .addComponent(cmb_variedad2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(51, 51, 51))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(44, 44, 44)))
+                            .addGap(23, 23, 23)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txt_numBins2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_kilogramos2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(btn_eliminar2)
+                .addGap(28, 28, 28)
+                .addComponent(btn_aceptar2)
+                .addGap(18, 18, 18)
+                .addComponent(btn_modificar2)
+                .addGap(18, 18, 18)
+                .addComponent(btn_cancelar2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(btn_agregar2)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,12 +571,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(cmb_guiaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cmb_nomProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel5))
+                    .addComponent(jButton1))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(cmb_variedad2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -481,11 +590,11 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                     .addComponent(txt_numBins2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_agregar2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_modificar2)
+                    .addComponent(btn_cancelar2)
                     .addComponent(btn_eliminar2)
                     .addComponent(btn_aceptar2)
-                    .addComponent(btn_cancelar2))
+                    .addComponent(btn_agregar2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -539,7 +648,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -617,6 +726,9 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        String envio = cmb_guiaEnvio.getSelectedItem().toString();
+        String nom = cmb_nomProducto.getSelectedItem().toString();
+        String var = cmb_variedad.getSelectedItem().toString();
         sql="UPDATE detalle_envio SET kilogramos="+Integer.parseInt(txt_kilogramos.getText())+",num_bins= "+Integer.parseInt(txt_numBins.getText())+"  WHERE cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+"";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
@@ -640,14 +752,22 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         cmb_variedad.setEnabled(true);
         txt_kilogramos.setText("");
         txt_numBins.setText("");
-        //cmb_guiaEnvio.removeAllItems();
-        //cmb_nomProducto.removeAllItems();
-        //cmb_variedad.removeAllItems();
+        cmb_guiaEnvio.removeAllItems();
+        cmb_nomProducto.removeAllItems();
+        cmb_variedad.removeAllItems();
+        cmb_guiaEnvio("");
+        cmb_productoVariedad("");
+        cmb_guiaEnvio.setSelectedItem(envio);
+        cmb_nomProducto.setSelectedItem(nom);
+        cmb_variedad.setSelectedItem(var);
         limpiartablaEnvio();
         mostrardatostablaEnvio("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        String envio = cmb_guiaEnvio.getSelectedItem().toString();
+        String nom = cmb_nomProducto.getSelectedItem().toString();
+        String var = cmb_variedad.getSelectedItem().toString();
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         btn_eliminar.setVisible(true);
@@ -662,6 +782,14 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         cmb_guiaEnvio.requestFocus();
         txt_kilogramos.setText("");
         txt_numBins.setText("");
+        cmb_guiaEnvio.removeAllItems();
+        cmb_nomProducto.removeAllItems();
+        cmb_variedad.removeAllItems();
+        cmb_guiaEnvio("");
+        cmb_productoVariedad("");
+        cmb_guiaEnvio.setSelectedItem(envio);
+        cmb_nomProducto.setSelectedItem(nom);
+        cmb_variedad.setSelectedItem(var);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -688,6 +816,166 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void cmb_guiaRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_guiaRecepcionActionPerformed
+        if (cmb_guiaRecepcion.getSelectedItem() == null){
+            
+        }else{
+            limpiartablaRecepcion();
+            mostrardatostablaRecepcion("");
+        }
+    }//GEN-LAST:event_cmb_guiaRecepcionActionPerformed
+
+    private void cmb_nomProducto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_nomProducto2ActionPerformed
+        if (cmb_nomProducto2.getSelectedItem() ==null){
+            
+        }else{
+            cmb_variedad2(cmb_nomProducto2.getSelectedItem().toString());   
+        }
+    }//GEN-LAST:event_cmb_nomProducto2ActionPerformed
+
+    private void btn_agregar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar2ActionPerformed
+        detalleRecepcion dto = new detalleRecepcion();
+        dto.setCod_recepcion(Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString()));
+        dto.setCod_producto(getCodProducto2());
+        dto.setKilogramos(Integer.parseInt(txt_kilogramos2.getText()));
+        dto.setNum_bins(Integer.parseInt(txt_numBins2.getText()));
+        sql = "INSERT INTO detalle_recepcion (cod_recepcion, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.setInt(1, dto.getCod_recepcion());
+            pst.setInt(2, dto.getCod_producto());
+            pst.setInt(3, dto.getKilogramos());
+            pst.setInt(4, dto.getNum_bins());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Detalle recepcion registrado satisfactoriamente.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+        }
+        limpiartablaRecepcion();
+        mostrardatostablaRecepcion("");
+    }//GEN-LAST:event_btn_agregar2ActionPerformed
+
+    private void btn_modificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificar2ActionPerformed
+        int fila=tbl_recepcion.getSelectedRow();
+        if (fila>=0){
+            cmb_guiaRecepcion.removeAllItems();
+            cmb_guiaRecepcion.addItem(tbl_recepcion.getValueAt(fila, 0).toString());
+            cmb_nomProducto2.removeAllItems();
+            cmb_nomProducto2.addItem(tbl_recepcion.getValueAt(fila, 1).toString());
+            cmb_variedad2.removeAllItems();
+            cmb_variedad2.addItem(tbl_recepcion.getValueAt(fila, 2).toString());
+            txt_kilogramos2.setText(tbl_recepcion.getValueAt(fila, 3).toString());
+            txt_numBins2.setText(tbl_recepcion.getValueAt(fila, 4).toString());
+            cmb_guiaRecepcion.setEditable(false);
+            cmb_guiaRecepcion.setEnabled(false);
+            cmb_nomProducto2.setEditable(false);
+            cmb_nomProducto2.setEnabled(false);
+            cmb_variedad2.setEditable(false);
+            cmb_variedad2.setEnabled(false);
+            btn_agregar2.setVisible(false);
+            btn_modificar2.setVisible(false);
+            btn_eliminar2.setVisible(false);
+            btn_aceptar2.setVisible(true);
+            btn_cancelar2.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificar2ActionPerformed
+
+    private void btn_cancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar2ActionPerformed
+        String rec = cmb_guiaRecepcion.getSelectedItem().toString();
+        String nom = cmb_nomProducto2.getSelectedItem().toString();
+        String var = cmb_variedad2.getSelectedItem().toString();        
+        btn_aceptar2.setVisible(false);
+        btn_cancelar2.setVisible(false);
+        btn_eliminar2.setVisible(true);
+        btn_modificar2.setVisible(true);
+        btn_agregar2.setVisible(true);
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_guiaRecepcion.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nomProducto2.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad2.setEnabled(true);
+        cmb_guiaRecepcion.requestFocus();
+        txt_kilogramos2.setText("");
+        txt_numBins2.setText("");
+        cmb_guiaRecepcion.removeAllItems();
+        cmb_nomProducto2.removeAllItems();
+        cmb_variedad2.removeAllItems();
+        cmb_guiaRecepcion("");
+        cmb_productoVariedad2("");
+        cmb_guiaRecepcion.setSelectedItem(rec);
+        cmb_nomProducto2.setSelectedItem(nom);
+        cmb_variedad2.setSelectedItem(var);
+    }//GEN-LAST:event_btn_cancelar2ActionPerformed
+
+    private void btn_aceptar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptar2ActionPerformed
+        String rec = cmb_guiaRecepcion.getSelectedItem().toString();
+        String nom = cmb_nomProducto2.getSelectedItem().toString();
+        String var = cmb_variedad2.getSelectedItem().toString();
+        sql="UPDATE detalle_recepcion SET kilogramos="+Integer.parseInt(txt_kilogramos2.getText())+",num_bins= "+Integer.parseInt(txt_numBins2.getText())+"  WHERE cod_recepcion="+Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString())+" and cod_producto="+getCodProducto2()+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartablaRecepcion();
+            mostrardatostablaRecepcion("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar2.setVisible(false);
+        btn_cancelar2.setVisible(false);
+        btn_eliminar2.setVisible(true);
+        btn_modificar2.setVisible(true);
+        btn_agregar2.setVisible(true);
+        //cmb_guiaEnvio.setEditable(true);
+        cmb_guiaRecepcion.setEnabled(true);
+        //cmb_nomProducto.setEditable(true);
+        cmb_nomProducto2.setEnabled(true);
+        //cmb_variedad.setEditable(true);
+        cmb_variedad2.setEnabled(true);
+        txt_kilogramos2.setText("");
+        txt_numBins2.setText("");
+        cmb_guiaRecepcion.removeAllItems();
+        cmb_nomProducto2.removeAllItems();
+        cmb_variedad2.removeAllItems();
+        cmb_guiaRecepcion("");
+        cmb_productoVariedad2("");
+        cmb_guiaRecepcion.setSelectedItem(rec);
+        cmb_nomProducto2.setSelectedItem(nom);
+        cmb_variedad2.setSelectedItem(var);
+        limpiartablaRecepcion();
+        mostrardatostablaRecepcion("");
+    }//GEN-LAST:event_btn_aceptar2ActionPerformed
+
+    private void btn_eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar2ActionPerformed
+        int fila = tbl_recepcion.getSelectedRow();
+        if (fila >= 0){   
+            if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+            //qui se pone lo que hara si le das aceptar
+                fila=tbl_recepcion.getSelectedRow();
+                //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
+                cmb_guiaRecepcion.setSelectedItem(tbl_recepcion.getValueAt(fila, 0).toString());
+                
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_recepcion WHERE cod_recepcion="+Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString())+" and cod_producto="+getCodProducto2()+" ");
+                    pst.executeUpdate();
+                    limpiartablaRecepcion();
+                    mostrardatostablaRecepcion("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+            //aqui se pone lo que hara si le das cancelar
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminar2ActionPerformed
 
     /**
      * @param args the command line arguments
