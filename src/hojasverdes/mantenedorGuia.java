@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class mantenedorGuia extends javax.swing.JFrame {
         
     DefaultTableModel modelo = new DefaultTableModel();
+    Calendar c2 = new GregorianCalendar();
     conectar cnx = new conectar();
     Connection reg= cnx.conexion();
     //private TableRowSorter trsfiltro;
@@ -46,6 +50,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
         tbl_guia.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
+        cmb_date.setCalendar(c2);
         cmbCampo("");
         cmbProveedor("");
         cmbChofer("");
@@ -164,7 +169,6 @@ public class mantenedorGuia extends javax.swing.JFrame {
         cmb_patente = new javax.swing.JComboBox();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        txt_fecha = new javax.swing.JTextField();
         btn_agregar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
@@ -173,6 +177,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
         txt_guia = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         cmb_chofer = new javax.swing.JComboBox();
+        cmb_date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_guia = new javax.swing.JTable();
 
@@ -255,17 +260,17 @@ public class mantenedorGuia extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                .addComponent(cmb_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txt_guia)))
+                                .addComponent(txt_guia))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cmb_proveedor, 0, 147, Short.MAX_VALUE)
+                                    .addComponent(cmb_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,10 +312,10 @@ public class mantenedorGuia extends javax.swing.JFrame {
                             .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel1)
-                            .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -364,9 +369,11 @@ public class mantenedorGuia extends javax.swing.JFrame {
         dto.setCod_envio(Integer.parseInt(txt_guia.getText()));
         dto.setCod_campo(Integer.parseInt(cmb_campo.getSelectedItem().toString()));
         dto.setRut_proveedor(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
-        dto.setRut_chofer(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
-        dto.setPatente(Integer.parseInt(cmb_patente.getSelectedItem().toString()));
-        dto.setFecha(txt_fecha.getText());
+        dto.setRut_chofer(Integer.parseInt(cmb_chofer.getSelectedItem().toString()));
+        dto.setPatente(cmb_patente.getSelectedItem().toString());
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        dto.setFecha(sqlfecha);
         sql= "INSERT INTO guia_envio (cod_envio, cod_campo, rut_proveedor, rut_chofer, patente, fecha_envio)VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement pst=reg.prepareStatement(sql);
@@ -374,8 +381,8 @@ public class mantenedorGuia extends javax.swing.JFrame {
             pst.setInt(2, dto.getCod_campo());
             pst.setInt(3, dto.getRut_proveedor());
             pst.setInt(4, dto.getRut_chofer());
-            pst.setInt(5, dto.getPatente());
-            pst.setString(6, dto.getFecha());
+            pst.setString(5, dto.getPatente());
+            pst.setDate(6, dto.getFecha());
             int n = pst.executeUpdate();
             if (n>0){
                 JOptionPane.showMessageDialog(null,"Guia registrada satisfactoriamente.");
@@ -384,6 +391,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Error al agregar, guia duplicada.");
             //sw = 1;
         }       
+        cmb_date.setCalendar(c2);
         limpiartabla();
         mostrardatostabla("");         
     }//GEN-LAST:event_btn_agregarActionPerformed
@@ -396,7 +404,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
             cmb_proveedor.setSelectedItem(tbl_guia.getValueAt(fila, 2).toString());
             cmb_chofer.setSelectedItem(tbl_guia.getValueAt(fila, 3).toString());
             cmb_patente.setSelectedItem(tbl_guia.getValueAt(fila, 4).toString());
-            txt_fecha.setText(tbl_guia.getValueAt(fila, 5).toString());
+            //txt_fecha.setText(tbl_guia.getValueAt(fila, 5).toString());
             txt_guia.setEditable(false);
             txt_guia.setEnabled(false);
             btn_agregar.setVisible(false);
@@ -410,7 +418,9 @@ public class mantenedorGuia extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE guia_envio SET cod_campo="+Integer.parseInt(cmb_campo.getSelectedItem().toString())+",rut_proveedor= "+Integer.parseInt(cmb_proveedor.getSelectedItem().toString())+", rut_chofer="+Integer.parseInt(cmb_chofer.getSelectedItem().toString())+", patente ="+Integer.parseInt(cmb_patente.getSelectedItem().toString())+", fecha_envio='"+txt_fecha.getText()+"'  WHERE cod_envio="+Integer.parseInt(txt_guia.getText())+"";
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        sql="UPDATE guia_envio SET cod_campo="+Integer.parseInt(cmb_campo.getSelectedItem().toString())+",rut_proveedor= "+Integer.parseInt(cmb_proveedor.getSelectedItem().toString())+", rut_chofer="+Integer.parseInt(cmb_chofer.getSelectedItem().toString())+", patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_envio='"+sqlfecha+"'  WHERE cod_envio="+Integer.parseInt(txt_guia.getText())+"";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
@@ -428,6 +438,8 @@ public class mantenedorGuia extends javax.swing.JFrame {
         txt_guia.setEnabled(true);
         txt_guia.setEditable(true);
         txt_guia.requestFocus();
+        cmb_date.setCalendar(c2);
+        txt_guia.setText("");
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
@@ -441,6 +453,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
         txt_guia.setEnabled(true);
         txt_guia.requestFocus();
         txt_guia.setText("");
+        cmb_date.setCalendar(c2);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -510,6 +523,7 @@ public class mantenedorGuia extends javax.swing.JFrame {
     private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox cmb_campo;
     private javax.swing.JComboBox cmb_chofer;
+    private com.toedter.calendar.JDateChooser cmb_date;
     private javax.swing.JComboBox cmb_patente;
     private javax.swing.JComboBox cmb_proveedor;
     private javax.swing.ButtonGroup grupoGuia;
@@ -524,7 +538,6 @@ public class mantenedorGuia extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_guia;
-    private javax.swing.JTextField txt_fecha;
     private javax.swing.JTextField txt_guia;
     // End of variables declaration//GEN-END:variables
 }

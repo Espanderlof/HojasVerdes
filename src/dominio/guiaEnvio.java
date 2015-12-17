@@ -7,8 +7,8 @@ public class guiaEnvio {
     private int cod_campo;
     private int rut_proveedor;
     private int rut_chofer;
-    private int patente;
-    private String fecha;
+    private String patente;
+    private java.sql.Date fecha = new java.sql.Date(0);
 
     public guiaEnvio() {
     }
@@ -45,19 +45,19 @@ public class guiaEnvio {
         this.rut_chofer = rut_chofer;
     }
 
-    public int getPatente() {
+    public String getPatente() {
         return patente;
     }
 
-    public void setPatente(int patente) {
+    public void setPatente(String patente) {
         this.patente = patente;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(java.sql.Date fecha) {
         this.fecha = fecha;
     }
     
