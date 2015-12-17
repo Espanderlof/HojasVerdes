@@ -5,12 +5,30 @@
  */
 package hojasverdes;
 
-/**
- *
- * @author Fralkayg
- */
-public class mantenedorLote extends javax.swing.JFrame {
+import dominio.lote;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
+public class mantenedorLote extends javax.swing.JFrame {
+    DefaultTableModel modelo = new DefaultTableModel();
+    Calendar c2 = new GregorianCalendar();
+    conectar cnx = new conectar();
+    Connection reg = cnx.conexion();
+    int columna = 0 ;
+    int sw = 0 ;
+    String sql;
     /**
      * Creates new form mantenedorLote
      */
@@ -18,8 +36,71 @@ public class mantenedorLote extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Mamtenedor Lote");
+        tbl_lote.setAutoCreateRowSorter(true);
+        modelo.addColumn("Codigo Lote");
+        modelo.addColumn("Codigo Producto");
+        modelo.addColumn("Calibre");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Kilogramos Inicio");
+        modelo.addColumn("Kilogramos Final");
+        tbl_lote.setModel(modelo);
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        
+        cmb_date.setCalendar(c2);
+        mostrardatostabla("");
     }
 
+    void mostrardatostabla (String valor){
+        String []datos = new String[6];
+        int cod;
+        String sql="";
+        if(valor.equals("")){
+            sql = "SELECT * FROM lote";
+        }else{
+            sql = "SELECT * FROM lote WHERE cod_lote='"+valor+"'";
+        }
+        try {
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
+                modelo.addRow(datos);
+            }
+            tbl_lote.setModel(modelo);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        llenarcmb();
+    }
+    
+    public void llenarcmb(){
+        try{
+                cmb_codigoproducto.removeAllItems();
+                String sql="select cod_producto from producto";
+                Statement st = reg.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()){
+                    String name = rs.getString(1);
+                    cmb_codigoproducto.addItem(name);
+                }
+            }catch(Exception e){
+                
+            }
+    }
+    public void limpiartabla(){
+       // tabla.setModel(new DefaultTableModel());
+        for (int i = 0; i < tbl_lote.getRowCount(); i++) {
+           modelo.removeRow(i);
+           i-=1;
+       }
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,19 +115,22 @@ public class mantenedorLote extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txt_codigolote = new javax.swing.JTextField();
+        txt_calibre = new javax.swing.JTextField();
+        txt_kilosinicio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_agregar = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txt_kilosfinal = new javax.swing.JTextField();
+        cmb_codigoproducto = new javax.swing.JComboBox<>();
+        btn_aceptar = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+        cmb_date = new com.toedter.calendar.JDateChooser();
+        btn_agregarrutcliente = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_lote = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -62,16 +146,54 @@ public class mantenedorLote extends javax.swing.JFrame {
 
         jLabel5.setText("Fecha elaboracion:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.setText("Agregar");
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
-        jButton2.setText("Modificar");
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
-        jButton3.setText("Eliminar");
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Kilogramos final:");
+
+        btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
+        btn_aceptar.setText("Aceptar");
+        btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptarActionPerformed(evt);
+            }
+        });
+
+        btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+
+        btn_agregarrutcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarrutcliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarrutclienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,61 +209,75 @@ public class mantenedorLote extends javax.swing.JFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txt_codigolote, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                .addComponent(txt_calibre, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(70, 70, 70)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(172, 172, 172)
-                        .addComponent(jButton2)))
+                        .addComponent(btn_eliminar)
+                        .addGap(43, 43, 43)
+                        .addComponent(btn_aceptar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btn_modificar)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_cancelar)
+                        .addGap(42, 42, 42)
+                        .addComponent(btn_agregar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField6))
-                        .addGap(0, 47, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(txt_kilosinicio, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(txt_kilosfinal)
+                            .addComponent(cmb_codigoproducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_agregarrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(txt_codigolote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmb_codigoproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_agregarrutcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_calibre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_kilosinicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)
+                        .addComponent(txt_kilosfinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 36, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_modificar)
+                    .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_aceptar)
+                    .addComponent(btn_cancelar))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_lote.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -152,7 +288,7 @@ public class mantenedorLote extends javax.swing.JFrame {
                 "Codigo lote", "Codigo producto", "Calibre", "Fecha elaboracion", "Kilogramos inicio", "Kilogramos final"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl_lote);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,6 +313,159 @@ public class mantenedorLote extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        String cod_produ=(cmb_codigoproducto.getSelectedItem().toString());
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        sql = "Update lote SET cod_producto='"+cod_produ+"',calibre='"+txt_calibre.getText()+"',fecha='"+sqlfecha+"',kilos_inicial='"+txt_kilosinicio.getText()+"',kilos_final='"+txt_kilosfinal.getText()+"' WHERE cod_lote="+txt_codigolote.getText()+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartabla();
+            mostrardatostabla("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_codigolote.setEnabled(true);
+        txt_codigolote.setEditable(true);
+        txt_codigolote.requestFocus();
+        txt_codigolote.setText("");
+        txt_calibre.setText("");
+        txt_kilosfinal.setText("");
+        txt_kilosinicio.setText("");
+        cmb_codigoproducto.removeAllItems();
+        cmb_date.setCalendar(c2);
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_aceptarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_codigolote.setEnabled(true);
+        txt_codigolote.requestFocus();
+        txt_codigolote.setText("");
+        txt_calibre.setText("");
+        txt_kilosfinal.setText("");
+        txt_kilosinicio.setText("");
+        cmb_codigoproducto.removeAllItems();
+        cmb_date.setCalendar(c2);
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_agregarrutclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarrutclienteActionPerformed
+        mantenedorProductos abrir = new mantenedorProductos();
+        abrir.setVisible(true);
+    }//GEN-LAST:event_btn_agregarrutclienteActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_lote.getSelectedRow();
+        if (fila >= 0){
+            if (JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+                fila = tbl_lote.getSelectedRow();
+                txt_codigolote.setText(tbl_lote.getValueAt(fila, 0).toString());
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM lote WHERE cod_lote="+Integer.parseInt(txt_codigolote.getText()+""));
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                    txt_codigolote.setText("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila = tbl_lote.getSelectedRow();
+        if (fila>=0){
+            txt_codigolote.setText(tbl_lote.getValueAt(fila, 0).toString());
+            
+            String codigoproducto=(tbl_lote.getValueAt(fila, 1).toString());
+            cmb_codigoproducto.setSelectedItem(codigoproducto);
+            txt_calibre.setText(tbl_lote.getValueAt(fila, 2).toString());
+            String fecha=(tbl_lote.getValueAt(fila, 3).toString());
+            txt_kilosinicio.setText(tbl_lote.getValueAt(fila, 4).toString());
+            txt_kilosfinal.setText(tbl_lote.getValueAt(fila, 5).toString());
+            
+            
+            /*String[] fechArray = fecha.split("/");
+            int año = Integer.valueOf(fechArray[0]);
+            int mes = Integer.valueOf(fechArray[1]) - 1;
+            int dia = Integer.valueOf(fechArray[2]);
+            Calendar c1 = new GregorianCalendar(año, mes, dia);
+            
+            cmb_date.setCalendar(c1);*/
+            
+            
+            
+            txt_codigolote.setEditable(false);
+            txt_codigolote.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        lote dto = new lote();
+        dto.setCod_lote(Integer.parseInt(txt_codigolote.getText()));
+        dto.setCod_producto(Integer.parseInt(cmb_codigoproducto.getSelectedItem().toString()));
+        dto.setCalibre(Integer.parseInt(txt_calibre.getText()));
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        dto.setFecha(sqlfecha);
+        dto.setKilos_inicial(Integer.parseInt(txt_kilosinicio.getText()));
+        dto.setKilos_final(Integer.parseInt(txt_kilosfinal.getText()));
+        
+        
+        sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.setInt(1, dto.getCod_lote());
+            pst.setInt(2, dto.getCod_producto());
+            pst.setInt(3, dto.getCalibre());
+            pst.setDate(4, dto.getFecha());
+            pst.setInt(5, dto.getKilos_inicial());
+            pst.setInt(6, dto.getKilos_final());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar.");
+        }
+        txt_codigolote.setText("");
+        txt_calibre.setText("");
+        txt_kilosfinal.setText("");
+        txt_kilosinicio.setText("");
+        cmb_codigoproducto.removeAllItems();
+        cmb_date.setCalendar(c2);
+        
+        
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,9 +503,14 @@ public class mantenedorLote extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btn_aceptar;
+    private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_agregarrutcliente;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox<String> cmb_codigoproducto;
+    private com.toedter.calendar.JDateChooser cmb_date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -225,12 +519,10 @@ public class mantenedorLote extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable tbl_lote;
+    private javax.swing.JTextField txt_calibre;
+    private javax.swing.JTextField txt_codigolote;
+    private javax.swing.JTextField txt_kilosfinal;
+    private javax.swing.JTextField txt_kilosinicio;
     // End of variables declaration//GEN-END:variables
 }
