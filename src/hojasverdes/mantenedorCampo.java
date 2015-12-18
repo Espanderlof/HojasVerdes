@@ -45,6 +45,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         mostrardatostabla("");
+        cmbProveedor("");
     }
     
     void mostrardatostabla(String valor){    
@@ -52,7 +53,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
         int cod;
         String sql="";
         if(valor.equals("")){
-            sql="SELECT * FROM campo";
+            sql="SELECT c.cod_campo, p.nom_proveedor, c.nom_campo, c.direccion FROM campo c, proveedor p where c.rut_proveedor = p.rut_proveedor";
         }else{
             sql="SELECT * FROM campo WHERE cod_campo='"+valor+"'";
         }
@@ -82,6 +83,35 @@ public class mantenedorCampo extends javax.swing.JFrame {
        }
     }
 
+    
+    void cmbProveedor(String nombre){
+        cmb_proveedor.removeAllItems();
+        try{
+            String sql="select nom_proveedor from proveedor";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_proveedor.addItem(rs.getString(1));
+            }  
+        }catch(Exception e){
+            
+        }
+    }
+    
+    public int getRutProveedor(){
+        int codigo=0;
+        try{
+            String sql="select rut_proveedor from proveedor where nom_proveedor ='"+cmb_proveedor.getSelectedItem()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                codigo = Integer.parseInt(rs.getString(1));
+            }   
+        }catch(Exception e){
+            
+        }
+        return codigo;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,7 +127,6 @@ public class mantenedorCampo extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txt_codCampo = new javax.swing.JTextField();
-        txt_rutProveedor = new javax.swing.JTextField();
         txt_nomCampo = new javax.swing.JTextField();
         txt_direccion = new javax.swing.JTextField();
         btn_agregar = new javax.swing.JButton();
@@ -105,6 +134,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_eliminar = new javax.swing.JButton();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        cmb_proveedor = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_campo = new javax.swing.JTable();
 
@@ -161,6 +192,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -189,13 +222,16 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cmb_proveedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btn_cancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_agregar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_rutProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -207,8 +243,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(txt_codCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_rutProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -255,7 +292,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -264,7 +301,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         campo dto = new campo();
         dto.setCod_campo(Integer.parseInt(txt_codCampo.getText()));
-        dto.setRut_proveedor(Integer.parseInt(txt_rutProveedor.getText()));
+        dto.setRut_proveedor(getRutProveedor());
         dto.setNom_campo(txt_nomCampo.getText());
         dto.setDireccion(txt_direccion.getText());
         sql= "INSERT INTO campo (cod_campo, rut_proveedor, nom_campo, direccion)VALUES (?,?,?,?)";
@@ -290,13 +327,12 @@ public class mantenedorCampo extends javax.swing.JFrame {
         int fila=tbl_campo.getSelectedRow();
         if (fila>=0){
             txt_codCampo.setText(tbl_campo.getValueAt(fila, 0).toString());
-            txt_rutProveedor.setText(tbl_campo.getValueAt(fila, 1).toString());
+            cmb_proveedor.setSelectedItem(tbl_campo.getValueAt(fila, 1).toString());
             txt_nomCampo.setText(tbl_campo.getValueAt(fila, 2).toString());
             txt_direccion.setText(tbl_campo.getValueAt(fila, 3).toString());
             txt_codCampo.setEditable(false);
             txt_codCampo.setEnabled(false);
-            txt_rutProveedor.setEditable(false);
-            txt_rutProveedor.setEnabled(false);
+            cmb_proveedor.setEditable(false);
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
             btn_eliminar.setVisible(false);
@@ -308,7 +344,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"'  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" and rut_proveedor="+Integer.parseInt(txt_rutProveedor.getText())+"";
+        sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = "+getRutProveedor()+"  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
@@ -325,11 +361,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_agregar.setVisible(true);
         txt_codCampo.setEnabled(true);
         txt_codCampo.setEditable(true);
-        txt_rutProveedor.setEditable(true);
         txt_codCampo.requestFocus();
-        txt_rutProveedor.setEnabled(true);
+        cmb_proveedor.setEnabled(true);
         txt_codCampo.setText("");
-        txt_rutProveedor.setText("");
         txt_nomCampo.setText("");
         txt_direccion.setText("");
         limpiartabla();
@@ -343,10 +377,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_codCampo.setEnabled(true);
-        txt_rutProveedor.setEnabled(true);
+        cmb_proveedor.setEnabled(true);
         txt_codCampo.requestFocus();
         txt_codCampo.setText("");
-        txt_rutProveedor.setText("");
         txt_nomCampo.setText("");
         txt_direccion.setText("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
@@ -358,14 +391,13 @@ public class mantenedorCampo extends javax.swing.JFrame {
             //qui se pone lo que hara si le das aceptar
                 fila=tbl_campo.getSelectedRow();
                 txt_codCampo.setText(tbl_campo.getValueAt(fila, 0).toString());
-                txt_rutProveedor.setText(tbl_campo.getValueAt(fila, 1).toString());
+                //cmb_proveedor.setText(tbl_campo.getValueAt(fila, 1).toString());
                 try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM campo WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" and rut_proveedor="+Integer.parseInt(txt_rutProveedor.getText())+"");
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM campo WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ");
                     pst.executeUpdate();
                     limpiartabla();
                     mostrardatostabla("");
                     txt_codCampo.setText("");
-                    txt_rutProveedor.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -418,6 +450,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox cmb_proveedor;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -428,6 +462,5 @@ public class mantenedorCampo extends javax.swing.JFrame {
     private javax.swing.JTextField txt_codCampo;
     private javax.swing.JTextField txt_direccion;
     private javax.swing.JTextField txt_nomCampo;
-    private javax.swing.JTextField txt_rutProveedor;
     // End of variables declaration//GEN-END:variables
 }
