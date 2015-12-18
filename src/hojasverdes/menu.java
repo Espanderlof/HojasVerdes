@@ -55,7 +55,7 @@ public class menu extends javax.swing.JFrame {
         });
 
         btn_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/producto.png"))); // NOI18N
-        btn_producto.setText("Productos");
+        btn_producto.setText("Lote");
         btn_producto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_producto.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btn_producto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -66,7 +66,7 @@ public class menu extends javax.swing.JFrame {
         });
 
         btn_compra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/compra.png"))); // NOI18N
-        btn_compra.setText("Compra");
+        btn_compra.setText("Pedido");
         btn_compra.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_compra.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btn_compra.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -134,8 +134,8 @@ public class menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoActionPerformed
-        producto abrirProductos = new producto();
-        abrirProductos.setVisible(true);
+        loteBodega abrirLB = new loteBodega();
+        abrirLB.setVisible(true);
     }//GEN-LAST:event_btn_productoActionPerformed
 
     private void btn_guiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guiasActionPerformed
@@ -144,8 +144,8 @@ public class menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_guiasActionPerformed
 
     private void btn_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_compraActionPerformed
-        compra abrirCompra = new compra();
-        abrirCompra.setVisible(true);
+        mantenedorNotaPedido abrirNP = new mantenedorNotaPedido();
+        abrirNP.setVisible(true);
     }//GEN-LAST:event_btn_compraActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
