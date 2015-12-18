@@ -5,12 +5,16 @@
  */
 package hojasverdes;
 
-import dominio.campo;
+import dominio.camion;
+import dominio.camionChofer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,9 +24,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Fralkayg
  */
-public class mantenedorCampo extends javax.swing.JFrame {
+public class mantenedorCamionChofer extends javax.swing.JFrame {
     
     DefaultTableModel modelo = new DefaultTableModel();
+    Calendar c2 = new GregorianCalendar();
     conectar cnx = new conectar();
     Connection reg= cnx.conexion();
     //private TableRowSorter trsfiltro;
@@ -30,22 +35,26 @@ public class mantenedorCampo extends javax.swing.JFrame {
     int sw = 0;
     String sql;
 
-
-    public mantenedorCampo() {
+    /**
+     * Creates new form mantenedorCamionChofer
+     */
+    public mantenedorCamionChofer() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Mantenedor Campo");
-        tbl_campo.setAutoCreateRowSorter(true);
+        this.setTitle("Mantenedor Camion-Chofer");
+        tbl_camionChofer.setAutoCreateRowSorter(true);
         //ingresa las columnas de tu tabla productos
-        modelo.addColumn("Codigo campo");
-        modelo.addColumn("RUT proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Direccion");
-        tbl_campo.setModel(modelo);
+        modelo.addColumn("Patente");
+        modelo.addColumn("Chofer");
+        modelo.addColumn("Fecha uso");
+        modelo.addColumn("Hora uso");
+        tbl_camionChofer.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
+        cmb_date.setCalendar(c2);
         mostrardatostabla("");
-        cmbProveedor("");
+        cmbPatente("");
+        cmbChofer("");
     }
     
     void mostrardatostabla(String valor){    
@@ -53,9 +62,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
         int cod;
         String sql="";
         if(valor.equals("")){
-            sql="SELECT c.cod_campo, p.nom_proveedor, c.nom_campo, c.direccion FROM campo c, proveedor p where c.rut_proveedor = p.rut_proveedor";
+            sql="SELECT * FROM camion_chofer";
         }else{
-            sql="SELECT * FROM campo WHERE cod_campo='"+valor+"'";
+            //sql="SELECT * FROM camion WHERE patente='"+valor+"'";
         }
         try {
             Statement st = reg.createStatement();
@@ -68,7 +77,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 datos[3]=rs.getString(4);
                 modelo.addRow(datos);
             }
-            tbl_campo.setModel(modelo);
+            tbl_camionChofer.setModel(modelo);
             
         } catch (SQLException ex) {
             Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,31 +86,40 @@ public class mantenedorCampo extends javax.swing.JFrame {
     
     public void limpiartabla(){
        // tabla.setModel(new DefaultTableModel());
-        for (int i = 0; i < tbl_campo.getRowCount(); i++) {
+        for (int i = 0; i < tbl_camionChofer.getRowCount(); i++) {
            modelo.removeRow(i);
            i-=1;
        }
     }
-
     
-    void cmbProveedor(String nombre){
-        cmb_proveedor.removeAllItems();
+    void cmbPatente(String valor){
         try{
-            String sql="select nom_proveedor from proveedor";
+            String sql="select patente from camion order by patente";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                cmb_proveedor.addItem(rs.getString(1));
-            }  
+                cmb_patente.addItem(rs.getString(1));
+            }    
         }catch(Exception e){
-            
-        }
+            }
     }
     
-    public int getRutProveedor(){
+    void cmbChofer(String valor){
+        try{
+            String sql="select nom_chofer from chofer order by nom_chofer";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cmb_chofer.addItem(rs.getString(1));
+            }    
+        }catch(Exception e){
+            }
+    }
+
+    public int getRutChofer(){
         int codigo=0;
         try{
-            String sql="select rut_proveedor from proveedor where nom_proveedor ='"+cmb_proveedor.getSelectedItem()+"'";
+            String sql="select rut_chofer from chofer where nom_chofer ='"+cmb_chofer.getSelectedItem()+"'";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
@@ -111,6 +129,21 @@ public class mantenedorCampo extends javax.swing.JFrame {
             
         }
         return codigo;
+    }
+    
+    public String getNomChofer(int fila){
+        String nombre="";
+        try{
+            String sql="select nom_chofer from chofer where rut_chofer ="+tbl_camionChofer.getValueAt(fila, 1).toString()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                nombre = rs.getString(1);
+            }   
+        }catch(Exception e){
+            
+        }
+        return nombre;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -126,47 +159,31 @@ public class mantenedorCampo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txt_codCampo = new javax.swing.JTextField();
-        txt_nomCampo = new javax.swing.JTextField();
-        txt_direccion = new javax.swing.JTextField();
-        btn_agregar = new javax.swing.JButton();
-        btn_modificar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_aceptar = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        cmb_proveedor = new javax.swing.JComboBox();
+        btn_agregar = new javax.swing.JButton();
+        cmb_date = new com.toedter.calendar.JDateChooser();
+        txt_hora = new javax.swing.JTextField();
+        cmb_chofer = new javax.swing.JComboBox();
+        cmb_patente = new javax.swing.JComboBox();
+        btn_patente = new javax.swing.JButton();
+        btn_chofer = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_campo = new javax.swing.JTable();
+        tbl_camionChofer = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Codigo campo:");
+        jLabel1.setText("Patente:");
 
-        jLabel2.setText("RUT proveedor:");
-        jLabel2.setToolTipText("");
+        jLabel2.setText("Chofer:");
 
-        jLabel3.setText("Nombre campo:");
+        jLabel3.setText("Fecha uso:");
 
-        jLabel4.setText("Direccion:");
-
-        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregar.setText("Agregar");
-        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarActionPerformed(evt);
-            }
-        });
-
-        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
-        btn_modificar.setText("Modificar");
-        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_modificarActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Hora uso:");
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -184,6 +201,14 @@ public class mantenedorCampo extends javax.swing.JFrame {
             }
         });
 
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
+
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
         btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -192,10 +217,25 @@ public class mantenedorCampo extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_agregarActionPerformed(evt);
+            }
+        });
+
+        btn_patente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_patente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_patenteActionPerformed(evt);
+            }
+        });
+
+        btn_chofer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_chofer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_choferActionPerformed(evt);
             }
         });
 
@@ -205,69 +245,72 @@ public class mantenedorCampo extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_codCampo)
-                            .addComponent(txt_nomCampo, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cmb_date, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(cmb_patente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_patente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_hora, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btn_eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                        .addGap(46, 46, 46)
                         .addComponent(btn_aceptar)
-                        .addGap(56, 56, 56)
-                        .addComponent(btn_modificar)))
-                .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cmb_proveedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(btn_modificar)
+                        .addGap(45, 45, 45)
                         .addComponent(btn_cancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_agregar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(btn_agregar)
+                        .addGap(8, 8, 8)))
+                .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
-                        .addComponent(txt_codCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmb_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_nomCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_modificar)
-                    .addComponent(btn_eliminar)
-                    .addComponent(btn_aceptar)
-                    .addComponent(btn_cancelar))
-                .addContainerGap())
+                        .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_patente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(txt_hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_eliminar)
+                            .addComponent(btn_aceptar)
+                            .addComponent(btn_modificar)
+                            .addComponent(btn_cancelar)
+                            .addComponent(btn_agregar)))
+                    .addComponent(cmb_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tbl_campo.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_camionChofer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -275,10 +318,10 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Codigo campo", "RUT", "Nombre campo", "Direccion"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbl_campo);
+        jScrollPane1.setViewportView(tbl_camionChofer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -297,48 +340,61 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_patenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patenteActionPerformed
+        mantenedorCamiones abrirCamiones = new mantenedorCamiones();
+        abrirCamiones.setVisible(true);
+    }//GEN-LAST:event_btn_patenteActionPerformed
+
+    private void btn_choferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_choferActionPerformed
+        mantenedorChoferes abrirChoferes = new mantenedorChoferes();
+        abrirChoferes.setVisible(true);
+    }//GEN-LAST:event_btn_choferActionPerformed
+
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        campo dto = new campo();
-        dto.setCod_campo(Integer.parseInt(txt_codCampo.getText()));
-        dto.setRut_proveedor(getRutProveedor());
-        dto.setNom_campo(txt_nomCampo.getText());
-        dto.setDireccion(txt_direccion.getText());
-        sql= "INSERT INTO campo (cod_campo, rut_proveedor, nom_campo, direccion)VALUES (?,?,?,?)";
+        camionChofer dto = new camionChofer();
+        dto.setPatente(cmb_patente.getSelectedItem().toString());
+        dto.setRut_chofer(getRutChofer());
+        
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        dto.setFecha(sqlfecha);
+        
+        dto.setHora_uso(txt_hora.getText());
+        
+        sql= "INSERT INTO camion_chofer (patente, rut_chofer, fecha_uso, hora_uso) VALUES (?,?,?,?)";
         try {
             PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_campo());
-            pst.setInt(2, dto.getRut_proveedor());
-            pst.setString(3, dto.getNom_campo());
-            pst.setString(4, dto.getDireccion());
+            pst.setString(1, dto.getPatente());
+            pst.setInt(2, dto.getRut_chofer());
+            pst.setDate(3, dto.getFecha());
+            pst.setString(4, dto.getHora_uso());
             int n = pst.executeUpdate();
             if (n>0){
-                JOptionPane.showMessageDialog(null,"Campo registrado satisfactoriamente.");
+                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente");
             }                
         }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, campo duplicada.");
+            JOptionPane.showMessageDialog(null,"Error al agregar.");
             //sw = 1;
         }       
         limpiartabla();
-        mostrardatostabla("");
+        mostrardatostabla(""); 
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
-        int fila=tbl_campo.getSelectedRow();
+        int fila=tbl_camionChofer.getSelectedRow();
         if (fila>=0){
-            txt_codCampo.setText(tbl_campo.getValueAt(fila, 0).toString());
-            cmb_proveedor.setSelectedItem(tbl_campo.getValueAt(fila, 1).toString());
-            txt_nomCampo.setText(tbl_campo.getValueAt(fila, 2).toString());
-            txt_direccion.setText(tbl_campo.getValueAt(fila, 3).toString());
-            txt_codCampo.setEditable(false);
-            txt_codCampo.setEnabled(false);
-            cmb_proveedor.setEditable(false);
+            cmb_patente.setSelectedItem(tbl_camionChofer.getValueAt(fila, 0).toString());
+            cmb_chofer.setSelectedItem(getNomChofer(fila));
+            txt_hora.setText(tbl_camionChofer.getValueAt(fila, 3).toString());
+            cmb_patente.setEnabled(false);
+            cmb_chofer.setEnabled(false);
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
             btn_eliminar.setVisible(false);
@@ -350,7 +406,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = "+getRutProveedor()+"  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ";
+        Date fecha = cmb_date.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        sql="UPDATE camion_chofer SET fecha_uso='"+sqlfecha+"',hora_uso='"+txt_hora.getText()+"' WHERE patente='"+cmb_patente.getSelectedItem().toString()+"' and rut_chofer="+getRutChofer()+"";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
@@ -365,13 +423,10 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_eliminar.setVisible(true);
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
-        txt_codCampo.setEnabled(true);
-        txt_codCampo.setEditable(true);
-        txt_codCampo.requestFocus();
-        cmb_proveedor.setEnabled(true);
-        txt_codCampo.setText("");
-        txt_nomCampo.setText("");
-        txt_direccion.setText("");
+        cmb_patente.setEnabled(true);
+        cmb_chofer.setEnabled(true);
+        cmb_patente.requestFocus();
+        txt_hora.setText("");
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
@@ -382,28 +437,25 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_eliminar.setVisible(true);
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
-        txt_codCampo.setEnabled(true);
-        cmb_proveedor.setEnabled(true);
-        txt_codCampo.requestFocus();
-        txt_codCampo.setText("");
-        txt_nomCampo.setText("");
-        txt_direccion.setText("");
+        cmb_patente.setEnabled(true);
+        cmb_chofer.setEnabled(true);
+        cmb_patente.requestFocus();
+        txt_hora.setText("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        int fila = tbl_campo.getSelectedRow();
+        int fila = tbl_camionChofer.getSelectedRow();
         if (fila >= 0){   
             if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
             //qui se pone lo que hara si le das aceptar
-                fila=tbl_campo.getSelectedRow();
-                txt_codCampo.setText(tbl_campo.getValueAt(fila, 0).toString());
-                //cmb_proveedor.setText(tbl_campo.getValueAt(fila, 1).toString());
+                fila=tbl_camionChofer.getSelectedRow();
+                String patente = tbl_camionChofer.getValueAt(fila, 0).toString();
+                int chofer = getRutChofer();
                 try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM campo WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ");
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM camion_chofer WHERE patente='"+patente+"' and rut_chofer ="+chofer+"");
                     pst.executeUpdate();
                     limpiartabla();
                     mostrardatostabla("");
-                    txt_codCampo.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -414,11 +466,6 @@ public class mantenedorCampo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        mantenedorProveedores abrirProveedores = new mantenedorProveedores();
-        abrirProveedores.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -437,20 +484,20 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mantenedorCampo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(mantenedorCamionChofer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mantenedorCampo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(mantenedorCamionChofer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mantenedorCampo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(mantenedorCamionChofer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(mantenedorCampo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(mantenedorCamionChofer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mantenedorCampo().setVisible(true);
+                new mantenedorCamionChofer().setVisible(true);
             }
         });
     }
@@ -459,19 +506,20 @@ public class mantenedorCampo extends javax.swing.JFrame {
     private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_chofer;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
-    private javax.swing.JComboBox cmb_proveedor;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_patente;
+    private javax.swing.JComboBox cmb_chofer;
+    private com.toedter.calendar.JDateChooser cmb_date;
+    private javax.swing.JComboBox cmb_patente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbl_campo;
-    private javax.swing.JTextField txt_codCampo;
-    private javax.swing.JTextField txt_direccion;
-    private javax.swing.JTextField txt_nomCampo;
+    private javax.swing.JTable tbl_camionChofer;
+    private javax.swing.JTextField txt_hora;
     // End of variables declaration//GEN-END:variables
 }

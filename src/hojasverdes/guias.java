@@ -5,10 +5,17 @@
  */
 package hojasverdes;
 
+import dominio.camion;
+import dominio.guiaEnvio;
+import dominio.guiaRecepcion;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Jaime
  */
 public class guias extends javax.swing.JFrame {
-    
+    Calendar c2 = new GregorianCalendar();    
     DefaultTableModel modelo = new DefaultTableModel();
     conectar cnx = new conectar();
     Connection reg= cnx.conexion();
@@ -46,6 +53,8 @@ public class guias extends javax.swing.JFrame {
         cmbPatente("");
         //cmbChofer("");
         cmbProveedor("");
+        cmb_fechaEnvio.setCalendar(c2);
+        cmb_fechaRecepcion.setCalendar(c2);
         mostrardatostabla("");
     }
     
@@ -174,6 +183,66 @@ public class guias extends javax.swing.JFrame {
         }
         return codigo;
     }
+    
+    public int getRutChofer(){
+        int codigo=0;
+        try{
+            String sql="select rut_chofer from chofer where nom_chofer ='"+cmb_chofer.getSelectedItem()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                codigo = Integer.parseInt(rs.getString(1));
+            }   
+        }catch(Exception e){
+            
+        }
+        return codigo;
+    }
+    
+    public String getNomChofer(int fila){
+        String nombre="";
+        try{
+            String sql="select nom_chofer from chofer where rut_chofer ="+tbl_guias.getValueAt(fila, 4).toString()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                nombre = rs.getString(1);
+            }   
+        }catch(Exception e){
+            
+        }
+        return nombre;
+    }
+    
+    public String getNomProveedor(int fila){
+        String nombre="";
+        try{
+            String sql="select nom_proveedor from proveedor where rut_proveedor ="+tbl_guias.getValueAt(fila, 5).toString()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                nombre = rs.getString(1);
+            }   
+        }catch(Exception e){
+            
+        }
+        return nombre;
+    }
+
+    public String getNomCampo(int fila){
+        String nombre="";
+        try{
+            String sql="select nom_campo from campo where cod_campo ="+tbl_guias.getValueAt(fila, 6).toString()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                nombre = rs.getString(1);
+            }   
+        }catch(Exception e){
+            
+        }
+        return nombre;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -198,8 +267,7 @@ public class guias extends javax.swing.JFrame {
         cmb_patente = new javax.swing.JComboBox();
         cmb_chofer = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
-        btn_agregarCamion = new javax.swing.JButton();
-        btn_agregarChofer = new javax.swing.JButton();
+        btn_camionChofer = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         cmb_campo = new javax.swing.JComboBox();
         btn_agregarCampo = new javax.swing.JButton();
@@ -272,9 +340,19 @@ public class guias extends javax.swing.JFrame {
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         cmb_patente.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -295,17 +373,10 @@ public class guias extends javax.swing.JFrame {
 
         jLabel18.setText("RECEPCIÓN DE FRUTA DESDE CAMPOS ");
 
-        btn_agregarCamion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregarCamion.addActionListener(new java.awt.event.ActionListener() {
+        btn_camionChofer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_camionChofer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarCamionActionPerformed(evt);
-            }
-        });
-
-        btn_agregarChofer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregarChofer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarChoferActionPerformed(evt);
+                btn_camionChoferActionPerformed(evt);
             }
         });
 
@@ -334,12 +405,27 @@ public class guias extends javax.swing.JFrame {
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
+        btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_aceptarActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -367,10 +453,7 @@ public class guias extends javax.swing.JFrame {
                                                 .addComponent(cmb_fechaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(btn_agregarCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel18))
                                                 .addGap(0, 0, Short.MAX_VALUE))))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -396,7 +479,7 @@ public class guias extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(199, 199, 199)
-                                        .addComponent(btn_agregarChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btn_camionChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(13, 13, 13)
                                         .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -427,20 +510,18 @@ public class guias extends javax.swing.JFrame {
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel7))
                     .addComponent(cmb_fechaEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmb_fechaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_agregarCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_agregarChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_camionChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10)))
@@ -463,10 +544,11 @@ public class guias extends javax.swing.JFrame {
                     .addComponent(btn_aceptar)
                     .addComponent(btn_cancelar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_eliminar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_agregar)
-                    .addComponent(btn_modificar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_eliminar)
+                        .addComponent(btn_modificar)))
                 .addContainerGap())
         );
 
@@ -705,7 +787,7 @@ public class guias extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 648, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
@@ -730,15 +812,10 @@ public class guias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_difkilosActionPerformed
 
-    private void btn_agregarCamionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarCamionActionPerformed
-        mantenedorCamiones abrirCamiones = new mantenedorCamiones();
-        abrirCamiones.setVisible(true);
-    }//GEN-LAST:event_btn_agregarCamionActionPerformed
-
-    private void btn_agregarChoferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarChoferActionPerformed
-        mantenedorChoferes abrirChoferes = new mantenedorChoferes();
-        abrirChoferes.setVisible(true);
-    }//GEN-LAST:event_btn_agregarChoferActionPerformed
+    private void btn_camionChoferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_camionChoferActionPerformed
+        mantenedorCamionChofer abrirCC = new mantenedorCamionChofer();
+        abrirCC.setVisible(true);
+    }//GEN-LAST:event_btn_camionChoferActionPerformed
 
     private void btn_agregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarDetalleActionPerformed
         mantenedorDetalleGuias abrirDetalle = new mantenedorDetalleGuias();
@@ -784,6 +861,173 @@ public class guias extends javax.swing.JFrame {
         abrirCampo.setVisible(true);
     }//GEN-LAST:event_btn_agregarCampoActionPerformed
 
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        guiaEnvio dto = new guiaEnvio();
+        guiaRecepcion dto2 = new guiaRecepcion();
+        dto.setPatente(cmb_patente.getSelectedItem().toString());
+        dto.setCod_campo(getCodCampo());
+        dto.setRut_proveedor(getRutProveedor());
+        dto.setCod_envio(Integer.parseInt(txt_guia.getText()));
+        dto.setRut_chofer(getRutChofer());
+        Date fecha = cmb_fechaEnvio.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        dto.setFecha(sqlfecha);
+        
+        dto2.setPatente(cmb_patente.getSelectedItem().toString());
+        dto2.setCod_campo(getCodCampo());
+        dto2.setRut_proveedor(getRutProveedor());
+        dto2.setCod_envio(Integer.parseInt(txt_guia.getText()));
+        dto2.setCod_recepcion(Integer.parseInt(txt_guia.getText()));
+        dto2.setRut_chofer(getRutChofer());
+        Date fecha2 = cmb_fechaRecepcion.getDate();
+        java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+        dto2.setFecha_recepcion(sqlfecha2);
+        sql= "INSERT INTO guia_envio (cod_envio, cod_campo, rut_proveedor, rut_chofer, patente, fecha_envio)VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement pst=reg.prepareStatement(sql);
+            pst.setInt(1, dto.getCod_envio());
+            pst.setInt(2, dto.getCod_campo());
+            pst.setInt(3, dto.getRut_proveedor());
+            pst.setInt(4, dto.getRut_chofer());
+            pst.setString(5, dto.getPatente());
+            pst.setDate(6, dto.getFecha());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+            }                
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar,");
+            //sw = 1;
+        }
+        
+        sql= "INSERT INTO guia_recepcion (cod_recepcion, cod_campo, rut_proveedor, cod_envio, patente, rut_chofer, fecha_recepcion)VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement pst=reg.prepareStatement(sql);
+            pst.setInt(1, dto2.getCod_recepcion());
+            pst.setInt(2, dto2.getCod_campo());
+            pst.setInt(3, dto2.getRut_proveedor());
+            pst.setInt(4, dto2.getCod_envio());
+            pst.setString(5, dto2.getPatente());
+            pst.setInt(6, dto2.getRut_chofer());
+            pst.setDate(7, dto2.getFecha_recepcion());
+            int n = pst.executeUpdate();
+            if (n>0){
+                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+            }                
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al agregar");
+            //sw = 1;
+        }  
+        limpiartabla();
+        mostrardatostabla(""); 
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int fila=tbl_guias.getSelectedRow();
+        if (fila>=0){
+            txt_guia.setText(tbl_guias.getValueAt(fila, 0).toString());
+            cmb_patente.setSelectedItem(tbl_guias.getValueAt(fila, 3).toString());
+            String nom = getNomChofer(fila);
+            cmb_chofer.setSelectedItem(nom);
+            String nomProv = getNomProveedor(fila);
+            cmb_proveedor.setSelectedItem(nomProv);
+            String nomCampo = getNomCampo(fila);
+            cmb_campo.setSelectedItem(nomCampo);
+            txt_guia.setEditable(false);
+            txt_guia.setEnabled(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
+            btn_aceptar.setVisible(true);
+            btn_cancelar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"No selecciono fila");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+        Date fecha = cmb_fechaEnvio.getDate();
+        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+        sql="UPDATE guia_envio SET cod_campo="+getCodCampo()+",rut_proveedor= "+getRutProveedor()+", rut_chofer="+getRutChofer()+", patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_envio='"+sqlfecha+"'  WHERE cod_envio="+Integer.parseInt(txt_guia.getText())+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartabla();
+            mostrardatostabla("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        
+        Date fecha2 = cmb_fechaEnvio.getDate();
+        java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+        sql="UPDATE guia_recepcion SET cod_campo="+getCodCampo()+",rut_proveedor= "+getRutProveedor()+", rut_chofer="+getRutChofer()+", patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_recepcion='"+sqlfecha2+"'  WHERE cod_recepcion="+Integer.parseInt(txt_guia.getText())+"";
+        try {
+            PreparedStatement pst = reg.prepareStatement(sql);
+            pst.executeUpdate();
+            limpiartabla();
+            mostrardatostabla("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_guia.setEnabled(true);
+        txt_guia.setEditable(true);
+        txt_guia.requestFocus();
+        txt_guia.setText("");
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_aceptarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        btn_aceptar.setVisible(false);
+        btn_cancelar.setVisible(false);
+        btn_eliminar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_agregar.setVisible(true);
+        txt_guia.setEnabled(true);
+        txt_guia.setEditable(true);
+        txt_guia.requestFocus();
+        txt_guia.setText("");
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int fila = tbl_guias.getSelectedRow();
+        if (fila >= 0){   
+            if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+            //qui se pone lo que hara si le das aceptar
+                fila=tbl_guias.getSelectedRow();
+                txt_guia.setText(tbl_guias.getValueAt(fila, 0).toString());
+                try{
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM guia_recepcion WHERE cod_recepcion="+Integer.parseInt(txt_guia.getText())+"");
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+                try {
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM guia_envio WHERE cod_envio="+Integer.parseInt(txt_guia.getText())+"");
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }else{
+            //aqui se pone lo que hara si le das cancelar
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -822,10 +1066,9 @@ public class guias extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_agregarCamion;
     private javax.swing.JButton btn_agregarCampo;
-    private javax.swing.JButton btn_agregarChofer;
     private javax.swing.JButton btn_agregarDetalle;
+    private javax.swing.JButton btn_camionChofer;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
