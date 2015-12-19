@@ -277,6 +277,10 @@ public class mantenedorCamiones extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Error al agregar, patente duplicada.");
             //sw = 1;
         }       
+        txt_patente.setText("");
+        txt_color.setText("");
+        txt_capacidad.setText("");
+        txt_ejes.setText("");
         limpiartabla();
         mostrardatostabla(""); 
     }//GEN-LAST:event_btn_agregarActionPerformed

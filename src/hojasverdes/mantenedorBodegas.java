@@ -287,7 +287,10 @@ public class mantenedorBodegas extends javax.swing.JFrame {
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Error al agregar, codigo de bodega duplicada.");
             //sw = 1;
-        }       
+        }
+        txt_codBodega.setText("");
+        txt_nomBodega.setText("");
+        txt_direccion.setText("");
         limpiartabla();
         mostrardatostabla("");  
     }//GEN-LAST:event_btn_agregarActionPerformed
