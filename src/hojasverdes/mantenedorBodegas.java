@@ -116,6 +116,11 @@ public class mantenedorBodegas extends javax.swing.JFrame {
                 txt_codBodegaActionPerformed(evt);
             }
         });
+        txt_codBodega.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codBodegaKeyTyped(evt);
+            }
+        });
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -375,6 +380,15 @@ public class mantenedorBodegas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_codBodegaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codBodegaKeyTyped
+        int limite = 2;
+        {
+            if (txt_codBodega.getText().length() == limite) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_txt_codBodegaKeyTyped
 
     /**
      * @param args the command line arguments
