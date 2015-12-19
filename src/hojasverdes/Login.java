@@ -5,7 +5,8 @@
  */
 package hojasverdes;
 
-
+import dominio.login;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +14,7 @@ package hojasverdes;
  */
 public class Login extends javax.swing.JFrame {
     private Object frame;
+    login validar = new login();
 
     /**
      * Creates new form NewJFrame
@@ -146,9 +148,20 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_usuarioActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        menu abrir = new menu();
-        abrir.setVisible(true);
-        this.setVisible(false);
+            menu abrir = new menu();
+            abrir.setVisible(true);
+            this.setVisible(false);
+       /* if (validar.validar_ingreso()==1) {
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Acceso Denegado\n"
+            + "Por favor ingrese un usuario y/o contraseña correctos.","Acceso Denegago",
+            JOptionPane.ERROR_MESSAGE);
+        }*/
+        
+        
+        
+        
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -199,7 +212,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField txt_contraseña;
-    private javax.swing.JTextField txt_usuario;
+    public static javax.swing.JPasswordField txt_contraseña;
+    public static javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }
