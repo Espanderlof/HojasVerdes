@@ -175,22 +175,23 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        txt_recepcion = new javax.swing.JTextField();
-        cmb_campo = new javax.swing.JComboBox();
-        cmb_proveedor = new javax.swing.JComboBox();
-        cmb_envio = new javax.swing.JComboBox();
-        cmb_patente = new javax.swing.JComboBox();
-        cmb_chofer = new javax.swing.JComboBox();
-        cmb_fecha = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_recepcion = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txt_recepcion = new javax.swing.JTextField();
+        cmb_proveedor = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        cmb_patente = new javax.swing.JComboBox();
+        cmb_fecha = new com.toedter.calendar.JDateChooser();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cmb_campo = new javax.swing.JComboBox();
+        cmb_envio = new javax.swing.JComboBox();
+        cmb_chofer = new javax.swing.JComboBox();
         btn_eliminar = new javax.swing.JButton();
         btn_aceptar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
@@ -199,33 +200,55 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Codigo recepcion:");
-
-        jLabel2.setText("Proveedor:");
-
-        jLabel3.setText("Campo:");
-
-        jLabel4.setText("Guia envio:");
-        jLabel4.setToolTipText("");
-
-        jLabel5.setText("Patente:");
-
-        jLabel6.setText("Chofer:");
-
-        jLabel7.setText("Fecha recepcion:");
-
         tbl_recepcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
         ));
         jScrollPane1.setViewportView(tbl_recepcion);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("Codigo recepcion:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 16, 110, -1));
+        jPanel1.add(txt_recepcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 13, 152, -1));
+
+        jPanel1.add(cmb_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 66, 152, -1));
+
+        jLabel2.setText("Proveedor:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 69, -1, -1));
+
+        jLabel5.setText("Patente:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 118, -1, -1));
+
+        jPanel1.add(cmb_patente, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 115, 152, -1));
+        jPanel1.add(cmb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 163, 160, -1));
+
+        jLabel7.setText("Fecha recepcion:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 163, 110, -1));
+
+        jLabel6.setText("Chofer:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 118, -1, -1));
+
+        jLabel4.setText("Guia envio:");
+        jLabel4.setToolTipText("");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 69, 80, -1));
+
+        jLabel3.setText("Campo:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(398, 16, -1, -1));
+
+        jPanel1.add(cmb_campo, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 13, 158, -1));
+
+        jPanel1.add(cmb_envio, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 66, 158, -1));
+
+        jPanel1.add(cmb_chofer, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 115, 158, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -234,6 +257,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 btn_eliminarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -242,6 +266,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, -1, -1));
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -250,6 +275,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -259,6 +285,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, -1, -1));
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -267,97 +294,34 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 btn_agregarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, -1, 29));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt_recepcion)
-                                    .addComponent(cmb_patente, javax.swing.GroupLayout.Alignment.TRAILING, 0, 152, Short.MAX_VALUE)
-                                    .addComponent(cmb_proveedor, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmb_campo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmb_envio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmb_chofer, 0, 158, Short.MAX_VALUE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmb_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_eliminar)
-                                .addGap(35, 35, 35)
-                                .addComponent(btn_aceptar)
-                                .addGap(38, 38, 38)
-                                .addComponent(btn_modificar)
-                                .addGap(48, 48, 48)
-                                .addComponent(btn_cancelar)
-                                .addGap(53, 53, 53)
-                                .addComponent(btn_agregar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 22, Short.MAX_VALUE))))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_recepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_campo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(cmb_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_envio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmb_patente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(cmb_chofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(cmb_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_eliminar)
-                    .addComponent(btn_aceptar)
-                    .addComponent(btn_modificar)
-                    .addComponent(btn_cancelar)
-                    .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
@@ -533,6 +497,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_recepcion;
     private javax.swing.JTextField txt_recepcion;
