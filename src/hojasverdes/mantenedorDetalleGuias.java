@@ -319,6 +319,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jLabel3.setText("Kilogramos:");
         jLabel3.setToolTipText("");
 
+        txt_kilogramos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilogramosKeyTyped(evt);
+            }
+        });
+
         cmb_nomProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_nomProductoActionPerformed(evt);
@@ -354,6 +360,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jLabel7.setText("Variedad:");
 
         jLabel9.setText("Numero bins:");
+
+        txt_numBins.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_numBinsKeyTyped(evt);
+            }
+        });
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -469,6 +481,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
         jLabel6.setText("Kilogramos:");
 
+        txt_kilogramos2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilogramos2KeyTyped(evt);
+            }
+        });
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
 
         btn_agregar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -498,6 +516,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jLabel8.setText("Variedad:");
 
         jLabel10.setText("Numero bins:");
+
+        txt_numBins2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_numBins2KeyTyped(evt);
+            }
+        });
 
         btn_aceptar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar2.setText("Aceptar");
@@ -976,6 +1000,54 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminar2ActionPerformed
+
+    private void txt_kilogramosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilogramosKeyTyped
+        int limite = 10;
+        if (txt_kilogramos.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_kilogramosKeyTyped
+
+    private void txt_numBinsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numBinsKeyTyped
+        int limite = 3;
+        if (txt_numBins.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }        
+    }//GEN-LAST:event_txt_numBinsKeyTyped
+
+    private void txt_kilogramos2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilogramos2KeyTyped
+        int limite = 10;
+        if (txt_kilogramos2.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_kilogramos2KeyTyped
+
+    private void txt_numBins2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numBins2KeyTyped
+        int limite = 3;
+        if (txt_numBins2.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }   
+    }//GEN-LAST:event_txt_numBins2KeyTyped
 
     /**
      * @param args the command line arguments

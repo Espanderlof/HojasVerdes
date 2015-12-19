@@ -119,6 +119,30 @@ public class mantenedorCamiones extends javax.swing.JFrame {
 
         jLabel4.setText("Ejes:");
 
+        txt_patente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_patenteKeyTyped(evt);
+            }
+        });
+
+        txt_capacidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_capacidadKeyTyped(evt);
+            }
+        });
+
+        txt_color.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_colorKeyTyped(evt);
+            }
+        });
+
+        txt_ejes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ejesKeyTyped(evt);
+            }
+        });
+
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,6 +392,49 @@ public class mantenedorCamiones extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_patenteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_patenteKeyTyped
+        int limite = 6;
+        if (txt_patente.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_patenteKeyTyped
+
+    private void txt_colorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_colorKeyTyped
+        int limite = 10;
+        if (txt_color.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }
+    }//GEN-LAST:event_txt_colorKeyTyped
+
+    private void txt_capacidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_capacidadKeyTyped
+        int limite = 10;
+        if (txt_capacidad.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }        
+    }//GEN-LAST:event_txt_capacidadKeyTyped
+
+    private void txt_ejesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ejesKeyTyped
+        int limite = 2;
+        if (txt_ejes.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }        
+    }//GEN-LAST:event_txt_ejesKeyTyped
 
     /**
      * @param args the command line arguments

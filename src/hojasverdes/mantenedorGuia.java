@@ -239,6 +239,12 @@ public class mantenedorGuia extends javax.swing.JFrame {
             }
         });
 
+        txt_guia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_guiaKeyTyped(evt);
+            }
+        });
+
         jLabel1.setText("Chofer:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -480,6 +486,18 @@ public class mantenedorGuia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_guiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_guiaKeyTyped
+        int limite = 5;
+        if (txt_guia.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_guiaKeyTyped
 
     /**
      * @param args the command line arguments

@@ -117,6 +117,29 @@ public class mantenedorChoferes extends javax.swing.JFrame {
                 txt_rutChoferActionPerformed(evt);
             }
         });
+        txt_rutChofer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_rutChoferKeyTyped(evt);
+            }
+        });
+
+        txt_nomChofer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nomChoferKeyTyped(evt);
+            }
+        });
+
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyTyped(evt);
+            }
+        });
+
+        txt_direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_direccionKeyTyped(evt);
+            }
+        });
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -374,6 +397,50 @@ public class mantenedorChoferes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_rutChoferKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rutChoferKeyTyped
+        int limite = 8;
+        if (txt_rutChofer.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_rutChoferKeyTyped
+
+    private void txt_nomChoferKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nomChoferKeyTyped
+        int limite = 50;
+        if (txt_nomChofer.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }           
+    }//GEN-LAST:event_txt_nomChoferKeyTyped
+
+    private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
+        int limite = 10;
+        if (txt_telefono.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+
+    }//GEN-LAST:event_txt_telefonoKeyTyped
+
+    private void txt_direccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_direccionKeyTyped
+        int limite = 30;
+        if (txt_direccion.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_direccionKeyTyped
 
     /**
      * @param args the command line arguments

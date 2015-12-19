@@ -193,6 +193,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_kilogramos">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_kilogramosKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmb_nomProducto">
           <Properties>
@@ -262,6 +265,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_numBins">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_numBinsKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_aceptar">
           <Properties>
@@ -438,6 +444,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_kilogramos2">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_kilogramos2KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
@@ -497,6 +506,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_numBins2">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_numBins2KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_aceptar2">
           <Properties>

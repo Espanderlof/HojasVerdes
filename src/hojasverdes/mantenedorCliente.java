@@ -143,6 +143,48 @@ public class mantenedorCliente extends javax.swing.JFrame {
 
         jLabel7.setText("Razon social:");
 
+        txt_rutCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_rutClienteKeyTyped(evt);
+            }
+        });
+
+        txt_direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_direccionKeyTyped(evt);
+            }
+        });
+
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyTyped(evt);
+            }
+        });
+
+        txt_razonSocial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_razonSocialKeyTyped(evt);
+            }
+        });
+
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyTyped(evt);
+            }
+        });
+
+        txt_giro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_giroKeyTyped(evt);
+            }
+        });
+
+        txt_contacto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_contactoKeyTyped(evt);
+            }
+        });
+
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -448,6 +490,84 @@ public class mantenedorCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_rutClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rutClienteKeyTyped
+        int limite = 9;
+        if (txt_rutCliente.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_rutClienteKeyTyped
+
+    private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
+        int limite = 30;
+        if (txt_nombre.getText().length() == limite) {
+            evt.consume();
+        }
+
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }           
+    }//GEN-LAST:event_txt_nombreKeyTyped
+
+    private void txt_direccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_direccionKeyTyped
+        int limite = 30;
+        if (txt_direccion.getText().length() == limite) {
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_txt_direccionKeyTyped
+
+    private void txt_giroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_giroKeyTyped
+        int limite = 10;
+        if (txt_giro.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }   
+
+    }//GEN-LAST:event_txt_giroKeyTyped
+
+    private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
+        int limite = 10;
+        if (txt_telefono.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+        
+    }//GEN-LAST:event_txt_telefonoKeyTyped
+
+    private void txt_contactoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_contactoKeyTyped
+        int limite = 30;
+        if (txt_contacto.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }           
+    }//GEN-LAST:event_txt_contactoKeyTyped
+
+    private void txt_razonSocialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_razonSocialKeyTyped
+        int limite = 30;
+        if (txt_razonSocial.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }           
+    }//GEN-LAST:event_txt_razonSocialKeyTyped
 
     /**
      * @param args the command line arguments

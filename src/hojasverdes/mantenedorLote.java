@@ -144,6 +144,24 @@ public class mantenedorLote extends javax.swing.JFrame {
 
         jLabel4.setText("Kilogramos inicio:");
 
+        txt_codigolote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codigoloteKeyTyped(evt);
+            }
+        });
+
+        txt_calibre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_calibreKeyTyped(evt);
+            }
+        });
+
+        txt_kilosinicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilosinicioKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Fecha elaboracion:");
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -171,6 +189,12 @@ public class mantenedorLote extends javax.swing.JFrame {
         });
 
         jLabel6.setText("Kilogramos final:");
+
+        txt_kilosfinal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilosfinalKeyTyped(evt);
+            }
+        });
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -466,6 +490,55 @@ public class mantenedorLote extends javax.swing.JFrame {
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void txt_codigoloteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoloteKeyTyped
+        int limite = 10;
+        if (txt_codigolote.getText().length() == limite) {
+            evt.consume();
+        }
+        
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_codigoloteKeyTyped
+
+    private void txt_calibreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_calibreKeyTyped
+        int limite = 1;
+        if (txt_calibre.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_calibreKeyTyped
+
+    private void txt_kilosinicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilosinicioKeyTyped
+        int limite = 10;
+        if (txt_kilosinicio.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }        
+    }//GEN-LAST:event_txt_kilosinicioKeyTyped
+
+    private void txt_kilosfinalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilosfinalKeyTyped
+        int limite = 10;
+        if (txt_kilosfinal.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }   
+    }//GEN-LAST:event_txt_kilosfinalKeyTyped
 
     /**
      * @param args the command line arguments

@@ -233,6 +233,18 @@ public class loteBodega extends javax.swing.JFrame {
             }
         });
 
+        txt_lote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_loteKeyTyped(evt);
+            }
+        });
+
+        txt_calibre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_calibreKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Bodega");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -246,7 +258,19 @@ public class loteBodega extends javax.swing.JFrame {
 
         jLabel5.setText("Kilos inicial");
 
+        txt_kilosInicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilosInicialKeyTyped(evt);
+            }
+        });
+
         jLabel6.setText("Kilos final");
+
+        txt_kilosFinal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_kilosFinalKeyTyped(evt);
+            }
+        });
 
         jLabel7.setText("Elaboracion:");
 
@@ -352,13 +376,14 @@ public class loteBodega extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(cmb_nombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(txt_lote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_variedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(cmb_nombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_lote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmb_variedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -621,6 +646,54 @@ public class loteBodega extends javax.swing.JFrame {
         mantenedorBodegas abrirB = new mantenedorBodegas();
         abrirB.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txt_loteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_loteKeyTyped
+        int limite = 10;
+        if (txt_lote.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_loteKeyTyped
+
+    private void txt_calibreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_calibreKeyTyped
+        int limite = 1;
+        if (txt_calibre.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_calibreKeyTyped
+
+    private void txt_kilosInicialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilosInicialKeyTyped
+        int limite = 10;
+        if (txt_kilosInicial.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_kilosInicialKeyTyped
+
+    private void txt_kilosFinalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kilosFinalKeyTyped
+        int limite = 10;
+        if (txt_kilosFinal.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_kilosFinalKeyTyped
 
     /**
      * @param args the command line arguments

@@ -236,6 +236,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cantidad">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_cantidadKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_agregar">
           <Properties>
@@ -276,6 +279,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_precio">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_precioKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_agregarnotapedido">
           <Properties>

@@ -133,6 +133,12 @@ public class mantenedorFactura extends javax.swing.JFrame {
 
         jLabel1.setText("Numero factura:");
 
+        txt_numerofactura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_numerofacturaKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Nota pedido:");
 
         jLabel3.setText("Fecha:");
@@ -185,6 +191,12 @@ public class mantenedorFactura extends javax.swing.JFrame {
         });
 
         jLabel4.setText("Total Neto:");
+
+        txt_totalneto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_totalnetoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -433,6 +445,26 @@ public class mantenedorFactura extends javax.swing.JFrame {
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void txt_numerofacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numerofacturaKeyTyped
+        int limite = 5;
+        if (txt_numerofactura.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_numerofacturaKeyTyped
+
+    private void txt_totalnetoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_totalnetoKeyTyped
+        int limite = 10;
+        if (txt_totalneto.getText().length() == limite) {
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_txt_totalnetoKeyTyped
 
     /**
      * @param args the command line arguments

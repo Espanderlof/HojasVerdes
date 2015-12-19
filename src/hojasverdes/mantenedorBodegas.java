@@ -122,6 +122,12 @@ public class mantenedorBodegas extends javax.swing.JFrame {
             }
         });
 
+        txt_direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_direccionKeyTyped(evt);
+            }
+        });
+
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
         btn_agregar.setToolTipText("");
@@ -152,6 +158,11 @@ public class mantenedorBodegas extends javax.swing.JFrame {
         txt_nomBodega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nomBodegaActionPerformed(evt);
+            }
+        });
+        txt_nomBodega.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nomBodegaKeyTyped(evt);
             }
         });
 
@@ -383,12 +394,34 @@ public class mantenedorBodegas extends javax.swing.JFrame {
 
     private void txt_codBodegaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codBodegaKeyTyped
         int limite = 2;
-        {
-            if (txt_codBodega.getText().length() == limite) {
-                evt.consume();
-            }
+        if (txt_codBodega.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo Numeros");
         }
     }//GEN-LAST:event_txt_codBodegaKeyTyped
+
+    private void txt_nomBodegaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nomBodegaKeyTyped
+        int limite = 50;
+        if (txt_nomBodega.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }
+    }//GEN-LAST:event_txt_nomBodegaKeyTyped
+
+    private void txt_direccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_direccionKeyTyped
+        int limite = 50;
+        if (txt_nomBodega.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_direccionKeyTyped
 
     /**
      * @param args the command line arguments

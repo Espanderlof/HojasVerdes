@@ -132,6 +132,12 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
 
         jLabel1.setText("Codigo nota pedido:");
 
+        txt_codigonotapedido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codigonotapedidoKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Rut cliente:");
 
         btn_agregarrutcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -442,6 +448,18 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         mantenedorCliente abrir = new mantenedorCliente();
         abrir.setVisible(true);
     }//GEN-LAST:event_btn_agregarrutclienteActionPerformed
+
+    private void txt_codigonotapedidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigonotapedidoKeyTyped
+        int limite = 5;
+        if (txt_codigonotapedido.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }   
+    }//GEN-LAST:event_txt_codigonotapedidoKeyTyped
 
     /**
      * @param args the command line arguments

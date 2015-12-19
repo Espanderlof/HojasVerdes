@@ -128,11 +128,39 @@ public class mantenedorProductos extends javax.swing.JFrame {
 
         jLabel3.setText("Variedad:");
 
+        txt_codProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codProductoKeyTyped(evt);
+            }
+        });
+
+        txt_nomProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nomProductoKeyTyped(evt);
+            }
+        });
+
+        txt_variedad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_variedadActionPerformed(evt);
+            }
+        });
+        txt_variedad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_variedadKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Precio:");
 
         txt_precio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_precioActionPerformed(evt);
+            }
+        });
+        txt_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_precioKeyTyped(evt);
             }
         });
 
@@ -161,6 +189,12 @@ public class mantenedorProductos extends javax.swing.JFrame {
         });
 
         jLabel5.setText("Stock critico:");
+
+        txt_stockCritico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_stockCriticoKeyTyped(evt);
+            }
+        });
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -471,6 +505,72 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     txt_stockCritico.setText("");
                     txt_codProducto.setText("");        
     }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void txt_codProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codProductoKeyTyped
+        int limite = 3;
+        if (txt_codProducto.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }   
+    }//GEN-LAST:event_txt_codProductoKeyTyped
+
+    private void txt_nomProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nomProductoKeyTyped
+        int limite = 30;
+        if (txt_nomProducto.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }   
+
+    }//GEN-LAST:event_txt_nomProductoKeyTyped
+
+    private void txt_variedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_variedadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_variedadActionPerformed
+
+    private void txt_variedadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_variedadKeyTyped
+        int limite = 10;
+        if (txt_variedad.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }   
+
+    }//GEN-LAST:event_txt_variedadKeyTyped
+
+    private void txt_precioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_precioKeyTyped
+        int limite = 10;
+        if (txt_precio.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_precioKeyTyped
+
+    private void txt_stockCriticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_stockCriticoKeyTyped
+        int limite = 10;
+        if (txt_stockCritico.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }  
+    }//GEN-LAST:event_txt_stockCriticoKeyTyped
 
     /**
      * @param args the command line arguments

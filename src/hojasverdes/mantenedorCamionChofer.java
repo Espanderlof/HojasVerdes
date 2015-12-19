@@ -225,6 +225,17 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             }
         });
 
+        txt_hora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_horaActionPerformed(evt);
+            }
+        });
+        txt_hora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_horaKeyTyped(evt);
+            }
+        });
+
         btn_patente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_patente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -466,6 +477,17 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_horaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_horaKeyTyped
+        int limite = 5;
+        if (txt_hora.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_horaKeyTyped
+
+    private void txt_horaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_horaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_horaActionPerformed
 
     /**
      * @param args the command line arguments

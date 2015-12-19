@@ -136,6 +136,29 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                 txt_rutproveedorActionPerformed(evt);
             }
         });
+        txt_rutproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_rutproveedorKeyTyped(evt);
+            }
+        });
+
+        txt_nombreproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nombreproveedorKeyTyped(evt);
+            }
+        });
+
+        txt_direccionproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_direccionproveedorKeyTyped(evt);
+            }
+        });
+
+        txt_telefonoproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_telefonoproveedorKeyTyped(evt);
+            }
+        });
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -397,6 +420,44 @@ public class mantenedorProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_rutproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rutproveedorKeyTyped
+        int limite = 9;
+        if (txt_rutproveedor.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_rutproveedorKeyTyped
+
+    private void txt_nombreproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreproveedorKeyTyped
+        int limite = 50;
+        if (txt_nombreproveedor.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }   
+    }//GEN-LAST:event_txt_nombreproveedorKeyTyped
+
+    private void txt_direccionproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_direccionproveedorKeyTyped
+        int limite = 30;
+        if (txt_direccionproveedor.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_direccionproveedorKeyTyped
+
+    private void txt_telefonoproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoproveedorKeyTyped
+        int limite = 10;
+        if (txt_telefonoproveedor.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_telefonoproveedorKeyTyped
 
     /**
      * @param args the command line arguments

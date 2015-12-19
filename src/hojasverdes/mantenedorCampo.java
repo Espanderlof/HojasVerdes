@@ -152,6 +152,24 @@ public class mantenedorCampo extends javax.swing.JFrame {
 
         jLabel4.setText("Direccion:");
 
+        txt_codCampo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codCampoKeyTyped(evt);
+            }
+        });
+
+        txt_nomCampo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nomCampoKeyTyped(evt);
+            }
+        });
+
+        txt_direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_direccionKeyTyped(evt);
+            }
+        });
+
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -419,6 +437,37 @@ public class mantenedorCampo extends javax.swing.JFrame {
         mantenedorProveedores abrirProveedores = new mantenedorProveedores();
         abrirProveedores.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txt_codCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codCampoKeyTyped
+        int limite = 3;
+        if (txt_codCampo.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }        
+    }//GEN-LAST:event_txt_codCampoKeyTyped
+
+    private void txt_nomCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nomCampoKeyTyped
+        int limite = 50;
+        if (txt_nomCampo.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isDigit(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo letras");
+        }          
+    }//GEN-LAST:event_txt_nomCampoKeyTyped
+
+    private void txt_direccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_direccionKeyTyped
+        int limite = 30;
+        if (txt_direccion.getText().length() == limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_direccionKeyTyped
 
     /**
      * @param args the command line arguments
