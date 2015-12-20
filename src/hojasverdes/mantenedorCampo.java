@@ -98,14 +98,14 @@ public class mantenedorCampo extends javax.swing.JFrame {
         }
     }
     
-    public int getRutProveedor(){
-        int codigo=0;
+    public String getRutProveedor(){
+        String codigo="";
         try{
             String sql="select rut_proveedor from proveedor where nom_proveedor ='"+cmb_proveedor.getSelectedItem()+"'";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                codigo = Integer.parseInt(rs.getString(1));
+                codigo = rs.getString(1);
             }   
         }catch(Exception e){
             
@@ -289,7 +289,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                     try {
                         PreparedStatement pst=reg.prepareStatement(sql);
                         pst.setInt(1, dto.getCod_campo());
-                        pst.setInt(2, dto.getRut_proveedor());
+                        pst.setString(2, dto.getRut_proveedor());
                         pst.setString(3, dto.getNom_campo());
                         pst.setString(4, dto.getDireccion());
                         int n = pst.executeUpdate();

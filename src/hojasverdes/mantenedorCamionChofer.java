@@ -116,14 +116,14 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             }
     }
 
-    public int getRutChofer(){
-        int codigo=0;
+    public String getRutChofer(){
+        String codigo="";
         try{
             String sql="select rut_chofer from chofer where nom_chofer ='"+cmb_chofer.getSelectedItem()+"'";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                codigo = Integer.parseInt(rs.getString(1));
+                codigo = rs.getString(1);
             }   
         }catch(Exception e){
             
@@ -333,7 +333,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             try {
                 PreparedStatement pst=reg.prepareStatement(sql);
                 pst.setString(1, dto.getPatente());
-                pst.setInt(2, dto.getRut_chofer());
+                pst.setString(2, dto.getRut_chofer());
                 pst.setDate(3, dto.getFecha());
                 pst.setString(4, dto.getHora_uso());
                 int n = pst.executeUpdate();
@@ -419,7 +419,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             //qui se pone lo que hara si le das aceptar
                 fila=tbl_camionChofer.getSelectedRow();
                 String patente = tbl_camionChofer.getValueAt(fila, 0).toString();
-                int chofer = getRutChofer();
+                String chofer = getRutChofer();
                 try {
                     PreparedStatement pst = reg.prepareStatement("DELETE FROM camion_chofer WHERE patente='"+patente+"' and rut_chofer ="+chofer+"");
                     pst.executeUpdate();

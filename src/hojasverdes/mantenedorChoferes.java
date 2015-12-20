@@ -278,14 +278,14 @@ public class mantenedorChoferes extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null,"Debe ingresar direccion chofer");
                     }else{
                         chofer dto = new chofer();
-                        dto.setRut_chofer(Integer.parseInt(txt_rutChofer.getText()));
+                        dto.setRut_chofer(txt_rutChofer.getText());
                         dto.setNom_chofer(txt_nomChofer.getText());
                         dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
                         dto.setDireccion(txt_direccion.getText());
                         sql= "INSERT INTO chofer (rut_chofer, nom_chofer, telefono, direccion)VALUES (?,?,?,?)";
                         try {
                             PreparedStatement pst=reg.prepareStatement(sql);
-                            pst.setInt(1, dto.getRut_chofer());
+                            pst.setString(1, dto.getRut_chofer());
                             pst.setString(2, dto.getNom_chofer());
                             pst.setInt(3, dto.getTelefono());
                             pst.setString(4, dto.getDireccion());

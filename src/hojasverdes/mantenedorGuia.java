@@ -315,8 +315,8 @@ public class mantenedorGuia extends javax.swing.JFrame {
             guiaEnvio dto = new guiaEnvio();
             dto.setCod_envio(Integer.parseInt(txt_guia.getText()));
             dto.setCod_campo(Integer.parseInt(cmb_campo.getSelectedItem().toString()));
-            dto.setRut_proveedor(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
-            dto.setRut_chofer(Integer.parseInt(cmb_chofer.getSelectedItem().toString()));
+            dto.setRut_proveedor(cmb_proveedor.getSelectedItem().toString());
+            dto.setRut_chofer(cmb_chofer.getSelectedItem().toString());
             dto.setPatente(cmb_patente.getSelectedItem().toString());
             Date fecha = cmb_date.getDate();
             java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
@@ -326,8 +326,8 @@ public class mantenedorGuia extends javax.swing.JFrame {
                 PreparedStatement pst=reg.prepareStatement(sql);
                 pst.setInt(1, dto.getCod_envio());
                 pst.setInt(2, dto.getCod_campo());
-                pst.setInt(3, dto.getRut_proveedor());
-                pst.setInt(4, dto.getRut_chofer());
+                pst.setString(3, dto.getRut_proveedor());
+                pst.setString(4, dto.getRut_chofer());
                 pst.setString(5, dto.getPatente());
                 pst.setDate(6, dto.getFecha());
                 int n = pst.executeUpdate();

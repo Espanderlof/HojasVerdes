@@ -2,7 +2,7 @@ package dominio;
 
 public class campo {
     private int cod_campo;
-    private int rut_proveedor;
+    private String rut_proveedor;
     private String nom_campo;
     private String direccion;
 
@@ -17,11 +17,11 @@ public class campo {
         this.cod_campo = cod_campo;
     }
 
-    public int getRut_proveedor() {
+    public String getRut_proveedor() {
         return rut_proveedor;
     }
 
-    public void setRut_proveedor(int rut_proveedor) {
+    public void setRut_proveedor(String rut_proveedor) {
         this.rut_proveedor = rut_proveedor;
     }
 

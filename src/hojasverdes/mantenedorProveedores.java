@@ -356,7 +356,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null,"Debe ingresar telefono proveedor");
                     }else{
                         proveedor dto = new proveedor();
-                        dto.setRut_proveedor(Integer.parseInt(txt_rutproveedor.getText()));
+                        dto.setRut_proveedor(txt_rutproveedor.getText());
                         dto.setNom_proveedor(txt_nombreproveedor.getText());
                         dto.setDireccion_proveedor(txt_direccionproveedor.getText());
                         dto.setTelefono_proveedor(Integer.parseInt(txt_telefonoproveedor.getText()));
@@ -364,7 +364,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                         sql = "INSERT INTO proveedor (rut_proveedor, nom_proveedor, direccion, telefono) VALUES (?,?,?,?)";
                         try {
                             PreparedStatement pst = reg.prepareStatement(sql);
-                            pst.setInt(1, dto.getRut_proveedor());
+                            pst.setString(1, dto.getRut_proveedor());
                             pst.setString(2, dto.getNom_proveedor());
                             pst.setString(3, dto.getDireccion_proveedor());
                             pst.setInt(4, dto.getTelefono_proveedor());

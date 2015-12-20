@@ -155,14 +155,14 @@ public class guias extends javax.swing.JFrame {
         }
     }
     
-    public int getRutProveedor(){
-        int codigo=0;
+    public String getRutProveedor(){
+        String codigo="";
         try{
             String sql="select rut_proveedor from proveedor where nom_proveedor ='"+cmb_proveedor.getSelectedItem()+"'";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                codigo = Integer.parseInt(rs.getString(1));
+                codigo = rs.getString(1);
             }   
         }catch(Exception e){
             
@@ -185,14 +185,14 @@ public class guias extends javax.swing.JFrame {
         return codigo;
     }
     
-    public int getRutChofer(){
-        int codigo=0;
+    public  String getRutChofer(){
+        String codigo="";
         try{
             String sql="select rut_chofer from chofer where nom_chofer ='"+cmb_chofer.getSelectedItem()+"'";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                codigo = Integer.parseInt(rs.getString(1));
+                codigo = rs.getString(1);
             }   
         }catch(Exception e){
             
@@ -509,8 +509,7 @@ public class guias extends javax.swing.JFrame {
     if (cmb_proveedor.getSelectedItem() ==null){
             
         }else{
-            
-            cmbCampo(getRutProveedor());   
+            //cmb_campo(getRutProveedor());   
         }
     }//GEN-LAST:event_cmb_proveedorActionPerformed
 
@@ -552,8 +551,8 @@ public class guias extends javax.swing.JFrame {
                 PreparedStatement pst=reg.prepareStatement(sql);
                 pst.setInt(1, dto.getCod_envio());
                 pst.setInt(2, dto.getCod_campo());
-                pst.setInt(3, dto.getRut_proveedor());
-                pst.setInt(4, dto.getRut_chofer());
+                pst.setString(3, dto.getRut_proveedor());
+                pst.setString(4, dto.getRut_chofer());
                 pst.setString(5, dto.getPatente());
                 pst.setDate(6, dto.getFecha());
                 int n = pst.executeUpdate();
@@ -570,10 +569,10 @@ public class guias extends javax.swing.JFrame {
                 PreparedStatement pst=reg.prepareStatement(sql);
                 pst.setInt(1, dto2.getCod_recepcion());
                 pst.setInt(2, dto2.getCod_campo());
-                pst.setInt(3, dto2.getRut_proveedor());
+                pst.setString(3, dto2.getRut_proveedor());
                 pst.setInt(4, dto2.getCod_envio());
                 pst.setString(5, dto2.getPatente());
-                pst.setInt(6, dto2.getRut_chofer());
+                pst.setString(6, dto2.getRut_chofer());
                 pst.setDate(7, dto2.getFecha_recepcion());
                 int n = pst.executeUpdate();
                 if (n>0){

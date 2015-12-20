@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class camionChofer {
     private String patente;
-    private int rut_chofer;
+    private String rut_chofer;
     private java.sql.Date fecha = new java.sql.Date(0);
     private String hora_uso;
 
@@ -19,11 +19,11 @@ public class camionChofer {
         this.patente = patente;
     }
 
-    public int getRut_chofer() {
+    public String getRut_chofer() {
         return rut_chofer;
     }
 
-    public void setRut_chofer(int rut_chofer) {
+    public void setRut_chofer(String rut_chofer) {
         this.rut_chofer = rut_chofer;
     }
 

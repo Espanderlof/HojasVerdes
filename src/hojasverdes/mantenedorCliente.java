@@ -332,7 +332,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
                                 txt_razonSocial.setText("");
                             }
                             cliente dto = new cliente();
-                            dto.setRut_cliente(Integer.parseInt(txt_rutCliente.getText()));
+                            dto.setRut_cliente(txt_rutCliente.getText());
                             dto.setNombre(txt_nombre.getText());
                             dto.setDireccion(txt_direccion.getText());
                             dto.setGiro(txt_giro.getText());
@@ -343,7 +343,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
                             sql= "INSERT INTO cliente (rut_cliente, nombre, direccion, giro, telefono, contacto, razon_social)VALUES (?,?,?,?,?,?,?)";
                             try {
                                 PreparedStatement pst=reg.prepareStatement(sql);
-                                pst.setInt(1, dto.getRut_cliente());
+                                pst.setString(1, dto.getRut_cliente());
                                 pst.setString(2, dto.getNombre());
                                 pst.setString(3, dto.getDireccion());
                                 pst.setString(4, dto.getGiro());

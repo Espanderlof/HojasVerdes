@@ -1,7 +1,7 @@
 package dominio;
 
 public class cliente {
-    private int rut_cliente;
+    private String rut_cliente;
     private String nombre;
     private String direccion;
     private String giro;
@@ -12,11 +12,11 @@ public class cliente {
     public cliente() {
     }
 
-    public int getRut_cliente() {
+    public String getRut_cliente() {
         return rut_cliente;
     }
 
-    public void setRut_cliente(int rut_cliente) {
+    public void setRut_cliente(String rut_cliente) {
         this.rut_cliente = rut_cliente;
     }
 

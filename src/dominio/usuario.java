@@ -1,7 +1,7 @@
 package dominio;
 
 public class usuario {
-    private int rut;
+    private String rut;
     private String nombre;
     private int telefono;
     private String contraseña;
@@ -9,11 +9,11 @@ public class usuario {
     public usuario(){
     }
 
-    public int getRut() {
+    public String getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(String rut) {
         this.rut = rut;
     }
 

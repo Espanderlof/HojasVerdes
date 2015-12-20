@@ -2,7 +2,7 @@
 package dominio;
 
 public class chofer {
-    private int rut_chofer;
+    private String rut_chofer;
     private String nom_chofer;
     private int telefono;
     private String direccion;
@@ -10,11 +10,11 @@ public class chofer {
     public chofer() {
     }
 
-    public int getRut_chofer() {
+    public String getRut_chofer() {
         return rut_chofer;
     }
 
-    public void setRut_chofer(int rut_chofer) {
+    public void setRut_chofer(String rut_chofer) {
         this.rut_chofer = rut_chofer;
     }
 

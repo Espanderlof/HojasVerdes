@@ -329,14 +329,14 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null,"Debe ingresar contraseña usuario");
                     }else{
                         usuario dto = new usuario();
-                        dto.setRut(Integer.parseInt(txt_rut.getText()));
+                        dto.setRut(txt_rut.getText());
                         dto.setNombre(txt_nombre.getText());
                         dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
                         dto.setContraseña(txt_contraseña.getText());
                         sql = "INSERT INTO usuario (rut, nombre, telefono, contraseña) VALUES (?,?,?,?)";
                         try {
                             PreparedStatement pst = reg.prepareStatement(sql);
-                            pst.setInt(1, dto.getRut());
+                            pst.setString(1, dto.getRut());
                             pst.setString(2, dto.getNombre());
                             pst.setInt(3, dto.getTelefono());
                             pst.setString(4, dto.getContraseña());

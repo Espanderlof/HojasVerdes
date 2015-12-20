@@ -5,8 +5,8 @@ import java.sql.Date;
 public class guiaEnvio {
     private int cod_envio;
     private int cod_campo;
-    private int rut_proveedor;
-    private int rut_chofer;
+    private String rut_proveedor;
+    private String rut_chofer;
     private String patente;
     private java.sql.Date fecha = new java.sql.Date(0);
 
@@ -29,19 +29,19 @@ public class guiaEnvio {
         this.cod_campo = cod_campo;
     }
 
-    public int getRut_proveedor() {
+    public String getRut_proveedor() {
         return rut_proveedor;
     }
 
-    public void setRut_proveedor(int rut_proveedor) {
+    public void setRut_proveedor(String rut_proveedor) {
         this.rut_proveedor = rut_proveedor;
     }
 
-    public int getRut_chofer() {
+    public String getRut_chofer() {
         return rut_chofer;
     }
 
-    public void setRut_chofer(int rut_chofer) {
+    public void setRut_chofer(String rut_chofer) {
         this.rut_chofer = rut_chofer;
     }
 

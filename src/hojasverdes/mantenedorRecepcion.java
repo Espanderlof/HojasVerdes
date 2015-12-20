@@ -337,8 +337,8 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
             guiaRecepcion dto = new guiaRecepcion();
             dto.setCod_recepcion(Integer.parseInt(txt_recepcion.getText()));
             dto.setCod_campo(Integer.parseInt(cmb_campo.getSelectedItem().toString()));
-            dto.setRut_proveedor(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
-            dto.setRut_chofer(Integer.parseInt(cmb_chofer.getSelectedItem().toString()));
+            dto.setRut_proveedor(cmb_proveedor.getSelectedItem().toString());
+            dto.setRut_chofer(cmb_chofer.getSelectedItem().toString());
             dto.setPatente(cmb_patente.getSelectedItem().toString());
             dto.setCod_envio(Integer.parseInt(cmb_envio.getSelectedItem().toString()));
             Date fecha = cmb_fecha.getDate();
@@ -349,10 +349,10 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
                 PreparedStatement pst=reg.prepareStatement(sql);
                 pst.setInt(1, dto.getCod_recepcion());
                 pst.setInt(2, dto.getCod_campo());
-                pst.setInt(3, dto.getRut_proveedor());
+                pst.setString(3, dto.getRut_proveedor());
                 pst.setInt(4, dto.getCod_envio());
                 pst.setString(5, dto.getPatente());
-                pst.setInt(6, dto.getRut_chofer());
+                pst.setString(6, dto.getRut_chofer());
                 pst.setDate(7, dto.getFecha_recepcion());
                 int n = pst.executeUpdate();
                 if (n>0){

@@ -5,10 +5,10 @@ import java.sql.Date;
 public class guiaRecepcion {
     private int cod_recepcion;
     private int cod_campo;
-    private int rut_proveedor;
+    private String rut_proveedor;
     private int cod_envio;
     private String patente;
-    private int rut_chofer;
+    private String rut_chofer;
     private java.sql.Date fecha_recepcion = new java.sql.Date(0);
 
     public guiaRecepcion() {
@@ -30,11 +30,11 @@ public class guiaRecepcion {
         this.cod_campo = cod_campo;
     }
 
-    public int getRut_proveedor() {
+    public String getRut_proveedor() {
         return rut_proveedor;
     }
 
-    public void setRut_proveedor(int rut_proveedor) {
+    public void setRut_proveedor(String rut_proveedor) {
         this.rut_proveedor = rut_proveedor;
     }
 
@@ -54,11 +54,11 @@ public class guiaRecepcion {
         this.patente = patente;
     }
 
-    public int getRut_chofer() {
+    public String getRut_chofer() {
         return rut_chofer;
     }
 
-    public void setRut_chofer(int rut_chofer) {
+    public void setRut_chofer(String rut_chofer) {
         this.rut_chofer = rut_chofer;
     }
 

@@ -308,7 +308,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         }else{
             notapedido dto = new notapedido();
             dto.setNro_nota(Integer.parseInt(txt_codigonotapedido.getText()));
-            dto.setRut_cliente(Integer.parseInt(cmb_rutcliente.getSelectedItem().toString()));
+            dto.setRut_cliente(cmb_rutcliente.getSelectedItem().toString());
             Date fecha = cmb_date.getDate();
             java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
             dto.setFecha(sqlfecha);
@@ -318,7 +318,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             try {
                 PreparedStatement pst = reg.prepareStatement(sql);
                 pst.setInt(1, dto.getNro_nota());
-                pst.setInt(2, dto.getRut_cliente());
+                pst.setString(2, dto.getRut_cliente());
                 pst.setDate(3, dto.getFecha());
                 int n = pst.executeUpdate();
                 if (n>0){
