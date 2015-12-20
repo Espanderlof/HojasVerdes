@@ -13,11 +13,12 @@ import javax.swing.JOptionPane;
 
 
 public class login {
-    conectar cnx = new conectar();
-    Connection reg = cnx.conexion();
-    String sql;
+    
     
     public int validar_ingreso(){
+       conectar cnx = new conectar();
+       Connection reg = cnx.conexion();
+       String sql;
        String usuario = Login.txt_usuario.getText();
        String clave = String.valueOf(Login.txt_contraseña.getPassword());
        int resultado = 0;
@@ -35,13 +36,11 @@ public class login {
             
         
         
-        }finally{
-           try {
-               reg.close();
-           } catch (SQLException ex) {
-               Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-           }
         }
+           
+               cnx.cerrar();
+           
+        
     
     return resultado;
     

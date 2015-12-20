@@ -130,6 +130,11 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -508,6 +513,13 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
                 txt_rut.requestFocus();
             }
     }//GEN-LAST:event_txt_rutFocusLost
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+               cnx.cerrar();
+           
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

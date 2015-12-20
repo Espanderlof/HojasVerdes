@@ -199,6 +199,11 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
         btn_agregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tbl_recepcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -466,6 +471,11 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
         }   
     }//GEN-LAST:event_txt_recepcionKeyTyped
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        cnx.cerrar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

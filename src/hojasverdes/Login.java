@@ -151,7 +151,7 @@ public class Login extends javax.swing.JFrame {
             menu abrir = new menu();
             abrir.setVisible(true);
             this.setVisible(false);
-       /* if (validar.validar_ingreso()==1) {
+        /*if (validar.validar_ingreso()==1) {
             
         }else{
             JOptionPane.showMessageDialog(null, "Acceso Denegado\n"
@@ -166,6 +166,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -280,12 +280,13 @@ public class guias extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_guias = new javax.swing.JTable();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        combobox_filtro = new javax.swing.JComboBox();
-        txt_filtro = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -440,17 +441,7 @@ public class guias extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tbl_guias);
 
-        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 44, 1201, 313));
-
-        jLabel19.setText("Texto Filtro:");
-        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(372, 16, -1, -1));
-
-        jLabel20.setText("Columna Filtro:");
-        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 16, -1, -1));
-
-        combobox_filtro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(combobox_filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(713, 13, 101, -1));
-        jPanel5.add(txt_filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(441, 13, 172, -1));
+        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 7, 1201, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -706,6 +697,11 @@ public class guias extends javax.swing.JFrame {
         }   
     }//GEN-LAST:event_txt_guiaKeyTyped
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        cnx.cerrar();
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -756,13 +752,10 @@ public class guias extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser cmb_fechaRecepcion;
     private javax.swing.JComboBox cmb_patente;
     private javax.swing.JComboBox cmb_proveedor;
-    private javax.swing.JComboBox combobox_filtro;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -771,7 +764,6 @@ public class guias extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbl_guias;
-    private javax.swing.JTextField txt_filtro;
     private javax.swing.JTextField txt_guia;
     // End of variables declaration//GEN-END:variables
 }

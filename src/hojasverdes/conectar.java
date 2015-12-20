@@ -23,14 +23,14 @@ public class conectar {
         return con;
     }
     
-    public boolean close(){
-        try {
+    public void cerrar(){
+        try {         
             con.close();
             System.out.println("Conexion cerrada");
-            return true;
+            
         } catch (Exception e) {
             System.out.println("no se pudo cerrar a conexion");
-            return false;
+           
         }
     }
 

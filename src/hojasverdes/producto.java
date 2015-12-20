@@ -200,6 +200,11 @@ public class producto extends javax.swing.JFrame {
         txt_diasantiguedadlote = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -696,6 +701,11 @@ public class producto extends javax.swing.JFrame {
         mantenedorBodegas abrirBodega = new mantenedorBodegas();
         abrirBodega.setVisible(true);
     }//GEN-LAST:event_btn_agregarbodegaActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
