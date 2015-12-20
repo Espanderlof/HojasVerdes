@@ -218,6 +218,12 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
 
         jLabel1.setText("Codigo recepcion:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 16, 110, -1));
+
+        txt_recepcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_recepcionKeyTyped(evt);
+            }
+        });
         jPanel1.add(txt_recepcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 13, 152, -1));
 
         jPanel1.add(cmb_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 66, 152, -1));
@@ -325,37 +331,42 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        guiaRecepcion dto = new guiaRecepcion();
-        dto.setCod_recepcion(Integer.parseInt(txt_recepcion.getText()));
-        dto.setCod_campo(Integer.parseInt(cmb_campo.getSelectedItem().toString()));
-        dto.setRut_proveedor(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
-        dto.setRut_chofer(Integer.parseInt(cmb_chofer.getSelectedItem().toString()));
-        dto.setPatente(cmb_patente.getSelectedItem().toString());
-        dto.setCod_envio(Integer.parseInt(cmb_envio.getSelectedItem().toString()));
-        Date fecha = cmb_fecha.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha_recepcion(sqlfecha);
-        sql= "INSERT INTO guia_recepcion (cod_recepcion, cod_campo, rut_proveedor, cod_envio, patente, rut_chofer, fecha_recepcion)VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_recepcion());
-            pst.setInt(2, dto.getCod_campo());
-            pst.setInt(3, dto.getRut_proveedor());
-            pst.setInt(4, dto.getCod_envio());
-            pst.setString(5, dto.getPatente());
-            pst.setInt(6, dto.getRut_chofer());
-            pst.setDate(7, dto.getFecha_recepcion());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Guia registrada satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, guia duplicada.");
-            //sw = 1;
-        }       
-        cmb_fecha.setCalendar(c2);
-        limpiartabla();
-        mostrardatostabla("");     
+        if (txt_recepcion.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo guia");
+        }else{
+            guiaRecepcion dto = new guiaRecepcion();
+            dto.setCod_recepcion(Integer.parseInt(txt_recepcion.getText()));
+            dto.setCod_campo(Integer.parseInt(cmb_campo.getSelectedItem().toString()));
+            dto.setRut_proveedor(Integer.parseInt(cmb_proveedor.getSelectedItem().toString()));
+            dto.setRut_chofer(Integer.parseInt(cmb_chofer.getSelectedItem().toString()));
+            dto.setPatente(cmb_patente.getSelectedItem().toString());
+            dto.setCod_envio(Integer.parseInt(cmb_envio.getSelectedItem().toString()));
+            Date fecha = cmb_fecha.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            dto.setFecha_recepcion(sqlfecha);
+            sql= "INSERT INTO guia_recepcion (cod_recepcion, cod_campo, rut_proveedor, cod_envio, patente, rut_chofer, fecha_recepcion)VALUES (?,?,?,?,?,?,?)";
+            try {
+                PreparedStatement pst=reg.prepareStatement(sql);
+                pst.setInt(1, dto.getCod_recepcion());
+                pst.setInt(2, dto.getCod_campo());
+                pst.setInt(3, dto.getRut_proveedor());
+                pst.setInt(4, dto.getCod_envio());
+                pst.setString(5, dto.getPatente());
+                pst.setInt(6, dto.getRut_chofer());
+                pst.setDate(7, dto.getFecha_recepcion());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Guia registrada satisfactoriamente.");
+                }                
+            }catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar, guia duplicada.");
+                //sw = 1;
+            }       
+            cmb_fecha.setCalendar(c2);
+            limpiartabla();
+            mostrardatostabla("");    
+        }
+         
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -414,6 +425,7 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_recepcion.setEnabled(true);
+        txt_recepcion.setEditable(true);
         txt_recepcion.requestFocus();
         txt_recepcion.setText("");
         cmb_fecha.setCalendar(c2);
@@ -442,6 +454,18 @@ public class mantenedorRecepcion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_recepcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_recepcionKeyTyped
+        int limite = 5;
+        if (txt_recepcion.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }   
+    }//GEN-LAST:event_txt_recepcionKeyTyped
 
     /**
      * @param args the command line arguments

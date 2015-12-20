@@ -63,7 +63,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
         int cod;
         String sql="";
         if(valor.equals("")){
-            sql="SELECT * FROM producto";
+            sql="SELECT cod_producto, nom_producto, variedad, precio, stock_critico FROM producto";
         }else{
             sql="SELECT * FROM producto WHERE cod_producto='"+valor+"'";
         }
@@ -288,51 +288,54 @@ public class mantenedorProductos extends javax.swing.JFrame {
         if (txt_codProducto.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Para agregar debe al menos ingresar el codigo del producto.");
         }else{
-            if (txt_precio.getText().equals("")){
-                txt_precio.setText("0");
-            }
-            if (txt_variedad.getText().equals("")){
-                txt_variedad.setText(" ");
-            }
-            if (txt_stockCritico.getText().equals("")){
-                txt_stockCritico.setText("0");
-            }
-            if (Integer.parseInt(txt_precio.getText()) == 0){
-                JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
+            if (txt_nomProducto.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre producto");
             }else{
-                cod      = txt_codProducto.getText();
-                nom      = txt_nomProducto.getText();
-                variedad = txt_variedad.getText();
-                precio   = txt_precio.getText();
-                stockCritico = txt_stockCritico.getText();
-                sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico)VALUES (?,?,?,?,?)";
-                try {
-                    PreparedStatement pst=reg.prepareStatement(sql);
-                    pst.setString(1,cod);
-                    pst.setString(2,nom);
-                    pst.setString(3,variedad);
-                    pst.setString(4,precio);
-                    pst.setString(5, stockCritico);
-                    int n=pst.executeUpdate();
-                    if (n>0){
-                        JOptionPane.showMessageDialog(null,"Producto registrado satisfactoriamente.");
-                    }                
-                }catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Error al agregar, codigo de producto duplicada.");
-                    sw = 1;
+                if (txt_precio.getText().equals("")){
+                    txt_precio.setText("0");
                 }
-                if (sw == 0){
-                    txt_nomProducto.setText("");
-                    txt_codProducto.setText("");
-                    txt_variedad.setText("");
-                    txt_precio.setText("");
-                    txt_stockCritico.setText("");
-                    limpiartabla();
-                    mostrardatostabla("");
+                if (txt_variedad.getText().equals("")){
+                    txt_variedad.setText(" ");
+                }
+                if (txt_stockCritico.getText().equals("")){
+                    txt_stockCritico.setText("0");
+                }
+                if (Integer.parseInt(txt_precio.getText()) == 0){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 }else{
-                    txt_codProducto.requestFocus();
+                    cod      = txt_codProducto.getText();
+                    nom      = txt_nomProducto.getText();
+                    variedad = txt_variedad.getText();
+                    precio   = txt_precio.getText();
+                    stockCritico = txt_stockCritico.getText();
+                    sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico)VALUES (?,?,?,?,?)";
+                    try {
+                        PreparedStatement pst=reg.prepareStatement(sql);
+                        pst.setString(1,cod);
+                        pst.setString(2,nom);
+                        pst.setString(3,variedad);
+                        pst.setString(4,precio);
+                        pst.setString(5, stockCritico);
+                        int n=pst.executeUpdate();
+                        if (n>0){
+                            JOptionPane.showMessageDialog(null,"Producto registrado satisfactoriamente.");
+                        }                
+                    }catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,"Error al agregar, codigo de producto duplicada.");
+                        sw = 1;
+                    }
+                    if (sw == 0){
+                        txt_nomProducto.setText("");
+                        txt_codProducto.setText("");
+                        txt_variedad.setText("");
+                        txt_precio.setText("");
+                        txt_stockCritico.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }else{
+                        txt_codProducto.requestFocus();
+                    }
                 }
-                
             }
         }                                     
     }//GEN-LAST:event_btn_agregarActionPerformed

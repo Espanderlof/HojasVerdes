@@ -316,31 +316,48 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        usuario dto = new usuario();
-        dto.setRut(Integer.parseInt(txt_rut.getText()));
-        dto.setNombre(txt_nombre.getText());
-        dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
-        dto.setContraseña(txt_contraseña.getText());
-        sql = "INSERT INTO usuario (rut, nombre, telefono, contraseña) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getRut());
-            pst.setString(2, dto.getNombre());
-            pst.setInt(3, dto.getTelefono());
-            pst.setString(4, dto.getContraseña());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Usuario registrado satisfactoriamente.");
+        if (txt_rut.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut usuario");
+        }else{
+            if (txt_nombre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre usuario");
+            }else{
+                if (txt_telefono.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar telefono usuario");
+                }else{
+                    if (txt_contraseña.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar contraseña usuario");
+                    }else{
+                        usuario dto = new usuario();
+                        dto.setRut(Integer.parseInt(txt_rut.getText()));
+                        dto.setNombre(txt_nombre.getText());
+                        dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
+                        dto.setContraseña(txt_contraseña.getText());
+                        sql = "INSERT INTO usuario (rut, nombre, telefono, contraseña) VALUES (?,?,?,?)";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.setInt(1, dto.getRut());
+                            pst.setString(2, dto.getNombre());
+                            pst.setInt(3, dto.getTelefono());
+                            pst.setString(4, dto.getContraseña());
+                            int n = pst.executeUpdate();
+                            if (n>0){
+                                JOptionPane.showMessageDialog(null,"Usuario registrado satisfactoriamente.");
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null,"Error al agregar, Usuario duplicado.");
+                        }
+                        txt_rut.setText("");
+                        txt_nombre.setText("");
+                        txt_telefono.setText("");
+                        txt_contraseña.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, Usuario duplicado.");
         }
-        txt_rut.setText("");
-        txt_nombre.setText("");
-        txt_telefono.setText("");
-        txt_contraseña.setText("");
-        limpiartabla();
-        mostrardatostabla("");
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -363,30 +380,46 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql = "Update usuario SET nombre='"+txt_nombre.getText()+"',telefono='"+txt_telefono.getText()+"',contraseña='"+txt_contraseña.getText()+"' WHERE rut="+txt_rut.getText()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_rut.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut usuario");
+        }else{
+            if (txt_nombre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre usuario");
+            }else{
+                if (txt_telefono.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar telefono usuario");
+                }else{
+                    if (txt_contraseña.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar contraseña usuario");
+                    }else{
+                        sql = "Update usuario SET nombre='"+txt_nombre.getText()+"',telefono='"+txt_telefono.getText()+"',contraseña='"+txt_contraseña.getText()+"' WHERE rut="+txt_rut.getText()+"";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                         btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        txt_rut.setEnabled(true);
+                        txt_rut.setEditable(true);
+                        txt_rut.requestFocus();
+                        txt_rut.setText("");
+                        txt_nombre.setText("");
+                        txt_telefono.setText("");
+                        txt_contraseña.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
+            }
         }
-         btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_rut.setEnabled(true);
-        txt_rut.setEditable(true);
-        txt_rut.requestFocus();
-        txt_rut.setText("");
-        txt_nombre.setText("");
-        txt_telefono.setText("");
-        txt_contraseña.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -396,6 +429,7 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_rut.setEnabled(true);
+        txt_rut.setEditable(true);
         txt_rut.requestFocus();
         txt_rut.setText("");
         txt_nombre.setText("");

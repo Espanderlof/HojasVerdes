@@ -362,37 +362,42 @@ public class mantenedorFactura extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        factura dto = new factura();
-        dto.setNro_factura(Integer.parseInt(txt_numerofactura.getText()));
-        dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
-        dto.setTotal_neto(Integer.parseInt(txt_totalneto.getText()));
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha(sqlfecha);
-        
-        
-        sql = "INSERT INTO factura (nro_factura, nro_nota, total_neto, fecha) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getNro_factura());
-            pst.setInt(2, dto.getNro_nota());
-            pst.setInt(3, dto.getTotal_neto());
-            pst.setDate(4, dto.getFecha());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+        if (txt_numerofactura.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar numero factura");
+        }else{
+            factura dto = new factura();
+            dto.setNro_factura(Integer.parseInt(txt_numerofactura.getText()));
+            dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
+            dto.setTotal_neto(Integer.parseInt(txt_totalneto.getText()));
+            Date fecha = cmb_date.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            dto.setFecha(sqlfecha);
+
+
+            sql = "INSERT INTO factura (nro_factura, nro_nota, total_neto, fecha) VALUES (?,?,?,?)";
+            try {
+                PreparedStatement pst = reg.prepareStatement(sql);
+                pst.setInt(1, dto.getNro_factura());
+                pst.setInt(2, dto.getNro_nota());
+                pst.setInt(3, dto.getTotal_neto());
+                pst.setDate(4, dto.getFecha());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar.");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar.");
+            txt_numerofactura.setText("");
+            txt_totalneto.setText("");
+            cmb_notapedido.removeAllItems();
+            cmb_date.setCalendar(c2);
+
+
+            limpiartabla();
+            mostrardatostabla("");
         }
-        txt_numerofactura.setText("");
-        txt_totalneto.setText("");
-        cmb_notapedido.removeAllItems();
-        cmb_date.setCalendar(c2);
         
-        
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void txt_numerofacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numerofacturaKeyTyped

@@ -277,35 +277,51 @@ public class mantenedorLote extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        String cod_produ=(cmb_codigoproducto.getSelectedItem().toString());
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        sql = "Update lote SET cod_producto='"+cod_produ+"',calibre='"+txt_calibre.getText()+"',fecha='"+sqlfecha+"',kilos_inicial='"+txt_kilosinicio.getText()+"',kilos_final='"+txt_kilosfinal.getText()+"' WHERE cod_lote="+txt_codigolote.getText()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_codigolote.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo lote");
+        }else{
+            if (txt_calibre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar calibre");
+            }else{
+                if (txt_kilosinicio.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar kilos inicio");
+                }else{
+                    if (txt_kilosfinal.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar kilos final");
+                    }else{
+                        String cod_produ=(cmb_codigoproducto.getSelectedItem().toString());
+                        Date fecha = cmb_date.getDate();
+                        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+                        sql = "Update lote SET cod_producto='"+cod_produ+"',calibre='"+txt_calibre.getText()+"',fecha='"+sqlfecha+"',kilos_inicial='"+txt_kilosinicio.getText()+"',kilos_final='"+txt_kilosfinal.getText()+"' WHERE cod_lote="+txt_codigolote.getText()+"";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                        btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        txt_codigolote.setEnabled(true);
+                        txt_codigolote.setEditable(true);
+                        txt_codigolote.requestFocus();
+                        txt_codigolote.setText("");
+                        txt_calibre.setText("");
+                        txt_kilosfinal.setText("");
+                        txt_kilosinicio.setText("");
+                        cmb_codigoproducto.removeAllItems();
+                        cmb_date.setCalendar(c2);
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_codigolote.setEnabled(true);
-        txt_codigolote.setEditable(true);
-        txt_codigolote.requestFocus();
-        txt_codigolote.setText("");
-        txt_calibre.setText("");
-        txt_kilosfinal.setText("");
-        txt_kilosinicio.setText("");
-        cmb_codigoproducto.removeAllItems();
-        cmb_date.setCalendar(c2);
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -315,6 +331,7 @@ public class mantenedorLote extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_codigolote.setEnabled(true);
+        txt_codigolote.setEditable(true);
         txt_codigolote.requestFocus();
         txt_codigolote.setText("");
         txt_calibre.setText("");
@@ -390,43 +407,60 @@ public class mantenedorLote extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        lote dto = new lote();
-        dto.setCod_lote(Integer.parseInt(txt_codigolote.getText()));
-        dto.setCod_producto(Integer.parseInt(cmb_codigoproducto.getSelectedItem().toString()));
-        dto.setCalibre(Integer.parseInt(txt_calibre.getText()));
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha(sqlfecha);
-        dto.setKilos_inicial(Integer.parseInt(txt_kilosinicio.getText()));
-        dto.setKilos_final(Integer.parseInt(txt_kilosfinal.getText()));
-        
-        
-        sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_lote());
-            pst.setInt(2, dto.getCod_producto());
-            pst.setInt(3, dto.getCalibre());
-            pst.setDate(4, dto.getFecha());
-            pst.setInt(5, dto.getKilos_inicial());
-            pst.setInt(6, dto.getKilos_final());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+        if (txt_codigolote.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo lote");
+        }else{
+            if (txt_calibre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar calibre");
+            }else{
+                if (txt_kilosinicio.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar kilos inicio");
+                }else{
+                    if (txt_kilosfinal.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar kilos final");
+                    }else{
+                        lote dto = new lote();
+                        dto.setCod_lote(Integer.parseInt(txt_codigolote.getText()));
+                        dto.setCod_producto(Integer.parseInt(cmb_codigoproducto.getSelectedItem().toString()));
+                        dto.setCalibre(Integer.parseInt(txt_calibre.getText()));
+                        Date fecha = cmb_date.getDate();
+                        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+                        dto.setFecha(sqlfecha);
+                        dto.setKilos_inicial(Integer.parseInt(txt_kilosinicio.getText()));
+                        dto.setKilos_final(Integer.parseInt(txt_kilosfinal.getText()));
+
+
+                        sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.setInt(1, dto.getCod_lote());
+                            pst.setInt(2, dto.getCod_producto());
+                            pst.setInt(3, dto.getCalibre());
+                            pst.setDate(4, dto.getFecha());
+                            pst.setInt(5, dto.getKilos_inicial());
+                            pst.setInt(6, dto.getKilos_final());
+                            int n = pst.executeUpdate();
+                            if (n>0){
+                                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null,"Error al agregar.");
+                        }
+                        txt_codigolote.setText("");
+                        txt_calibre.setText("");
+                        txt_kilosfinal.setText("");
+                        txt_kilosinicio.setText("");
+                        cmb_codigoproducto.removeAllItems();
+                        cmb_date.setCalendar(c2);
+
+
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar.");
         }
-        txt_codigolote.setText("");
-        txt_calibre.setText("");
-        txt_kilosfinal.setText("");
-        txt_kilosinicio.setText("");
-        cmb_codigoproducto.removeAllItems();
-        cmb_date.setCalendar(c2);
         
-        
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void txt_codigoloteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoloteKeyTyped

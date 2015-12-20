@@ -293,6 +293,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_codigonotapedido.setEnabled(true);
+        txt_codigonotapedido.setEditable(true);
         txt_codigonotapedido.requestFocus();
         txt_codigonotapedido.setText("");
         cmb_rutcliente.removeAllItems();
@@ -302,34 +303,39 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        notapedido dto = new notapedido();
-        dto.setNro_nota(Integer.parseInt(txt_codigonotapedido.getText()));
-        dto.setRut_cliente(Integer.parseInt(cmb_rutcliente.getSelectedItem().toString()));
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha(sqlfecha);
-        
-        
-        sql = "INSERT INTO nota_pedido (nro_nota, rut_cliente, fecha) VALUES (?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getNro_nota());
-            pst.setInt(2, dto.getRut_cliente());
-            pst.setDate(3, dto.getFecha());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+        if (txt_codigonotapedido.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo nota pedido");
+        }else{
+            notapedido dto = new notapedido();
+            dto.setNro_nota(Integer.parseInt(txt_codigonotapedido.getText()));
+            dto.setRut_cliente(Integer.parseInt(cmb_rutcliente.getSelectedItem().toString()));
+            Date fecha = cmb_date.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            dto.setFecha(sqlfecha);
+
+
+            sql = "INSERT INTO nota_pedido (nro_nota, rut_cliente, fecha) VALUES (?,?,?)";
+            try {
+                PreparedStatement pst = reg.prepareStatement(sql);
+                pst.setInt(1, dto.getNro_nota());
+                pst.setInt(2, dto.getRut_cliente());
+                pst.setDate(3, dto.getFecha());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Nota Pedido registrada satisfactoriamente.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar.");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar.");
+            txt_codigonotapedido.setText("");
+            cmb_rutcliente.removeAllItems();
+            cmb_date.setCalendar(c2);
+
+
+            limpiartabla();
+            mostrardatostabla("");
         }
-        txt_codigonotapedido.setText("");
-        cmb_rutcliente.removeAllItems();
-        cmb_date.setCalendar(c2);
         
-        
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed

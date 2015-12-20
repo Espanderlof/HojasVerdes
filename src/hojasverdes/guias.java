@@ -524,64 +524,68 @@ public class guias extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_agregarCampoActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        guiaEnvio dto = new guiaEnvio();
-        guiaRecepcion dto2 = new guiaRecepcion();
-        dto.setPatente(cmb_patente.getSelectedItem().toString());
-        dto.setCod_campo(getCodCampo());
-        dto.setRut_proveedor(getRutProveedor());
-        dto.setCod_envio(Integer.parseInt(txt_guia.getText()));
-        dto.setRut_chofer(getRutChofer());
-        Date fecha = cmb_fechaEnvio.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha(sqlfecha);
-        
-        dto2.setPatente(cmb_patente.getSelectedItem().toString());
-        dto2.setCod_campo(getCodCampo());
-        dto2.setRut_proveedor(getRutProveedor());
-        dto2.setCod_envio(Integer.parseInt(txt_guia.getText()));
-        dto2.setCod_recepcion(Integer.parseInt(txt_guia.getText()));
-        dto2.setRut_chofer(getRutChofer());
-        Date fecha2 = cmb_fechaRecepcion.getDate();
-        java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
-        dto2.setFecha_recepcion(sqlfecha2);
-        sql= "INSERT INTO guia_envio (cod_envio, cod_campo, rut_proveedor, rut_chofer, patente, fecha_envio)VALUES (?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_envio());
-            pst.setInt(2, dto.getCod_campo());
-            pst.setInt(3, dto.getRut_proveedor());
-            pst.setInt(4, dto.getRut_chofer());
-            pst.setString(5, dto.getPatente());
-            pst.setDate(6, dto.getFecha());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar,");
-            //sw = 1;
+        if (txt_guia.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo guia");
+        }else{
+            guiaEnvio dto = new guiaEnvio();
+            guiaRecepcion dto2 = new guiaRecepcion();
+            dto.setPatente(cmb_patente.getSelectedItem().toString());
+            dto.setCod_campo(getCodCampo());
+            dto.setRut_proveedor(getRutProveedor());
+            dto.setCod_envio(Integer.parseInt(txt_guia.getText()));
+            dto.setRut_chofer(getRutChofer());
+            Date fecha = cmb_fechaEnvio.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            dto.setFecha(sqlfecha);
+
+            dto2.setPatente(cmb_patente.getSelectedItem().toString());
+            dto2.setCod_campo(getCodCampo());
+            dto2.setRut_proveedor(getRutProveedor());
+            dto2.setCod_envio(Integer.parseInt(txt_guia.getText()));
+            dto2.setCod_recepcion(Integer.parseInt(txt_guia.getText()));
+            dto2.setRut_chofer(getRutChofer());
+            Date fecha2 = cmb_fechaRecepcion.getDate();
+            java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+            dto2.setFecha_recepcion(sqlfecha2);
+            sql= "INSERT INTO guia_envio (cod_envio, cod_campo, rut_proveedor, rut_chofer, patente, fecha_envio)VALUES (?,?,?,?,?,?)";
+            try {
+                PreparedStatement pst=reg.prepareStatement(sql);
+                pst.setInt(1, dto.getCod_envio());
+                pst.setInt(2, dto.getCod_campo());
+                pst.setInt(3, dto.getRut_proveedor());
+                pst.setInt(4, dto.getRut_chofer());
+                pst.setString(5, dto.getPatente());
+                pst.setDate(6, dto.getFecha());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+                }                
+            }catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar,");
+                //sw = 1;
+            }
+
+            sql= "INSERT INTO guia_recepcion (cod_recepcion, cod_campo, rut_proveedor, cod_envio, patente, rut_chofer, fecha_recepcion)VALUES (?,?,?,?,?,?,?)";
+            try {
+                PreparedStatement pst=reg.prepareStatement(sql);
+                pst.setInt(1, dto2.getCod_recepcion());
+                pst.setInt(2, dto2.getCod_campo());
+                pst.setInt(3, dto2.getRut_proveedor());
+                pst.setInt(4, dto2.getCod_envio());
+                pst.setString(5, dto2.getPatente());
+                pst.setInt(6, dto2.getRut_chofer());
+                pst.setDate(7, dto2.getFecha_recepcion());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+                }                
+            }catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar");
+                //sw = 1;
+            }  
+            limpiartabla();
+            mostrardatostabla(""); 
         }
-        
-        sql= "INSERT INTO guia_recepcion (cod_recepcion, cod_campo, rut_proveedor, cod_envio, patente, rut_chofer, fecha_recepcion)VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto2.getCod_recepcion());
-            pst.setInt(2, dto2.getCod_campo());
-            pst.setInt(3, dto2.getRut_proveedor());
-            pst.setInt(4, dto2.getCod_envio());
-            pst.setString(5, dto2.getPatente());
-            pst.setInt(6, dto2.getRut_chofer());
-            pst.setDate(7, dto2.getFecha_recepcion());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar");
-            //sw = 1;
-        }  
-        limpiartabla();
-        mostrardatostabla(""); 
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -688,6 +692,7 @@ public class guias extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
         }
+        txt_guia.setText("");
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void txt_guiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_guiaKeyTyped

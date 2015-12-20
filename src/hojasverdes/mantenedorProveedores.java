@@ -282,30 +282,46 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_rutproveedorActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql = "Update proveedor SET nom_proveedor='"+txt_nombreproveedor.getText()+"',direccion='"+txt_direccionproveedor.getText()+"',telefono='"+txt_telefonoproveedor.getText()+"' WHERE rut_proveedor="+txt_rutproveedor.getText()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_rutproveedor.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut proveedor");
+        }else{
+            if (txt_nombreproveedor.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre proveedor");
+            }else{
+                if (txt_direccionproveedor.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion proveedor");
+                }else{
+                    if (txt_telefonoproveedor.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar telefono proveedor");
+                    }else{
+                        sql = "Update proveedor SET nom_proveedor='"+txt_nombreproveedor.getText()+"',direccion='"+txt_direccionproveedor.getText()+"',telefono='"+txt_telefonoproveedor.getText()+"' WHERE rut_proveedor="+txt_rutproveedor.getText()+"";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                        btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        txt_rutproveedor.setEnabled(true);
+                        txt_rutproveedor.setEditable(true);
+                        txt_rutproveedor.requestFocus();
+                        txt_rutproveedor.setText("");
+                        txt_nombreproveedor.setText("");
+                        txt_telefonoproveedor.setText("");
+                        txt_direccionproveedor.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_rutproveedor.setEnabled(true);
-        txt_rutproveedor.setEditable(true);
-        txt_rutproveedor.requestFocus();
-        txt_rutproveedor.setText("");
-        txt_nombreproveedor.setText("");
-        txt_telefonoproveedor.setText("");
-        txt_direccionproveedor.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -315,8 +331,10 @@ public class mantenedorProveedores extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_rutproveedor.setEnabled(true);
-        txt_rutproveedor.requestFocus();
+        txt_rutproveedor.setEditable(true);
+        
         txt_rutproveedor.setText("");
+        txt_rutproveedor.requestFocus();
         txt_nombreproveedor.setText("");
         txt_telefonoproveedor.setText("");
         txt_direccionproveedor.setText("");
@@ -325,34 +343,51 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        proveedor dto = new proveedor();
-        dto.setRut_proveedor(Integer.parseInt(txt_rutproveedor.getText()));
-        dto.setNom_proveedor(txt_nombreproveedor.getText());
-        dto.setDireccion_proveedor(txt_direccionproveedor.getText());
-        dto.setTelefono_proveedor(Integer.parseInt(txt_telefonoproveedor.getText()));
-        
-        sql = "INSERT INTO proveedor (rut_proveedor, nom_proveedor, direccion, telefono) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getRut_proveedor());
-            pst.setString(2, dto.getNom_proveedor());
-            pst.setString(3, dto.getDireccion_proveedor());
-            pst.setInt(4, dto.getTelefono_proveedor());
-            
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Usuario registrado satisfactoriamente.");
+        if (txt_rutproveedor.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut proveedor");
+        }else{
+            if (txt_nombreproveedor.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre proveedor");
+            }else{
+                if (txt_direccionproveedor.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion proveedor");
+                }else{
+                    if (txt_telefonoproveedor.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar telefono proveedor");
+                    }else{
+                        proveedor dto = new proveedor();
+                        dto.setRut_proveedor(Integer.parseInt(txt_rutproveedor.getText()));
+                        dto.setNom_proveedor(txt_nombreproveedor.getText());
+                        dto.setDireccion_proveedor(txt_direccionproveedor.getText());
+                        dto.setTelefono_proveedor(Integer.parseInt(txt_telefonoproveedor.getText()));
+
+                        sql = "INSERT INTO proveedor (rut_proveedor, nom_proveedor, direccion, telefono) VALUES (?,?,?,?)";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.setInt(1, dto.getRut_proveedor());
+                            pst.setString(2, dto.getNom_proveedor());
+                            pst.setString(3, dto.getDireccion_proveedor());
+                            pst.setInt(4, dto.getTelefono_proveedor());
+
+                            int n = pst.executeUpdate();
+                            if (n>0){
+                                JOptionPane.showMessageDialog(null,"Usuario registrado satisfactoriamente.");
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null,"Error al agregar, Usuario duplicado.");
+                        }
+                        txt_rutproveedor.setText("");
+                        txt_nombreproveedor.setText("");
+                        txt_direccionproveedor.setText("");
+                        txt_telefonoproveedor.setText("");
+
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, Usuario duplicado.");
         }
-        txt_rutproveedor.setText("");
-        txt_nombreproveedor.setText("");
-        txt_direccionproveedor.setText("");
-        txt_telefonoproveedor.setText("");
         
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -424,7 +459,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_direccionproveedorKeyTyped
 
     private void txt_telefonoproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoproveedorKeyTyped
-        int limite = 10;
+        int limite = 9;
         if (txt_telefonoproveedor.getText().length() == limite) {
             evt.consume();
         }
