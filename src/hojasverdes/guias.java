@@ -141,10 +141,10 @@ public class guias extends javax.swing.JFrame {
         }
     }
     
-    void cmbCampo(int valor){
+    void cmbCampo(String valor){
         cmb_campo.removeAllItems();
         try{
-            String sql="select nom_campo from campo c, proveedor p where p.rut_proveedor ="+valor+" and c.rut_proveedor = p.rut_proveedor";
+            String sql="select nom_campo from campo c, proveedor p where p.rut_proveedor ='"+valor+"' and c.rut_proveedor = p.rut_proveedor";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
@@ -509,7 +509,7 @@ public class guias extends javax.swing.JFrame {
     if (cmb_proveedor.getSelectedItem() ==null){
             
         }else{
-            //cmb_campo(getRutProveedor());   
+            cmbCampo(getRutProveedor());   
         }
     }//GEN-LAST:event_cmb_proveedorActionPerformed
 
