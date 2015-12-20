@@ -135,7 +135,56 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
            modelo.removeRow(i);
            i-=1;
        }
-    } 
+    }
+    
+    public void verificarStock(){
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ="+getCodProducto()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+            if (stock >= Integer.parseInt(txt_cantidad.getText())){
+                //String []datos = new String[3];
+                int cantidad = Integer.parseInt(txt_cantidad.getText());
+                try{
+                    int codigo=0;
+                    int kilos=0;
+                    sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+"";
+                    rs = st.executeQuery(sql);
+                    while (rs.next()){
+                        codigo = Integer.parseInt(rs.getString(1));
+                        kilos= Integer.parseInt(rs.getString(2));
+                        if (sw == 0){
+                            try{
+                                if (kilos>= cantidad){
+                                    int aux = kilos - cantidad;
+                                    String sql2 = "update lote set kilos_final = "+aux+" where cod_lote = "+codigo+" ";
+                                    sw = 1;
+                                }else{
+                                    int aux = cantidad - kilos;
+                                    cantidad = cantidad - kilos;
+                                    int x = 0;
+                                    String sql2 = "update lote set kilos_final = "+x+" where cod_lote = "+codigo+"";
+                                }
+                            }catch(Exception e){
+                            }
+                        }
+                    }
+                }catch(Exception e){
+                    
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Stock de producto no es suficiente para realizar el pedido");
+            }
+        }catch(Exception e){
+            
+        }
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
