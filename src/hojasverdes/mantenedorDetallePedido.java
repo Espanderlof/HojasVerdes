@@ -156,7 +156,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                     int codigo=0;
                     int kilos=0;
                     JOptionPane.showMessageDialog(null,"3");
-                    sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+"";
+                    sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+" order by fecha";
                     rs = st.executeQuery(sql);
                     while (rs.next()){
                         codigo = Integer.parseInt(rs.getString(1));
