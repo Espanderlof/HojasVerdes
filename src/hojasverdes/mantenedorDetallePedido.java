@@ -331,38 +331,46 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-       String envio = cmb_notapedido.getSelectedItem().toString();
-        String nom = cmb_nombreproducto.getSelectedItem().toString();
-        String var = cmb_variedad.getSelectedItem().toString();
-        sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_codproducto.getText()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_cantidad.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar cantidad");
+        }else{
+            if (txt_precio.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar precio");
+            }else{
+                String envio = cmb_notapedido.getSelectedItem().toString();
+                String nom = cmb_nombreproducto.getSelectedItem().toString();
+                String var = cmb_variedad.getSelectedItem().toString();
+                sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_codproducto.getText()+"";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.executeUpdate();
+                    limpiartabla();
+                    mostrardatostabla("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
+                }
+                btn_aceptar.setVisible(false);
+                btn_cancelar.setVisible(false);
+                btn_eliminar.setVisible(true);
+                btn_modificar.setVisible(true);
+                btn_agregar.setVisible(true);
+                //cmb_guiaEnvio.setEditable(true);
+                cmb_notapedido.setEnabled(true);
+                //cmb_nomProducto.setEditable(true);
+                cmb_nombreproducto.setEnabled(true);
+                //cmb_variedad.setEditable(true);
+                cmb_variedad.setEnabled(true);
+                txt_cantidad.setText("");
+                txt_precio.setText("");
+                cmb_notapedido.removeAllItems();
+                cmb_nombreproducto.removeAllItems();
+                cmb_variedad.removeAllItems();
+
+                limpiartabla();
+                mostrardatostabla("");
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        //cmb_guiaEnvio.setEditable(true);
-        cmb_notapedido.setEnabled(true);
-        //cmb_nomProducto.setEditable(true);
-        cmb_nombreproducto.setEnabled(true);
-        //cmb_variedad.setEditable(true);
-        cmb_variedad.setEnabled(true);
-        txt_cantidad.setText("");
-        txt_precio.setText("");
-        cmb_notapedido.removeAllItems();
-        cmb_nombreproducto.removeAllItems();
-        cmb_variedad.removeAllItems();
-        
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -481,27 +489,36 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        detallePedido dto = new detallePedido();
-        dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
-        dto.setCod_producto(Integer.parseInt(getCodProducto()));
-        dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
-        dto.setPrecio(Integer.parseInt(txt_precio.getText()));
-        sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getNro_nota());
-            pst.setInt(2, dto.getCod_producto());
-            pst.setInt(3, dto.getCantidad());
-            pst.setInt(4, dto.getPrecio());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+        if (txt_cantidad.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar cantidad");
+        }else{
+            if (txt_precio.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar precio");
+            }else{
+                detallePedido dto = new detallePedido();
+                dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
+                dto.setCod_producto(Integer.parseInt(getCodProducto()));
+                dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+                dto.setPrecio(Integer.parseInt(txt_precio.getText()));
+                sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.setInt(1, dto.getNro_nota());
+                    pst.setInt(2, dto.getCod_producto());
+                    pst.setInt(3, dto.getCantidad());
+                    pst.setInt(4, dto.getPrecio());
+                    int n = pst.executeUpdate();
+                    if (n>0){
+                        JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                }
+                limpiartabla();
+                mostrardatostabla("");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
         }
-        limpiartabla();
-        mostrardatostabla("");
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void txt_cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadKeyTyped
