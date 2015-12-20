@@ -167,8 +167,8 @@ public class mantenedorProductos extends javax.swing.JFrame {
         });
         jPanel1.add(txt_variedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(117, 51, 153, -1));
 
-        jLabel4.setText("Precio:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, 20));
+        jLabel4.setText("Precio (Kg):");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, -1, 20));
 
         txt_precio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,7 +331,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     precio   = txt_precio.getText();
                     stockCritico = txt_stockCritico.getText();
                     stockActual = txt_stockactual.getText();
-                    sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico,stock_actual)VALUES (?,?,?,?,?,?)";
+                    sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico, stock_actual) VALUES (?,?,?,?,?,?)";
                     try {
                         PreparedStatement pst=reg.prepareStatement(sql);
                         pst.setString(1,cod);
@@ -339,13 +339,13 @@ public class mantenedorProductos extends javax.swing.JFrame {
                         pst.setString(3,variedad);
                         pst.setString(4,precio);
                         pst.setString(5, stockCritico);
-                        pst.setString(5, stockActual);
+                        pst.setString(6, stockActual);
                         int n=pst.executeUpdate();
                         if (n>0){
                             JOptionPane.showMessageDialog(null,"Producto registrado satisfactoriamente.");
                         }                
                     }catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null,"Error al agregar, codigo de producto duplicada.");
+                        JOptionPane.showMessageDialog(null,ex);
                         sw = 1;
                     }
                     if (sw == 0){
