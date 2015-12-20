@@ -144,46 +144,49 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             String sql="select stock_actual from producto where cod_producto ="+getCodProducto()+"";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            JOptionPane.showMessageDialog(null,"1");
             while (rs.next()){
                 stock = (Integer.parseInt(rs.getString(1)));
             }
             if (stock >= Integer.parseInt(txt_cantidad.getText())){
                 //String []datos = new String[3];
-                JOptionPane.showMessageDialog(null,"2");
                 int cantidad = Integer.parseInt(txt_cantidad.getText());
                 try{
                     int codigo=0;
                     int kilos=0;
-                    JOptionPane.showMessageDialog(null,"3");
-                    sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+" order by fecha";
+                    sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+" and kilos_final > 0 order by fecha";
                     rs = st.executeQuery(sql);
                     while (rs.next()){
-                        codigo = Integer.parseInt(rs.getString(1));
-                        kilos= Integer.parseInt(rs.getString(2));
-                        JOptionPane.showMessageDialog(null,"4");
+                        codigo = Integer.parseInt(rs.getString(1)); //300  //450
+                        kilos= Integer.parseInt(rs.getString(2)); //1
                         if (sw == 0){
-                            JOptionPane.showMessageDialog(null,"5");
                             try{
                                 if (kilos>= cantidad){
                                     int aux = kilos - cantidad;
-                                    JOptionPane.showMessageDialog(null,aux);
-                                    JOptionPane.showMessageDialog(null,codigo);
+                                    cantidad = kilos - cantidad;
                                     String sql2 = "update lote set kilos_final = "+aux+" where cod_lote = "+codigo+" ";
                                     sw = 1;
                                     PreparedStatement pst = reg.prepareStatement(sql2);
                                     pst.executeUpdate();
                                 }else{
-                                    int aux = cantidad - kilos;
-                                    cantidad = cantidad - kilos;
+                                    int aux = cantidad - kilos; // 450 - 300 // 150
+                                    cantidad = cantidad - kilos; //450 - 300 // 150
                                     int x = 0;
                                     String sql2 = "update lote set kilos_final = "+x+" where cod_lote = "+codigo+"";
-                                    rs = st.executeQuery(sql);
+                                    PreparedStatement pst = reg.prepareStatement(sql2);
+                                    pst.executeUpdate();
                                 }
                             }catch(Exception e){
                             }
                         }
                     }
+                try{
+                    int aux = stock - Integer.parseInt(txt_cantidad.getText());
+                    String sql3 = "update producto set stock_actual ="+aux+" where cod_producto = "+getCodProducto()+"";
+                    PreparedStatement pst = reg.prepareStatement(sql3);
+                    pst.executeUpdate();
+                }catch(Exception e){
+                    
+                }
                 }catch(Exception e){
                 }
             }else{
@@ -192,6 +195,25 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         }catch(Exception e){
         }
         
+    }
+    
+    public boolean verificarStock2(){
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ="+getCodProducto()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+        }catch(Exception e){
+        }
+        if (stock >= Integer.parseInt(txt_cantidad.getText())){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -557,28 +579,33 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             if (txt_precio.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Debe ingresar precio");
             }else{
-                detallePedido dto = new detallePedido();
-                dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
-                dto.setCod_producto(Integer.parseInt(getCodProducto()));
-                dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
-                dto.setPrecio(Integer.parseInt(txt_precio.getText()));
-                verificarStock();
-                sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
-                try {
-                    PreparedStatement pst = reg.prepareStatement(sql);
-                    pst.setInt(1, dto.getNro_nota());
-                    pst.setInt(2, dto.getCod_producto());
-                    pst.setInt(3, dto.getCantidad());
-                    pst.setInt(4, dto.getPrecio());
-                    int n = pst.executeUpdate();
-                    if (n>0){
-                        JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                if (!verificarStock2()){
+                    JOptionPane.showMessageDialog(null,"Stock de producto insuficiente para realizar el pedido.");
+                }else{
+                    detallePedido dto = new detallePedido();
+                    dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
+                    dto.setCod_producto(Integer.parseInt(getCodProducto()));
+                    dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+                    dto.setPrecio(Integer.parseInt(txt_precio.getText()));
+                    verificarStock();
+                    sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
+                    try {
+                        PreparedStatement pst = reg.prepareStatement(sql);
+                        pst.setInt(1, dto.getNro_nota());
+                        pst.setInt(2, dto.getCod_producto());
+                        pst.setInt(3, dto.getCantidad());
+                        pst.setInt(4, dto.getPrecio());
+                        int n = pst.executeUpdate();
+                        if (n>0){
+                            JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
                     }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                    limpiartabla();
+                    mostrardatostabla("");
                 }
-                limpiartabla();
-                mostrardatostabla("");
+                
             }
         }
         
