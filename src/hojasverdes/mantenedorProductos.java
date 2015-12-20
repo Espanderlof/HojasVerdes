@@ -29,7 +29,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
     private TableRowSorter trsfiltro;
     int columna=0;
     int sw = 0;
-    String cod,nom, variedad, precio, stockCritico;
+    String cod,nom, variedad, precio, stockCritico,stockActual;
     String sql;
     
     
@@ -44,6 +44,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
         modelo.addColumn("Variedad");
         modelo.addColumn("Precio");
         modelo.addColumn("Stock Critico");
+        modelo.addColumn("Stock Actual");
         
         tbl_producto.setModel(modelo);
         btn_aceptar.setVisible(false);
@@ -59,11 +60,11 @@ public class mantenedorProductos extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     
     void mostrardatostabla(String valor){    
-        String []datos=new String[5];
+        String []datos=new String[6];
         int cod;
         String sql="";
         if(valor.equals("")){
-            sql="SELECT cod_producto, nom_producto, variedad, precio, stock_critico FROM producto";
+            sql="SELECT cod_producto, nom_producto, variedad, precio, stock_critico,stock_actual FROM producto";
         }else{
             sql="SELECT * FROM producto WHERE cod_producto='"+valor+"'";
         }
@@ -78,6 +79,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);
                 datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
                 
                 modelo.addRow(datos);
             }
@@ -115,6 +117,8 @@ public class mantenedorProductos extends javax.swing.JFrame {
         txt_stockCritico = new javax.swing.JTextField();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        txt_stockactual = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_producto = new javax.swing.JTable();
 
@@ -205,7 +209,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
         });
         jPanel1.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 131, -1, -1));
 
-        jLabel5.setText("Stock critico:");
+        jLabel5.setText("Stock critico (Kg):");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 92, 93, -1));
 
         txt_stockCritico.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -232,6 +236,16 @@ public class mantenedorProductos extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 131, -1, -1));
+
+        txt_stockactual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_stockactualKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txt_stockactual, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 90, 160, -1));
+
+        jLabel6.setText("Stock Actual (Kg):");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 93, 20));
 
         tbl_producto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -305,6 +319,9 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 if (txt_stockCritico.getText().equals("")){
                     txt_stockCritico.setText("0");
                 }
+                if (txt_stockactual.getText().equals("")){
+                    txt_stockactual.setText("0");
+                }
                 if (Integer.parseInt(txt_precio.getText()) == 0){
                     JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 }else{
@@ -313,7 +330,8 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     variedad = txt_variedad.getText();
                     precio   = txt_precio.getText();
                     stockCritico = txt_stockCritico.getText();
-                    sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico)VALUES (?,?,?,?,?)";
+                    stockActual = txt_stockactual.getText();
+                    sql="INSERT INTO producto (cod_producto, nom_producto, variedad, precio, stock_critico,stock_actual)VALUES (?,?,?,?,?,?)";
                     try {
                         PreparedStatement pst=reg.prepareStatement(sql);
                         pst.setString(1,cod);
@@ -321,6 +339,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                         pst.setString(3,variedad);
                         pst.setString(4,precio);
                         pst.setString(5, stockCritico);
+                        pst.setString(5, stockActual);
                         int n=pst.executeUpdate();
                         if (n>0){
                             JOptionPane.showMessageDialog(null,"Producto registrado satisfactoriamente.");
@@ -335,6 +354,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                         txt_variedad.setText("");
                         txt_precio.setText("");
                         txt_stockCritico.setText("");
+                        txt_stockactual.setText("");
                         limpiartabla();
                         mostrardatostabla("");
                     }else{
@@ -353,6 +373,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
             txt_variedad.setText(tbl_producto.getValueAt(fila, 2).toString());
             txt_precio.setText(tbl_producto.getValueAt(fila, 3).toString());
             txt_stockCritico.setText(tbl_producto.getValueAt(fila, 4).toString());
+            txt_stockactual.setText(tbl_producto.getValueAt(fila, 5).toString());
             txt_codProducto.setEditable(false);
             txt_codProducto.setEnabled(false);
             btn_agregar.setVisible(false);
@@ -375,6 +396,9 @@ public class mantenedorProductos extends javax.swing.JFrame {
         if (txt_stockCritico.getText().equals("")){
             txt_stockCritico.setText("0");
         }
+        if (txt_stockactual.getText().equals("")){
+            txt_stockactual.setText("0");
+        }
         if (txt_nomProducto.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Debe ingresar nombre de producto.");
             txt_nomProducto.requestFocus();
@@ -383,7 +407,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 txt_precio.requestFocus();
             }else{
-                sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
+                sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"', stock_actual='"+txt_stockCritico.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
                 try {
                     PreparedStatement pst = reg.prepareStatement(sql);
                     pst.executeUpdate();
@@ -406,6 +430,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     txt_precio.setText("");
                     txt_stockCritico.setText("");
                     txt_codProducto.setText("");
+                    txt_stockactual.setText("");
                     limpiartabla();
                     mostrardatostabla("");
             }
@@ -449,6 +474,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     txt_variedad.setText("");
                     txt_precio.setText("");
                     txt_stockCritico.setText("");
+                    txt_stockactual.setText("");
                     txt_codProducto.setText("");        
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
@@ -515,13 +541,28 @@ public class mantenedorProductos extends javax.swing.JFrame {
         if (Character.isLetter(t)) {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
-        }  
+        } 
+        
+     
+     
     }//GEN-LAST:event_txt_stockCriticoKeyTyped
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
             con.cerrar();
     }//GEN-LAST:event_formWindowClosing
+
+    private void txt_stockactualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_stockactualKeyTyped
+        int limite = 10;
+        if (txt_stockactual.getText().length() == limite) {
+            evt.consume();
+        }
+        char t = evt.getKeyChar();
+        if (Character.isLetter(t)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txt_stockactualKeyTyped
 
     /**
      * @param args the command line arguments
@@ -569,6 +610,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_producto;
@@ -576,6 +618,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
     private javax.swing.JTextField txt_nomProducto;
     private javax.swing.JTextField txt_precio;
     private javax.swing.JTextField txt_stockCritico;
+    private javax.swing.JTextField txt_stockactual;
     private javax.swing.JTextField txt_variedad;
     // End of variables declaration//GEN-END:variables
 }
