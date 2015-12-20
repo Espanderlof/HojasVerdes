@@ -35,7 +35,7 @@ public class mantenedorLote extends javax.swing.JFrame {
     public mantenedorLote() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Mamtenedor Lote");
+        this.setTitle("Mantenedor Lote");
         tbl_lote.setAutoCreateRowSorter(true);
         modelo.addColumn("Codigo Lote");
         modelo.addColumn("Codigo Producto");

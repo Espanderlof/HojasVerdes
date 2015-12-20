@@ -476,10 +476,14 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_telefonoproveedorKeyTyped
 
     private void txt_rutproveedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutproveedorFocusLost
+        if (txt_rutproveedor.getText().equals("")){
+           
+        }else{
         if (!validar(txt_rutproveedor.getText())) {
             JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
             txt_rutproveedor.setText("");
             txt_rutproveedor.requestFocus();
+        }
         }
     }//GEN-LAST:event_txt_rutproveedorFocusLost
 

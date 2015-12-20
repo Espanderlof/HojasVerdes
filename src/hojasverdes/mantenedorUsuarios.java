@@ -41,6 +41,7 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
         modelo.addColumn("Telefono");
         modelo.addColumn("Contraseña");
         tbl_usuario.setModel(modelo);
+        txt_rut.setText("");
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         mostrardatostabla("");
@@ -468,10 +469,10 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void txt_rutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rutKeyTyped
-        int limite = 9;
-        if (txt_rut.getText().length() == limite) {
-            evt.consume();
-        }
+                int limite = 9;
+                if (txt_rut.getText().length() == limite) {
+                    evt.consume();
+                }    
     }//GEN-LAST:event_txt_rutKeyTyped
 
     private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
@@ -507,11 +508,15 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_contraseñaKeyTyped
 
     private void txt_rutFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutFocusLost
-        if (!validar(txt_rut.getText())) {
-                JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
-                txt_rut.setText("");
-                txt_rut.requestFocus();
+        if (txt_rut.getText().equals("")){
+            
+        }else{ 
+            if (!validar(txt_rut.getText())) {
+                    JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
+                    txt_rut.setText("");
+                    txt_rut.requestFocus();
             }
+        }
     }//GEN-LAST:event_txt_rutFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
