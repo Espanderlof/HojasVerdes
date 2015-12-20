@@ -91,6 +91,28 @@ public class mantenedorCliente extends javax.swing.JFrame {
        }
     }    
     
+    static public boolean validar(String rut) {
+        boolean validacion = false;
+        try {
+            rut = rut.toUpperCase();
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                validacion = true;
+            }
+
+        } catch (java.lang.NumberFormatException e) {
+        } catch (Exception e) {
+        }
+        return validacion;
+    }    
+    
     
 
     /**
@@ -151,6 +173,11 @@ public class mantenedorCliente extends javax.swing.JFrame {
         jLabel7.setText("Razon social:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 133, -1, -1));
 
+        txt_rutCliente.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_rutClienteFocusLost(evt);
+            }
+        });
         txt_rutCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_rutClienteKeyTyped(evt);
@@ -283,41 +310,69 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        cliente dto = new cliente();
-        dto.setRut_cliente(Integer.parseInt(txt_rutCliente.getText()));
-        dto.setNombre(txt_nombre.getText());
-        dto.setDireccion(txt_direccion.getText());
-        dto.setGiro(txt_giro.getText());
-        dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
-        dto.setContacto(txt_contacto.getText());
-        dto.setRazon_social(txt_razonSocial.getText());
-        sql= "INSERT INTO cliente (rut_cliente, nombre, direccion, giro, telefono, contacto, razon_social)VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getRut_cliente());
-            pst.setString(2, dto.getNombre());
-            pst.setString(3, dto.getDireccion());
-            pst.setString(4, dto.getGiro());
-            pst.setInt(5, dto.getTelefono());
-            pst.setString(6, dto.getContacto());
-            pst.setString(7, dto.getRazon_social());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Cliente registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, cliente duplicada.");
-            //sw = 1;
-        }       
-        txt_rutCliente.setText("");
-        txt_nombre.setText("");
-        txt_direccion.setText("");
-        txt_giro.setText("");
-        txt_telefono.setText("");
-        txt_contacto.setText("");
-        txt_razonSocial.setText("");
-        limpiartabla();
-        mostrardatostabla(""); 
+        if (txt_rutCliente.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut cliente");
+        }else{
+            if (txt_nombre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre cliente");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion cliente");
+                }else{
+                    if (txt_giro.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar giro");
+                    }else{
+                        if (txt_telefono.getText().equals("")){
+                            JOptionPane.showMessageDialog(null,"Debe ingresar telefono cliente");
+                        }else{
+                            if (txt_contacto.getText().equals("")){
+                                txt_contacto.setText(" ");
+                            }
+                            if (txt_razonSocial.getText().equals("")){
+                                txt_razonSocial.setText("");
+                            }
+                            cliente dto = new cliente();
+                            dto.setRut_cliente(Integer.parseInt(txt_rutCliente.getText()));
+                            dto.setNombre(txt_nombre.getText());
+                            dto.setDireccion(txt_direccion.getText());
+                            dto.setGiro(txt_giro.getText());
+                            dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
+                            JOptionPane.showMessageDialog(null, dto.getTelefono());
+                            dto.setContacto(txt_contacto.getText());
+                            dto.setRazon_social(txt_razonSocial.getText());
+                            sql= "INSERT INTO cliente (rut_cliente, nombre, direccion, giro, telefono, contacto, razon_social)VALUES (?,?,?,?,?,?,?)";
+                            try {
+                                PreparedStatement pst=reg.prepareStatement(sql);
+                                pst.setInt(1, dto.getRut_cliente());
+                                pst.setString(2, dto.getNombre());
+                                pst.setString(3, dto.getDireccion());
+                                pst.setString(4, dto.getGiro());
+                                pst.setInt(5, dto.getTelefono());
+                                pst.setString(6, dto.getContacto());
+                                pst.setString(7, dto.getRazon_social());
+                                int n = pst.executeUpdate();
+                                if (n>0){
+                                    JOptionPane.showMessageDialog(null,"Cliente registrado satisfactoriamente.");
+                                }                
+                            }catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al agregar, cliente duplicada.");
+                                //sw = 1;
+                            }       
+                            txt_rutCliente.setText("");
+                            txt_nombre.setText("");
+                            txt_direccion.setText("");
+                            txt_giro.setText("");
+                            txt_telefono.setText("");
+                            txt_contacto.setText("");
+                            txt_razonSocial.setText("");
+                            limpiartabla();
+                            mostrardatostabla(""); 
+                        }
+                    }
+                }
+            }
+        }
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -343,33 +398,59 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE cliente SET nombre='"+txt_nombre.getText()+"',direccion='"+txt_direccion.getText()+"', giro='"+txt_giro.getText()+"', telefono="+Integer.parseInt(txt_telefono.getText())+", contacto='"+txt_contacto.getText()+"', razon_social='"+txt_razonSocial.getText()+"'  WHERE rut_cliente="+txt_rutCliente.getText()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_rutCliente.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut cliente");
+        }else{
+            if (txt_nombre.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre cliente");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion cliente");
+                }else{
+                    if (txt_giro.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar giro");
+                    }else{
+                        if (txt_telefono.getText().equals("")){
+                            JOptionPane.showMessageDialog(null,"Debe ingresar telefono cliente");
+                        }else{
+                            if (txt_contacto.getText().equals("")){
+                                txt_contacto.setText(" ");
+                            }
+                            if (txt_razonSocial.getText().equals("")){
+                                txt_razonSocial.setText("");
+                            }
+                            sql="UPDATE cliente SET nombre='"+txt_nombre.getText()+"',direccion='"+txt_direccion.getText()+"', giro='"+txt_giro.getText()+"', telefono="+Integer.parseInt(txt_telefono.getText())+", contacto='"+txt_contacto.getText()+"', razon_social='"+txt_razonSocial.getText()+"'  WHERE rut_cliente="+txt_rutCliente.getText()+"";
+                            try {
+                                PreparedStatement pst = reg.prepareStatement(sql);
+                                pst.executeUpdate();
+                                limpiartabla();
+                                mostrardatostabla("");
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                JOptionPane.showMessageDialog(null,e.getMessage());
+                            }
+                            btn_aceptar.setVisible(false);
+                            btn_cancelar.setVisible(false);
+                            btn_eliminar.setVisible(true);
+                            btn_modificar.setVisible(true);
+                            btn_agregar.setVisible(true);
+                            txt_rutCliente.setEnabled(true);
+                            txt_rutCliente.setEditable(true);
+                            txt_rutCliente.requestFocus();
+                            txt_rutCliente.setText("");
+                            txt_nombre.setText("");
+                            txt_direccion.setText("");
+                            txt_giro.setText("");
+                            txt_telefono.setText("");
+                            txt_contacto.setText("");
+                            txt_razonSocial.setText("");
+                            limpiartabla();
+                            mostrardatostabla("");
+                        }
+                    }
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_rutCliente.setEnabled(true);
-        txt_rutCliente.setEditable(true);
-        txt_rutCliente.requestFocus();
-        txt_rutCliente.setText("");
-        txt_nombre.setText("");
-        txt_direccion.setText("");
-        txt_giro.setText("");
-        txt_telefono.setText("");
-        txt_contacto.setText("");
-        txt_razonSocial.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -455,7 +536,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_giroKeyTyped
 
     private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
-        int limite = 10;
+        int limite = 9;
         if (txt_telefono.getText().length() == limite) {
             evt.consume();
         }
@@ -490,6 +571,14 @@ public class mantenedorCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese solo letras");
         }           
     }//GEN-LAST:event_txt_razonSocialKeyTyped
+
+    private void txt_rutClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutClienteFocusLost
+        if (!validar(txt_rutCliente.getText())) {
+                JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
+                txt_rutCliente.setText("");
+                txt_rutCliente.requestFocus();
+            }
+    }//GEN-LAST:event_txt_rutClienteFocusLost
 
     /**
      * @param args the command line arguments

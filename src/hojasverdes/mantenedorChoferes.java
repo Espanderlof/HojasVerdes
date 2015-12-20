@@ -77,6 +77,29 @@ public class mantenedorChoferes extends javax.swing.JFrame {
        }
     }
     
+    static public boolean validar(String rut) {
+        boolean validacion = false;
+        try {
+            rut = rut.toUpperCase();
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                validacion = true;
+            }
+
+        } catch (java.lang.NumberFormatException e) {
+        } catch (Exception e) {
+        }
+        return validacion;
+    }
+        
+    
     
 
     @SuppressWarnings("unchecked")
@@ -120,6 +143,11 @@ public class mantenedorChoferes extends javax.swing.JFrame {
         txt_rutChofer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_rutChoferActionPerformed(evt);
+            }
+        });
+        txt_rutChofer.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_rutChoferFocusLost(evt);
             }
         });
         txt_rutChofer.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -237,28 +265,45 @@ public class mantenedorChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_rutChoferActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        chofer dto = new chofer();
-        dto.setRut_chofer(Integer.parseInt(txt_rutChofer.getText()));
-        dto.setNom_chofer(txt_nomChofer.getText());
-        dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
-        dto.setDireccion(txt_direccion.getText());
-        sql= "INSERT INTO chofer (rut_chofer, nom_chofer, telefono, direccion)VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getRut_chofer());
-            pst.setString(2, dto.getNom_chofer());
-            pst.setInt(3, dto.getTelefono());
-            pst.setString(4, dto.getDireccion());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Chofer registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, rut duplicada.");
-            //sw = 1;
-        }       
-        limpiartabla();
-        mostrardatostabla(""); 
+        if (txt_rutChofer.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut chofer");
+        }else{
+            if (txt_nomChofer.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre chofer");
+            }else{
+                if (txt_telefono.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar telefono chofer");
+                }else{
+                    if (txt_direccion.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar direccion chofer");
+                    }else{
+                        chofer dto = new chofer();
+                        dto.setRut_chofer(Integer.parseInt(txt_rutChofer.getText()));
+                        dto.setNom_chofer(txt_nomChofer.getText());
+                        dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
+                        dto.setDireccion(txt_direccion.getText());
+                        sql= "INSERT INTO chofer (rut_chofer, nom_chofer, telefono, direccion)VALUES (?,?,?,?)";
+                        try {
+                            PreparedStatement pst=reg.prepareStatement(sql);
+                            pst.setInt(1, dto.getRut_chofer());
+                            pst.setString(2, dto.getNom_chofer());
+                            pst.setInt(3, dto.getTelefono());
+                            pst.setString(4, dto.getDireccion());
+                            int n = pst.executeUpdate();
+                            if (n>0){
+                                JOptionPane.showMessageDialog(null,"Chofer registrado satisfactoriamente.");
+                            }                
+                        }catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null,"Error al agregar, rut duplicada.");
+                            //sw = 1;
+                        }       
+                        limpiartabla();
+                        mostrardatostabla(""); 
+                    }
+                }
+            }
+        }
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -281,30 +326,47 @@ public class mantenedorChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE chofer SET nom_chofer='"+txt_nomChofer.getText()+"',telefono= "+Integer.parseInt(txt_telefono.getText())+", direccion='"+txt_direccion.getText()+"'  WHERE rut_chofer="+Integer.parseInt(txt_rutChofer.getText())+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+         if (txt_rutChofer.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar rut chofer");
+        }else{
+            if (txt_nomChofer.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre chofer");
+            }else{
+                if (txt_telefono.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar telefono chofer");
+                }else{
+                    if (txt_direccion.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar direccion chofer");
+                    }else{
+                        sql="UPDATE chofer SET nom_chofer='"+txt_nomChofer.getText()+"',telefono= "+Integer.parseInt(txt_telefono.getText())+", direccion='"+txt_direccion.getText()+"'  WHERE rut_chofer="+Integer.parseInt(txt_rutChofer.getText())+"";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                        btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        txt_rutChofer.setEnabled(true);
+                        txt_rutChofer.setEditable(true);
+                        txt_rutChofer.requestFocus();
+                        txt_rutChofer.setText("");
+                        txt_nomChofer.setText("");
+                        txt_telefono.setText("");
+                        txt_direccion.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_rutChofer.setEnabled(true);
-        txt_rutChofer.setEditable(true);
-        txt_rutChofer.requestFocus();
-        txt_rutChofer.setText("");
-        txt_nomChofer.setText("");
-        txt_telefono.setText("");
-        txt_direccion.setText("");
-        limpiartabla();
-        mostrardatostabla("");
+         
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -346,7 +408,7 @@ public class mantenedorChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void txt_rutChoferKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rutChoferKeyTyped
-        int limite = 8;
+        int limite = 9;
         if (txt_rutChofer.getText().length() == limite) {
             evt.consume();
         }
@@ -388,6 +450,14 @@ public class mantenedorChoferes extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txt_direccionKeyTyped
+
+    private void txt_rutChoferFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutChoferFocusLost
+            if (!validar(txt_rutChofer.getText())) {
+                JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
+                txt_rutChofer.setText("");
+                txt_rutChofer.requestFocus();
+            }
+    }//GEN-LAST:event_txt_rutChoferFocusLost
 
     /**
      * @param args the command line arguments

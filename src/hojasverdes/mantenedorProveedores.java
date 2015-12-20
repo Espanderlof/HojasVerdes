@@ -77,6 +77,27 @@ public class mantenedorProveedores extends javax.swing.JFrame {
        }
     }  
     
+    static public boolean validar(String rut) {
+        boolean validacion = false;
+        try {
+            rut = rut.toUpperCase();
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                validacion = true;
+            }
+
+        } catch (java.lang.NumberFormatException e) {
+        } catch (Exception e) {
+        }
+        return validacion;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -139,6 +160,11 @@ public class mantenedorProveedores extends javax.swing.JFrame {
         txt_rutproveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_rutproveedorActionPerformed(evt);
+            }
+        });
+        txt_rutproveedor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_rutproveedorFocusLost(evt);
             }
         });
         txt_rutproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -408,6 +434,14 @@ public class mantenedorProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
         }
     }//GEN-LAST:event_txt_telefonoproveedorKeyTyped
+
+    private void txt_rutproveedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutproveedorFocusLost
+        if (!validar(txt_rutproveedor.getText())) {
+            JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
+            txt_rutproveedor.setText("");
+            txt_rutproveedor.requestFocus();
+        }
+    }//GEN-LAST:event_txt_rutproveedorFocusLost
 
     /**
      * @param args the command line arguments

@@ -79,6 +79,27 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
        }
     }  
         
+    static public boolean validar(String rut) {
+        boolean validacion = false;
+        try {
+            rut = rut.toUpperCase();
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) {
+                validacion = true;
+            }
+
+        } catch (java.lang.NumberFormatException e) {
+        } catch (Exception e) {
+        }
+        return validacion;
+    }    
         
 
     /**
@@ -120,6 +141,11 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
 
         jLabel4.setText("Contraseña:");
 
+        txt_rut.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_rutFocusLost(evt);
+            }
+        });
         txt_rut.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_rutKeyTyped(evt);
@@ -440,6 +466,14 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txt_contraseñaKeyTyped
+
+    private void txt_rutFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutFocusLost
+        if (!validar(txt_rut.getText())) {
+                JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
+                txt_rut.setText("");
+                txt_rut.requestFocus();
+            }
+    }//GEN-LAST:event_txt_rutFocusLost
 
     /**
      * @param args the command line arguments

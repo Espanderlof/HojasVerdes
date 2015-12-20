@@ -574,27 +574,36 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_nomProductoActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        detalleEnvio dto = new detalleEnvio();
-        dto.setCod_envio(Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString()));
-        dto.setCod_producto(getCodProducto());
-        dto.setKilogramos(Integer.parseInt(txt_kilogramos.getText()));
-        dto.setN_bins(Integer.parseInt(txt_numBins.getText()));
-        sql = "INSERT INTO detalle_envio (cod_envio, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_envio());
-            pst.setInt(2, dto.getCod_producto());
-            pst.setInt(3, dto.getKilogramos());
-            pst.setInt(4, dto.getN_bins());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+        if (txt_kilogramos.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar kilogramos");
+        }else{
+            if (txt_numBins.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar numero de bins");
+            }else{
+                detalleEnvio dto = new detalleEnvio();
+                dto.setCod_envio(Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString()));
+                dto.setCod_producto(getCodProducto());
+                dto.setKilogramos(Integer.parseInt(txt_kilogramos.getText()));
+                dto.setN_bins(Integer.parseInt(txt_numBins.getText()));
+                sql = "INSERT INTO detalle_envio (cod_envio, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.setInt(1, dto.getCod_envio());
+                    pst.setInt(2, dto.getCod_producto());
+                    pst.setInt(3, dto.getKilogramos());
+                    pst.setInt(4, dto.getN_bins());
+                    int n = pst.executeUpdate();
+                    if (n>0){
+                        JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                }
+                limpiartablaEnvio();
+                mostrardatostablaEnvio("");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
         }
-        limpiartablaEnvio();
-        mostrardatostablaEnvio("");
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -625,42 +634,51 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        String envio = cmb_guiaEnvio.getSelectedItem().toString();
-        String nom = cmb_nomProducto.getSelectedItem().toString();
-        String var = cmb_variedad.getSelectedItem().toString();
-        sql="UPDATE detalle_envio SET kilogramos="+Integer.parseInt(txt_kilogramos.getText())+",num_bins= "+Integer.parseInt(txt_numBins.getText())+"  WHERE cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartablaEnvio();
-            mostrardatostablaEnvio("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_kilogramos.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar kilogramos");
+        }else{
+            if (txt_numBins.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar numero de bins");
+            }else{
+                String envio = cmb_guiaEnvio.getSelectedItem().toString();
+                String nom = cmb_nomProducto.getSelectedItem().toString();
+                String var = cmb_variedad.getSelectedItem().toString();
+                sql="UPDATE detalle_envio SET kilogramos="+Integer.parseInt(txt_kilogramos.getText())+",num_bins= "+Integer.parseInt(txt_numBins.getText())+"  WHERE cod_envio="+Integer.parseInt(cmb_guiaEnvio.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+"";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.executeUpdate();
+                    limpiartablaEnvio();
+                    mostrardatostablaEnvio("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
+                }
+                btn_aceptar.setVisible(false);
+                btn_cancelar.setVisible(false);
+                btn_eliminar.setVisible(true);
+                btn_modificar.setVisible(true);
+                btn_agregar.setVisible(true);
+                //cmb_guiaEnvio.setEditable(true);
+                cmb_guiaEnvio.setEnabled(true);
+                //cmb_nomProducto.setEditable(true);
+                cmb_nomProducto.setEnabled(true);
+                //cmb_variedad.setEditable(true);
+                cmb_variedad.setEnabled(true);
+                txt_kilogramos.setText("");
+                txt_numBins.setText("");
+                cmb_guiaEnvio.removeAllItems();
+                cmb_nomProducto.removeAllItems();
+                cmb_variedad.removeAllItems();
+                cmb_guiaEnvio("");
+                cmb_productoVariedad("");
+                cmb_guiaEnvio.setSelectedItem(envio);
+                cmb_nomProducto.setSelectedItem(nom);
+                cmb_variedad.setSelectedItem(var);
+                limpiartablaEnvio();
+                mostrardatostablaEnvio("");
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        //cmb_guiaEnvio.setEditable(true);
-        cmb_guiaEnvio.setEnabled(true);
-        //cmb_nomProducto.setEditable(true);
-        cmb_nomProducto.setEnabled(true);
-        //cmb_variedad.setEditable(true);
-        cmb_variedad.setEnabled(true);
-        txt_kilogramos.setText("");
-        txt_numBins.setText("");
-        cmb_guiaEnvio.removeAllItems();
-        cmb_nomProducto.removeAllItems();
-        cmb_variedad.removeAllItems();
-        cmb_guiaEnvio("");
-        cmb_productoVariedad("");
-        cmb_guiaEnvio.setSelectedItem(envio);
-        cmb_nomProducto.setSelectedItem(nom);
-        cmb_variedad.setSelectedItem(var);
-        limpiartablaEnvio();
-        mostrardatostablaEnvio("");
+        
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -734,27 +752,36 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_nomProducto2ActionPerformed
 
     private void btn_agregar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar2ActionPerformed
-        detalleRecepcion dto = new detalleRecepcion();
-        dto.setCod_recepcion(Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString()));
-        dto.setCod_producto(getCodProducto2());
-        dto.setKilogramos(Integer.parseInt(txt_kilogramos2.getText()));
-        dto.setNum_bins(Integer.parseInt(txt_numBins2.getText()));
-        sql = "INSERT INTO detalle_recepcion (cod_recepcion, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_recepcion());
-            pst.setInt(2, dto.getCod_producto());
-            pst.setInt(3, dto.getKilogramos());
-            pst.setInt(4, dto.getNum_bins());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Detalle recepcion registrado satisfactoriamente.");
+        if (txt_kilogramos2.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar kilogramos");
+        }else{
+            if (txt_numBins2.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar numero de bins");
+            }else{
+                detalleRecepcion dto = new detalleRecepcion();
+                dto.setCod_recepcion(Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString()));
+                dto.setCod_producto(getCodProducto2());
+                dto.setKilogramos(Integer.parseInt(txt_kilogramos2.getText()));
+                dto.setNum_bins(Integer.parseInt(txt_numBins2.getText()));
+                sql = "INSERT INTO detalle_recepcion (cod_recepcion, cod_producto, kilogramos, num_bins) VALUES (?,?,?,?)";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.setInt(1, dto.getCod_recepcion());
+                    pst.setInt(2, dto.getCod_producto());
+                    pst.setInt(3, dto.getKilogramos());
+                    pst.setInt(4, dto.getNum_bins());
+                    int n = pst.executeUpdate();
+                    if (n>0){
+                        JOptionPane.showMessageDialog(null,"Detalle recepcion registrado satisfactoriamente.");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                }
+                limpiartablaRecepcion();
+                mostrardatostablaRecepcion("");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
         }
-        limpiartablaRecepcion();
-        mostrardatostablaRecepcion("");
+        
     }//GEN-LAST:event_btn_agregar2ActionPerformed
 
     private void btn_modificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificar2ActionPerformed
@@ -813,42 +840,51 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelar2ActionPerformed
 
     private void btn_aceptar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptar2ActionPerformed
-        String rec = cmb_guiaRecepcion.getSelectedItem().toString();
-        String nom = cmb_nomProducto2.getSelectedItem().toString();
-        String var = cmb_variedad2.getSelectedItem().toString();
-        sql="UPDATE detalle_recepcion SET kilogramos="+Integer.parseInt(txt_kilogramos2.getText())+",num_bins= "+Integer.parseInt(txt_numBins2.getText())+"  WHERE cod_recepcion="+Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString())+" and cod_producto="+getCodProducto2()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartablaRecepcion();
-            mostrardatostablaRecepcion("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_kilogramos2.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar kilogramos");
+        }else{
+            if (txt_numBins2.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar numero de bins");
+            }else{
+                String rec = cmb_guiaRecepcion.getSelectedItem().toString();
+                String nom = cmb_nomProducto2.getSelectedItem().toString();
+                String var = cmb_variedad2.getSelectedItem().toString();
+                sql="UPDATE detalle_recepcion SET kilogramos="+Integer.parseInt(txt_kilogramos2.getText())+",num_bins= "+Integer.parseInt(txt_numBins2.getText())+"  WHERE cod_recepcion="+Integer.parseInt(cmb_guiaRecepcion.getSelectedItem().toString())+" and cod_producto="+getCodProducto2()+"";
+                try {
+                    PreparedStatement pst = reg.prepareStatement(sql);
+                    pst.executeUpdate();
+                    limpiartablaRecepcion();
+                    mostrardatostablaRecepcion("");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
+                }
+                btn_aceptar2.setVisible(false);
+                btn_cancelar2.setVisible(false);
+                btn_eliminar2.setVisible(true);
+                btn_modificar2.setVisible(true);
+                btn_agregar2.setVisible(true);
+                //cmb_guiaEnvio.setEditable(true);
+                cmb_guiaRecepcion.setEnabled(true);
+                //cmb_nomProducto.setEditable(true);
+                cmb_nomProducto2.setEnabled(true);
+                //cmb_variedad.setEditable(true);
+                cmb_variedad2.setEnabled(true);
+                txt_kilogramos2.setText("");
+                txt_numBins2.setText("");
+                cmb_guiaRecepcion.removeAllItems();
+                cmb_nomProducto2.removeAllItems();
+                cmb_variedad2.removeAllItems();
+                cmb_guiaRecepcion("");
+                cmb_productoVariedad2("");
+                cmb_guiaRecepcion.setSelectedItem(rec);
+                cmb_nomProducto2.setSelectedItem(nom);
+                cmb_variedad2.setSelectedItem(var);
+                limpiartablaRecepcion();
+                mostrardatostablaRecepcion("");
+            }
         }
-        btn_aceptar2.setVisible(false);
-        btn_cancelar2.setVisible(false);
-        btn_eliminar2.setVisible(true);
-        btn_modificar2.setVisible(true);
-        btn_agregar2.setVisible(true);
-        //cmb_guiaEnvio.setEditable(true);
-        cmb_guiaRecepcion.setEnabled(true);
-        //cmb_nomProducto.setEditable(true);
-        cmb_nomProducto2.setEnabled(true);
-        //cmb_variedad.setEditable(true);
-        cmb_variedad2.setEnabled(true);
-        txt_kilogramos2.setText("");
-        txt_numBins2.setText("");
-        cmb_guiaRecepcion.removeAllItems();
-        cmb_nomProducto2.removeAllItems();
-        cmb_variedad2.removeAllItems();
-        cmb_guiaRecepcion("");
-        cmb_productoVariedad2("");
-        cmb_guiaRecepcion.setSelectedItem(rec);
-        cmb_nomProducto2.setSelectedItem(nom);
-        cmb_variedad2.setSelectedItem(var);
-        limpiartablaRecepcion();
-        mostrardatostablaRecepcion("");
+        
     }//GEN-LAST:event_btn_aceptar2ActionPerformed
 
     private void btn_eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar2ActionPerformed

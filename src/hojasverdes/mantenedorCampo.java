@@ -271,28 +271,41 @@ public class mantenedorCampo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        campo dto = new campo();
-        dto.setCod_campo(Integer.parseInt(txt_codCampo.getText()));
-        dto.setRut_proveedor(getRutProveedor());
-        dto.setNom_campo(txt_nomCampo.getText());
-        dto.setDireccion(txt_direccion.getText());
-        sql= "INSERT INTO campo (cod_campo, rut_proveedor, nom_campo, direccion)VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_campo());
-            pst.setInt(2, dto.getRut_proveedor());
-            pst.setString(3, dto.getNom_campo());
-            pst.setString(4, dto.getDireccion());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Campo registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, campo duplicada.");
-            //sw = 1;
-        }       
-        limpiartabla();
-        mostrardatostabla("");
+        if (txt_codCampo.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo campo");
+        }else{
+            if (txt_nomCampo.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre campo");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion");
+                }else{
+                    campo dto = new campo();
+                    dto.setCod_campo(Integer.parseInt(txt_codCampo.getText()));
+                    dto.setRut_proveedor(getRutProveedor());
+                    dto.setNom_campo(txt_nomCampo.getText());
+                    dto.setDireccion(txt_direccion.getText());
+                    sql= "INSERT INTO campo (cod_campo, rut_proveedor, nom_campo, direccion)VALUES (?,?,?,?)";
+                    try {
+                        PreparedStatement pst=reg.prepareStatement(sql);
+                        pst.setInt(1, dto.getCod_campo());
+                        pst.setInt(2, dto.getRut_proveedor());
+                        pst.setString(3, dto.getNom_campo());
+                        pst.setString(4, dto.getDireccion());
+                        int n = pst.executeUpdate();
+                        if (n>0){
+                            JOptionPane.showMessageDialog(null,"Campo registrado satisfactoriamente.");
+                        }                
+                    }catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,"Error al agregar, campo duplicada.");
+                        //sw = 1;
+                    }       
+                    limpiartabla();
+                    mostrardatostabla("");
+                }
+            }
+        }
+
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -316,30 +329,42 @@ public class mantenedorCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = "+getRutProveedor()+"  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_codCampo.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo campo");
+        }else{
+            if (txt_nomCampo.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre campo");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion");
+                }else{
+                    sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = "+getRutProveedor()+"  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ";
+                    try {
+                        PreparedStatement pst = reg.prepareStatement(sql);
+                        pst.executeUpdate();
+                        limpiartabla();
+                        mostrardatostabla("");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        JOptionPane.showMessageDialog(null,e.getMessage());
+                    }
+                    btn_aceptar.setVisible(false);
+                    btn_cancelar.setVisible(false);
+                    btn_eliminar.setVisible(true);
+                    btn_modificar.setVisible(true);
+                    btn_agregar.setVisible(true);
+                    txt_codCampo.setEnabled(true);
+                    txt_codCampo.setEditable(true);
+                    txt_codCampo.requestFocus();
+                    cmb_proveedor.setEnabled(true);
+                    txt_codCampo.setText("");
+                    txt_nomCampo.setText("");
+                    txt_direccion.setText("");
+                    limpiartabla();
+                    mostrardatostabla("");
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_codCampo.setEnabled(true);
-        txt_codCampo.setEditable(true);
-        txt_codCampo.requestFocus();
-        cmb_proveedor.setEnabled(true);
-        txt_codCampo.setText("");
-        txt_nomCampo.setText("");
-        txt_direccion.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -350,6 +375,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_agregar.setVisible(true);
         txt_codCampo.setEnabled(true);
         cmb_proveedor.setEnabled(true);
+        txt_codCampo.setEditable(true);
         txt_codCampo.requestFocus();
         txt_codCampo.setText("");
         txt_nomCampo.setText("");

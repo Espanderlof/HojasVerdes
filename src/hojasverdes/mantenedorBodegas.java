@@ -83,6 +83,21 @@ public class mantenedorBodegas extends javax.swing.JFrame {
            i-=1;
        }
     }
+    
+    public int getCodBodega(){
+        int codigo=0;
+        try{
+            String sql="select distinct(cod_bodega) from lote_bodega where cod_bodega ="+Integer.parseInt(txt_codBodega.getText())+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                codigo = Integer.parseInt(rs.getString(1));
+            }   
+        }catch(Exception e){
+            
+        }
+        return codigo;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -240,29 +255,42 @@ public class mantenedorBodegas extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nomBodegaActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        bodega dto = new bodega();
-        dto.setCod_bodega(Integer.parseInt(txt_codBodega.getText()));
-        dto.setNom_bodega(txt_nomBodega.getText());
-        dto.setDireccion(txt_direccion.getText());
-        sql= "INSERT INTO bodega (cod_bodega, nom_bodega, direccion)VALUES (?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setInt(1, dto.getCod_bodega());
-            pst.setString(2, dto.getNom_bodega());
-            pst.setString(3, dto.getDireccion());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Bodega registrada satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, codigo de bodega duplicada.");
-            //sw = 1;
+        if (txt_codBodega.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo bodega");
+        }else{
+            if (txt_nomBodega.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre de bodega.");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion de bodega");
+                }else{
+                    bodega dto = new bodega();
+                    dto.setCod_bodega(Integer.parseInt(txt_codBodega.getText()));
+                    dto.setNom_bodega(txt_nomBodega.getText());
+                    dto.setDireccion(txt_direccion.getText());
+                    sql= "INSERT INTO bodega (cod_bodega, nom_bodega, direccion)VALUES (?,?,?)";
+                    try {
+                        PreparedStatement pst=reg.prepareStatement(sql);
+                        pst.setInt(1, dto.getCod_bodega());
+                        pst.setString(2, dto.getNom_bodega());
+                        pst.setString(3, dto.getDireccion());
+                        int n = pst.executeUpdate();
+                        if (n>0){
+                            JOptionPane.showMessageDialog(null,"Bodega registrada satisfactoriamente.");
+                        }                
+                    }catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,"Error al agregar, codigo de bodega duplicada.");
+                        //sw = 1;
+                    }
+                    txt_codBodega.setText("");
+                    txt_nomBodega.setText("");
+                    txt_direccion.setText("");
+                    limpiartabla();
+                    mostrardatostabla("");  
+                }
+            }
         }
-        txt_codBodega.setText("");
-        txt_nomBodega.setText("");
-        txt_direccion.setText("");
-        limpiartabla();
-        mostrardatostabla("");  
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -284,29 +312,41 @@ public class mantenedorBodegas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE bodega SET nom_bodega='"+txt_nomBodega.getText()+"',direccion='"+txt_direccion.getText()+"' WHERE cod_bodega='"+txt_codBodega.getText()+"'";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_codBodega.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar codigo bodega");
+        }else{
+            if (txt_nomBodega.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar nombre de bodega.");
+            }else{
+                if (txt_direccion.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar direccion de bodega");
+                }else{
+                    sql="UPDATE bodega SET nom_bodega='"+txt_nomBodega.getText()+"',direccion='"+txt_direccion.getText()+"' WHERE cod_bodega='"+txt_codBodega.getText()+"'";
+                    try {
+                        PreparedStatement pst = reg.prepareStatement(sql);
+                        pst.executeUpdate();
+                        limpiartabla();
+                        mostrardatostabla("");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        JOptionPane.showMessageDialog(null,e.getMessage());
+                    }
+                    btn_aceptar.setVisible(false);
+                    btn_cancelar.setVisible(false);
+                    btn_eliminar.setVisible(true);
+                    btn_modificar.setVisible(true);
+                    btn_agregar.setVisible(true);
+                    txt_codBodega.setEnabled(true);
+                    txt_codBodega.setEditable(true);
+                    txt_codBodega.requestFocus();
+                    txt_nomBodega.setText("");
+                    txt_direccion.setText("");
+                    txt_codBodega.setText("");
+                    limpiartabla();
+                    mostrardatostabla("");
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_codBodega.setEnabled(true);
-        txt_codBodega.setEditable(true);
-        txt_codBodega.requestFocus();
-        txt_nomBodega.setText("");
-        txt_direccion.setText("");
-        txt_codBodega.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -323,27 +363,32 @@ public class mantenedorBodegas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        int fila = tbl_bodega.getSelectedRow();
-        if (fila >= 0){   
-            if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
-            //qui se pone lo que hara si le das aceptar
-                fila=tbl_bodega.getSelectedRow();
-                txt_codBodega.setText(tbl_bodega.getValueAt(fila, 0).toString());
-                try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM bodega WHERE cod_bodega='"+txt_codBodega.getText()+"'");
-                    pst.executeUpdate();
-                    limpiartabla();
-                    mostrardatostabla("");
-                    txt_codBodega.setText("");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+        /*if (Integer.parseInt(txt_codBodega.getText()) == getCodBodega()){
+            JOptionPane.showMessageDialog(null,"No puede eliminar esta bodega.");
+        }else{*/
+            int fila = tbl_bodega.getSelectedRow();
+            if (fila >= 0){   
+                if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+                //qui se pone lo que hara si le das aceptar
+                    fila=tbl_bodega.getSelectedRow();
+                    txt_codBodega.setText(tbl_bodega.getValueAt(fila, 0).toString());
+                    try {
+                        PreparedStatement pst = reg.prepareStatement("DELETE FROM bodega WHERE cod_bodega='"+txt_codBodega.getText()+"'");
+                        pst.executeUpdate();
+                        limpiartabla();
+                        mostrardatostabla("");
+                        txt_codBodega.setText("");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }else{
+                //aqui se pone lo que hara si le das cancelar
                 }
             }else{
-            //aqui se pone lo que hara si le das cancelar
+                JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
             }
-        }else{
-            JOptionPane.showMessageDialog(null,"Debe seleccionar una fila antes de eliminar.");
-        }
+        //}
+        
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void txt_codBodegaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codBodegaKeyTyped

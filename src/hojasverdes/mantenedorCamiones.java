@@ -235,32 +235,49 @@ public class mantenedorCamiones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        camion dto = new camion();
-        dto.setPatente(txt_patente.getText());
-        dto.setColor(txt_color.getText());
-        dto.setCapacidad(Integer.parseInt(txt_capacidad.getText()));
-        dto.setEjes(Integer.parseInt(txt_ejes.getText()));
-        sql= "INSERT INTO camion (patente, color, capacidad, ejes)VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setString(1, dto.getPatente());
-            pst.setString(2, dto.getColor());
-            pst.setInt(3, dto.getCapacidad());
-            pst.setInt(4, dto.getEjes());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Camion registrado satisfactoriamente.");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar, patente duplicada.");
-            //sw = 1;
-        }       
-        txt_patente.setText("");
-        txt_color.setText("");
-        txt_capacidad.setText("");
-        txt_ejes.setText("");
-        limpiartabla();
-        mostrardatostabla(""); 
+        if (txt_patente.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar patente");
+        }else{
+            if (txt_color.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Debe ingresar color");
+            }else{
+                if (txt_capacidad.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar capacidad");
+                }else{
+                    if (txt_ejes.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar ejes");
+                    }else{
+                        camion dto = new camion();
+                        dto.setPatente(txt_patente.getText());
+                        dto.setColor(txt_color.getText());
+                        dto.setCapacidad(Integer.parseInt(txt_capacidad.getText()));
+                        dto.setEjes(Integer.parseInt(txt_ejes.getText()));
+                        sql= "INSERT INTO camion (patente, color, capacidad, ejes)VALUES (?,?,?,?)";
+                        try {
+                            PreparedStatement pst=reg.prepareStatement(sql);
+                            pst.setString(1, dto.getPatente());
+                            pst.setString(2, dto.getColor());
+                            pst.setInt(3, dto.getCapacidad());
+                            pst.setInt(4, dto.getEjes());
+                            int n = pst.executeUpdate();
+                            if (n>0){
+                                JOptionPane.showMessageDialog(null,"Camion registrado satisfactoriamente.");
+                            }                
+                        }catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null,"Error al agregar, patente duplicada.");
+                            //sw = 1;
+                        }       
+                        txt_patente.setText("");
+                        txt_color.setText("");
+                        txt_capacidad.setText("");
+                        txt_ejes.setText("");
+                        limpiartabla();
+                        mostrardatostabla(""); 
+                    }
+                }
+            }
+        }
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -283,30 +300,46 @@ public class mantenedorCamiones extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        sql="UPDATE camion SET color='"+txt_color.getText()+"',Capacidad= "+Integer.parseInt(txt_capacidad.getText())+", Ejes="+Integer.parseInt(txt_ejes.getText())+"  WHERE Patente='"+txt_patente.getText()+"'";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
+        if (txt_patente.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar patente");
+        }else{
+            if (txt_color.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Campo color no puede quedar vacio");
+            }else{
+                if (txt_capacidad.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Campo capacidad no puede quedar vacio");
+                }else{
+                    if (txt_ejes.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Campo ejes no puede quedar vacio");
+                    }else{
+                        sql="UPDATE camion SET color='"+txt_color.getText()+"',Capacidad= "+Integer.parseInt(txt_capacidad.getText())+", Ejes="+Integer.parseInt(txt_ejes.getText())+"  WHERE Patente='"+txt_patente.getText()+"'";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                        btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        txt_patente.setEnabled(true);
+                        txt_patente.setEditable(true);
+                        txt_patente.requestFocus();
+                        txt_patente.setText("");
+                        txt_color.setText("");
+                        txt_capacidad.setText("");
+                        txt_ejes.setText("");
+                        limpiartabla();
+                        mostrardatostabla("");
+                    }
+                }
+            }
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        txt_patente.setEnabled(true);
-        txt_patente.setEditable(true);
-        txt_patente.requestFocus();
-        txt_patente.setText("");
-        txt_color.setText("");
-        txt_capacidad.setText("");
-        txt_ejes.setText("");
-        limpiartabla();
-        mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed

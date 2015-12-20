@@ -316,33 +316,39 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_choferActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        camionChofer dto = new camionChofer();
-        dto.setPatente(cmb_patente.getSelectedItem().toString());
-        dto.setRut_chofer(getRutChofer());
-        
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        dto.setFecha(sqlfecha);
-        
-        dto.setHora_uso(txt_hora.getText());
-        
-        sql= "INSERT INTO camion_chofer (patente, rut_chofer, fecha_uso, hora_uso) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement pst=reg.prepareStatement(sql);
-            pst.setString(1, dto.getPatente());
-            pst.setInt(2, dto.getRut_chofer());
-            pst.setDate(3, dto.getFecha());
-            pst.setString(4, dto.getHora_uso());
-            int n = pst.executeUpdate();
-            if (n>0){
-                JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente");
-            }                
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al agregar.");
-            //sw = 1;
-        }       
-        limpiartabla();
-        mostrardatostabla(""); 
+        if (txt_hora.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar hora uso");
+        }else{
+            camionChofer dto = new camionChofer();
+            dto.setPatente(cmb_patente.getSelectedItem().toString());
+            dto.setRut_chofer(getRutChofer());
+
+            Date fecha = cmb_date.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            dto.setFecha(sqlfecha);
+
+            dto.setHora_uso(txt_hora.getText());
+
+            sql= "INSERT INTO camion_chofer (patente, rut_chofer, fecha_uso, hora_uso) VALUES (?,?,?,?)";
+            try {
+                PreparedStatement pst=reg.prepareStatement(sql);
+                pst.setString(1, dto.getPatente());
+                pst.setInt(2, dto.getRut_chofer());
+                pst.setDate(3, dto.getFecha());
+                pst.setString(4, dto.getHora_uso());
+                int n = pst.executeUpdate();
+                if (n>0){
+                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente");
+                }                
+            }catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al agregar.");
+                //sw = 1;
+            }
+            txt_hora.setText("");
+            limpiartabla();
+            mostrardatostabla("");
+        }
+         
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -364,29 +370,34 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        Date fecha = cmb_date.getDate();
-        java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        sql="UPDATE camion_chofer SET fecha_uso='"+sqlfecha+"',hora_uso='"+txt_hora.getText()+"' WHERE patente='"+cmb_patente.getSelectedItem().toString()+"' and rut_chofer="+getRutChofer()+"";
-        try {
-            PreparedStatement pst = reg.prepareStatement(sql);
-            pst.executeUpdate();
+        if (txt_hora.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Debe ingresar hora uso");
+        }else{
+            Date fecha = cmb_date.getDate();
+            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+            sql="UPDATE camion_chofer SET fecha_uso='"+sqlfecha+"',hora_uso='"+txt_hora.getText()+"' WHERE patente='"+cmb_patente.getSelectedItem().toString()+"' and rut_chofer="+getRutChofer()+"";
+            try {
+                PreparedStatement pst = reg.prepareStatement(sql);
+                pst.executeUpdate();
+                limpiartabla();
+                mostrardatostabla("");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+            btn_aceptar.setVisible(false);
+            btn_cancelar.setVisible(false);
+            btn_eliminar.setVisible(true);
+            btn_modificar.setVisible(true);
+            btn_agregar.setVisible(true);
+            cmb_patente.setEnabled(true);
+            cmb_chofer.setEnabled(true);
+            cmb_patente.requestFocus();
+            txt_hora.setText("");
             limpiartabla();
             mostrardatostabla("");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,e.getMessage());
         }
-        btn_aceptar.setVisible(false);
-        btn_cancelar.setVisible(false);
-        btn_eliminar.setVisible(true);
-        btn_modificar.setVisible(true);
-        btn_agregar.setVisible(true);
-        cmb_patente.setEnabled(true);
-        cmb_chofer.setEnabled(true);
-        cmb_patente.requestFocus();
-        txt_hora.setText("");
-        limpiartabla();
-        mostrardatostabla("");
+
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
