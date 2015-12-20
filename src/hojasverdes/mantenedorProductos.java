@@ -407,7 +407,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 txt_precio.requestFocus();
             }else{
-                sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"', stock_actual='"+txt_stockCritico.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
+                sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"', stock_actual='"+txt_stockactual.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
                 try {
                     PreparedStatement pst = reg.prepareStatement(sql);
                     pst.executeUpdate();

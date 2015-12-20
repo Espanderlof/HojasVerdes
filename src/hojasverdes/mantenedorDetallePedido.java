@@ -144,44 +144,52 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             String sql="select stock_actual from producto where cod_producto ="+getCodProducto()+"";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
+            JOptionPane.showMessageDialog(null,"1");
             while (rs.next()){
                 stock = (Integer.parseInt(rs.getString(1)));
             }
             if (stock >= Integer.parseInt(txt_cantidad.getText())){
                 //String []datos = new String[3];
+                JOptionPane.showMessageDialog(null,"2");
                 int cantidad = Integer.parseInt(txt_cantidad.getText());
                 try{
                     int codigo=0;
                     int kilos=0;
+                    JOptionPane.showMessageDialog(null,"3");
                     sql = "select cod_lote, kilos_final from lote where cod_producto = "+getCodProducto()+"";
                     rs = st.executeQuery(sql);
                     while (rs.next()){
                         codigo = Integer.parseInt(rs.getString(1));
                         kilos= Integer.parseInt(rs.getString(2));
+                        JOptionPane.showMessageDialog(null,"4");
                         if (sw == 0){
+                            JOptionPane.showMessageDialog(null,"5");
                             try{
                                 if (kilos>= cantidad){
                                     int aux = kilos - cantidad;
+                                    JOptionPane.showMessageDialog(null,aux);
+                                    JOptionPane.showMessageDialog(null,codigo);
                                     String sql2 = "update lote set kilos_final = "+aux+" where cod_lote = "+codigo+" ";
                                     sw = 1;
+                                    PreparedStatement pst = reg.prepareStatement(sql2);
+                                    pst.executeUpdate();
                                 }else{
                                     int aux = cantidad - kilos;
                                     cantidad = cantidad - kilos;
                                     int x = 0;
                                     String sql2 = "update lote set kilos_final = "+x+" where cod_lote = "+codigo+"";
+                                    rs = st.executeQuery(sql);
                                 }
                             }catch(Exception e){
                             }
                         }
                     }
                 }catch(Exception e){
-                    
                 }
             }else{
                 JOptionPane.showMessageDialog(null,"Stock de producto no es suficiente para realizar el pedido");
             }
         }catch(Exception e){
-            
         }
         
     }
@@ -554,6 +562,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 dto.setCod_producto(Integer.parseInt(getCodProducto()));
                 dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
                 dto.setPrecio(Integer.parseInt(txt_precio.getText()));
+                verificarStock();
                 sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
                 try {
                     PreparedStatement pst = reg.prepareStatement(sql);
