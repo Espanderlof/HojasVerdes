@@ -175,6 +175,30 @@ public class loteBodega extends javax.swing.JFrame {
         }
         return codigo;
     }
+    
+    public void eliminarLote(int fila){
+        fila = tbl_lote.getSelectedRow();
+        txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
+        try {
+            PreparedStatement pst = reg.prepareStatement("DELETE FROM lote WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+"");
+            pst.executeUpdate();
+            txt_lote.setText("");
+            } catch (Exception e) {
+               System.out.println(e.getMessage());
+            }
+    }
+    
+    public void eliminarLB(int fila){
+        fila=tbl_lote.getSelectedRow();
+        txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
+        try {
+            PreparedStatement pst = reg.prepareStatement("DELETE FROM lote_bodega WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+" and cod_bodega = "+getCodBodega()+"");
+            pst.executeUpdate();
+            txt_lote.setText("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -505,6 +529,7 @@ public class loteBodega extends javax.swing.JFrame {
         txt_lote.setEditable(true);
         txt_lote.requestFocus();
         txt_lote.setText("");
+        txt_calibre.setText("");
         txt_kilosInicial.setText("");
         txt_kilosFinal.setText("");
         limpiartabla();
@@ -532,7 +557,11 @@ public class loteBodega extends javax.swing.JFrame {
         if (fila >= 0){   
             if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
             //qui se pone lo que hara si le das aceptar
-                fila=tbl_lote.getSelectedRow();
+                eliminarLB(fila);
+                eliminarLote(fila);
+                limpiartabla();
+                mostrardatostabla("");
+                /*fila=tbl_lote.getSelectedRow();
                 txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
                 try {
                     PreparedStatement pst = reg.prepareStatement("DELETE FROM lote_bodega WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+" and cod_bodega = "+getCodBodega()+"");
@@ -543,6 +572,7 @@ public class loteBodega extends javax.swing.JFrame {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
+                
                 txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
                 try {
                     PreparedStatement pst = reg.prepareStatement("DELETE FROM lote WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+"");
@@ -552,7 +582,7 @@ public class loteBodega extends javax.swing.JFrame {
                     txt_lote.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                }
+                }*/
 
 
             }else{
