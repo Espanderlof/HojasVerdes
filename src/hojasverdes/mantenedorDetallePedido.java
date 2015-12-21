@@ -220,6 +220,25 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         }
     }
     
+    public void verificarStock3(){
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ="+getCodProducto()+"";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+            stock = stock - Integer.parseInt(txt_cantidad.getText());
+            String sql4 = "update producto set stock_actual ="+stock+" where cod_producto = '"+getCodProducto()+"'";
+            PreparedStatement pst = reg.prepareStatement(sql4);
+            pst.executeUpdate();
+        }catch(Exception e){
+        }
+
+    }
+    
     public void actualizarStock2(){
         int aux = Integer.parseInt(tbl_detallepedido.getValueAt(fila, 4).toString());
         String cod = tbl_detallepedido.getValueAt(fila, 1).toString();
@@ -670,7 +689,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                     dto.setCod_producto(Integer.parseInt(getCodProducto()));
                     dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
                     dto.setPrecio(Integer.parseInt(txt_precio.getText()));
-                    verificarStock();
+                    verificarStock3();
                     sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
                     try {
                         PreparedStatement pst = reg.prepareStatement(sql);

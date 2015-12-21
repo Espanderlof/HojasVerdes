@@ -62,6 +62,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
     void mostrardatostabla(String valor){    
         String []datos=new String[6];
         int cod;
+        int colorcito=0;
         String sql="";
         if(valor.equals("")){
             sql="SELECT cod_producto, nom_producto, variedad, precio, stock_critico,stock_actual FROM producto";
@@ -80,7 +81,6 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 datos[3]=rs.getString(4);
                 datos[4]=rs.getString(5);
                 datos[5]=rs.getString(6);
-                
                 modelo.addRow(datos);
             }
             tbl_producto.setModel(modelo);
