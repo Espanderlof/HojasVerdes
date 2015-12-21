@@ -469,6 +469,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     btn_modificar.setVisible(true);
                     btn_agregar.setVisible(true);
                     txt_codProducto.setEnabled(true);
+                    txt_codProducto.setEditable(true);
                     txt_codProducto.requestFocus();
                     txt_nomProducto.setText("");
                     txt_variedad.setText("");

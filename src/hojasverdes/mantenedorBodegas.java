@@ -361,6 +361,7 @@ public class mantenedorBodegas extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_codBodega.setEnabled(true);
+        txt_codBodega.setEditable(true);
         txt_codBodega.requestFocus();
         txt_nomBodega.setText("");
         txt_codBodega.setText("");

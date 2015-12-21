@@ -118,16 +118,16 @@ public class mantenedorCamiones extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Patente:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 16, 64, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 14, 50, 20));
 
         lblColor.setText("Color:");
         jPanel1.add(lblColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 62, 20));
 
-        jLabel3.setText("Capacidad:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 66, 64, -1));
+        jLabel3.setText("Capacidad (Kg):");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 80, 20));
 
         jLabel4.setText("Ejes:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 60, 62, 20));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 60, 50, 20));
 
         txt_patente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -354,6 +354,7 @@ public class mantenedorCamiones extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_patente.setEnabled(true);
+        txt_patente.setEditable(true);
         txt_patente.requestFocus();
         txt_patente.setText("");
         txt_color.setText("");
