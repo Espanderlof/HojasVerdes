@@ -623,7 +623,7 @@ public class guias extends javax.swing.JFrame {
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
         Date fecha = cmb_fechaEnvio.getDate();
         java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-        sql="UPDATE guia_envio SET cod_campo="+getCodCampo()+",rut_proveedor= "+getRutProveedor()+", rut_chofer="+getRutChofer()+", patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_envio='"+sqlfecha+"'  WHERE cod_envio='"+Integer.parseInt(txt_guia.getText())+"'";
+        sql="UPDATE guia_envio SET cod_campo='"+getCodCampo()+"',rut_proveedor= '"+getRutProveedor()+"', rut_chofer='"+getRutChofer()+"', patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_envio='"+sqlfecha+"'  WHERE cod_envio='"+Integer.parseInt(txt_guia.getText())+"'";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
@@ -636,7 +636,7 @@ public class guias extends javax.swing.JFrame {
         
         Date fecha2 = cmb_fechaEnvio.getDate();
         java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
-        sql="UPDATE guia_recepcion SET cod_campo="+getCodCampo()+",rut_proveedor= "+getRutProveedor()+", rut_chofer="+getRutChofer()+", patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_recepcion='"+sqlfecha2+"'  WHERE cod_recepcion='"+Integer.parseInt(txt_guia.getText())+"'";
+        sql="UPDATE guia_recepcion SET cod_campo='"+getCodCampo()+"',rut_proveedor='"+getRutProveedor()+"', rut_chofer='"+getRutChofer()+"', patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_recepcion='"+sqlfecha2+"'  WHERE cod_recepcion='"+Integer.parseInt(txt_guia.getText())+"'";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
