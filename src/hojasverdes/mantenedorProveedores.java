@@ -299,7 +299,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                     if (txt_telefonoproveedor.getText().equals("")){
                         JOptionPane.showMessageDialog(null,"Debe ingresar telefono proveedor");
                     }else{
-                        sql = "Update proveedor SET nom_proveedor='"+txt_nombreproveedor.getText()+"',direccion='"+txt_direccionproveedor.getText()+"',telefono='"+txt_telefonoproveedor.getText()+"' WHERE rut_proveedor="+txt_rutproveedor.getText()+"";
+                        sql = "Update proveedor SET nom_proveedor='"+txt_nombreproveedor.getText()+"',direccion='"+txt_direccionproveedor.getText()+"',telefono='"+txt_telefonoproveedor.getText()+"' WHERE rut_proveedor='"+txt_rutproveedor.getText()+"'";
                         try {
                             PreparedStatement pst = reg.prepareStatement(sql);
                             pst.executeUpdate();
