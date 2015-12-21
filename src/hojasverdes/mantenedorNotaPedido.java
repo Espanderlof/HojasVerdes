@@ -114,16 +114,16 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         txt_codigonotapedido = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cmb_rutcliente = new javax.swing.JComboBox();
-        btn_agregarrutcliente = new javax.swing.JButton();
+        btn_agregarCliente = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btn_agregar = new javax.swing.JButton();
-        btn_agregardetalle = new javax.swing.JButton();
+        btn_agregarDetalle = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         cmb_date = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
+        btn_refrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_notapedido = new javax.swing.JTable();
 
@@ -152,13 +152,13 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
 
         jPanel1.add(cmb_rutcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 51, 192, -1));
 
-        btn_agregarrutcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregarrutcliente.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarrutclienteActionPerformed(evt);
+                btn_agregarClienteActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_agregarrutcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 51, 29, 20));
+        jPanel1.add(btn_agregarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 51, 29, 20));
 
         jLabel3.setText("Fecha:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 97, -1, -1));
@@ -172,14 +172,14 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         });
         jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 141, -1, 29));
 
-        btn_agregardetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pedido.png"))); // NOI18N
-        btn_agregardetalle.setText("Agregar detalle");
-        btn_agregardetalle.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pedido.png"))); // NOI18N
+        btn_agregarDetalle.setText("Agregar detalle");
+        btn_agregarDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregardetalleActionPerformed(evt);
+                btn_agregarDetalleActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_agregardetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 84, -1, -1));
+        jPanel1.add(btn_agregarDetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 84, -1, -1));
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -218,14 +218,14 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, -1, -1));
         jPanel1.add(cmb_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 89, 146, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
-        jButton1.setText("Refrescar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
 
         tbl_notapedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -264,10 +264,10 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_agregardetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregardetalleActionPerformed
+    private void btn_agregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarDetalleActionPerformed
         mantenedorDetallePedido abrirDetallePedido = new mantenedorDetallePedido();
         abrirDetallePedido.setVisible(true);
-    }//GEN-LAST:event_btn_agregardetalleActionPerformed
+    }//GEN-LAST:event_btn_agregarDetalleActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
         String rut=(cmb_rutcliente.getSelectedItem().toString());
@@ -295,7 +295,9 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         txt_codigonotapedido.setText("");
         cmb_rutcliente.removeAllItems();
         cmb_date.setCalendar(c2);
-        
+        btn_agregarDetalle.setVisible(true);
+        btn_agregarCliente.setVisible(true);
+        btn_refrescar.setVisible(true);
         
         limpiartabla();
         mostrardatostabla("");
@@ -313,6 +315,9 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         txt_codigonotapedido.setText("");
         cmb_rutcliente.removeAllItems();
         cmb_date.setCalendar(c2);
+        btn_agregarDetalle.setVisible(true);
+        btn_agregarCliente.setVisible(true);
+        btn_refrescar.setVisible(true);
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
@@ -380,6 +385,9 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             btn_eliminar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
+            btn_agregarDetalle.setVisible(false);
+            btn_agregarCliente.setVisible(false);
+            btn_refrescar.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null,"No selecciono fila");
         }
@@ -408,10 +416,10 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void btn_agregarrutclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarrutclienteActionPerformed
+    private void btn_agregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarClienteActionPerformed
         mantenedorCliente abrir = new mantenedorCliente();
         abrir.setVisible(true);
-    }//GEN-LAST:event_btn_agregarrutclienteActionPerformed
+    }//GEN-LAST:event_btn_agregarClienteActionPerformed
 
     private void txt_codigonotapedidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigonotapedidoKeyTyped
         int limite = 5;
@@ -430,11 +438,11 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         
         cmb_date.setCalendar(c2);
         mostrardatostabla("");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_refrescarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -474,14 +482,14 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_agregardetalle;
-    private javax.swing.JButton btn_agregarrutcliente;
+    private javax.swing.JButton btn_agregarCliente;
+    private javax.swing.JButton btn_agregarDetalle;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_refrescar;
     private com.toedter.calendar.JDateChooser cmb_date;
     private javax.swing.JComboBox cmb_rutcliente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

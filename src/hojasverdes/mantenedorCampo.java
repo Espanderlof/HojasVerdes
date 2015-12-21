@@ -134,9 +134,9 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_eliminar = new javax.swing.JButton();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_agregarProveedor = new javax.swing.JButton();
         cmb_proveedor = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        btn_refrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_campo = new javax.swing.JTable();
 
@@ -229,24 +229,24 @@ public class mantenedorCampo extends javax.swing.JFrame {
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_agregarProveedorActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(671, 13, 19, 20));
+        jPanel1.add(btn_agregarProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(671, 13, 19, 20));
 
         jPanel1.add(cmb_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 13, 173, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
-        jButton2.setText("Refrescar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, -1, -1));
 
         tbl_campo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -336,6 +336,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
             btn_eliminar.setVisible(false);
+            btn_agregarProveedor.setVisible(false);
+            btn_refrescar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
         }else{
@@ -372,6 +374,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
                     txt_codCampo.setEditable(true);
                     txt_codCampo.requestFocus();
                     cmb_proveedor.setEnabled(true);
+                    btn_agregarProveedor.setVisible(true);
+                    btn_refrescar.setVisible(true);
                     txt_codCampo.setText("");
                     txt_nomCampo.setText("");
                     txt_direccion.setText("");
@@ -391,6 +395,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
         txt_codCampo.setEnabled(true);
         cmb_proveedor.setEnabled(true);
         txt_codCampo.setEditable(true);
+        btn_agregarProveedor.setVisible(true);
+        btn_refrescar.setVisible(true);
         txt_codCampo.requestFocus();
         txt_codCampo.setText("");
         txt_nomCampo.setText("");
@@ -422,10 +428,10 @@ public class mantenedorCampo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_agregarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProveedorActionPerformed
         mantenedorProveedores abrirProveedores = new mantenedorProveedores();
         abrirProveedores.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_agregarProveedorActionPerformed
 
     private void txt_codCampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codCampoKeyTyped
         int limite = 3;
@@ -463,11 +469,11 @@ public class mantenedorCampo extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         limpiartabla();
         mostrardatostabla("");
         cmbProveedor("");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_refrescarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,12 +513,12 @@ public class mantenedorCampo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_agregarProveedor;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_refrescar;
     private javax.swing.JComboBox cmb_proveedor;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

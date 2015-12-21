@@ -273,7 +273,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         btn_agregar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btn_agregarProducto = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         cmb_variedad = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
@@ -288,7 +288,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         cmb_nomProducto2 = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         txt_kilogramos2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btn_agregarProducto2 = new javax.swing.JButton();
         btn_agregar2 = new javax.swing.JButton();
         btn_modificar2 = new javax.swing.JButton();
         btn_eliminar2 = new javax.swing.JButton();
@@ -372,8 +372,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         });
         jPanel1.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jPanel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 51, 32, 20));
+        btn_agregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        jPanel1.add(btn_agregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 51, 32, 20));
 
         jLabel7.setText("Variedad:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 92, -1, -1));
@@ -450,8 +450,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         });
         jPanel2.add(txt_kilogramos2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 124, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 51, 31, -1));
+        btn_agregarProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        jPanel2.add(btn_agregarProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 51, 31, -1));
 
         btn_agregar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar2.setText("Agregar");
@@ -653,6 +653,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             btn_eliminar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
+            btn_agregarProducto.setVisible(false);
+            btn_refrescar.setVisible(false);
+            btn_agregarProducto2.setVisible(false);
+            btn_agregar2.setVisible(false);
+            btn_modificar2.setVisible(false);
+            btn_eliminar2.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null,"No selecciono fila");
         }
@@ -701,6 +707,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 cmb_variedad.setSelectedItem(var);
                 limpiartablaEnvio();
                 mostrardatostablaEnvio("");
+                btn_agregarProducto.setVisible(true);
+                btn_refrescar.setVisible(true);
+                btn_agregarProducto2.setVisible(true);
+                btn_agregar2.setVisible(true);
+                btn_modificar2.setVisible(true);
+                btn_eliminar2.setVisible(true);
             }
         }
         
@@ -732,6 +744,12 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         cmb_guiaEnvio.setSelectedItem(envio);
         cmb_nomProducto.setSelectedItem(nom);
         cmb_variedad.setSelectedItem(var);
+        btn_agregarProducto.setVisible(true);
+        btn_refrescar.setVisible(true);
+        btn_agregarProducto2.setVisible(true);
+        btn_agregar2.setVisible(true);
+        btn_modificar2.setVisible(true);
+        btn_eliminar2.setVisible(true);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -831,6 +849,13 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             btn_eliminar2.setVisible(false);
             btn_aceptar2.setVisible(true);
             btn_cancelar2.setVisible(true);
+            btn_agregarProducto.setVisible(false);
+            btn_refrescar2.setVisible(false);
+            btn_refrescar.setVisible(false);
+            btn_agregarProducto.setVisible(false);
+            btn_agregar.setVisible(false);
+            btn_modificar.setVisible(false);
+            btn_eliminar.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null,"No selecciono fila");
         }
@@ -862,6 +887,13 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         cmb_guiaRecepcion.setSelectedItem(rec);
         cmb_nomProducto2.setSelectedItem(nom);
         cmb_variedad2.setSelectedItem(var);
+        btn_agregarProducto.setVisible(true);
+        btn_refrescar2.setVisible(true);
+        btn_refrescar.setVisible(true);
+        btn_agregarProducto.setVisible(true);
+        btn_agregar.setVisible(true);
+        btn_modificar.setVisible(true);
+        btn_eliminar.setVisible(true);
     }//GEN-LAST:event_btn_cancelar2ActionPerformed
 
     private void btn_aceptar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptar2ActionPerformed
@@ -907,6 +939,13 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 cmb_variedad2.setSelectedItem(var);
                 limpiartablaRecepcion();
                 mostrardatostablaRecepcion("");
+                btn_agregarProducto.setVisible(true);
+                btn_refrescar2.setVisible(true);
+                btn_refrescar.setVisible(true);
+                btn_agregarProducto.setVisible(true);
+                btn_agregar.setVisible(true);
+                btn_modificar.setVisible(true);
+                btn_eliminar.setVisible(true);
             }
         }
         
@@ -1044,6 +1083,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     private javax.swing.JButton btn_aceptar2;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregar2;
+    private javax.swing.JButton btn_agregarProducto;
+    private javax.swing.JButton btn_agregarProducto2;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_cancelar2;
     private javax.swing.JButton btn_eliminar;
@@ -1058,8 +1099,6 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     private javax.swing.JComboBox cmb_nomProducto2;
     private javax.swing.JComboBox cmb_variedad;
     private javax.swing.JComboBox cmb_variedad2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

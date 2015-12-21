@@ -232,7 +232,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         cmb_notapedido = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         cmb_nombreproducto = new javax.swing.JComboBox();
-        btn_agregarproducto = new javax.swing.JButton();
+        btn_agregarProducto = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         cmb_variedad = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
@@ -242,12 +242,12 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         btn_eliminar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txt_precio = new javax.swing.JTextField();
-        btn_agregarnotapedido = new javax.swing.JButton();
+        btn_agregarNota = new javax.swing.JButton();
         lbl_codigo = new javax.swing.JLabel();
         txt_label = new javax.swing.JTextField();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
-        btn_resfrescar = new javax.swing.JButton();
+        btn_refrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_detallepedido = new javax.swing.JTable();
 
@@ -278,13 +278,13 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
         jPanel1.add(cmb_nombreproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 57, 155, -1));
 
-        btn_agregarproducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregarproducto.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarproductoActionPerformed(evt);
+                btn_agregarProductoActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_agregarproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 57, 33, 20));
+        jPanel1.add(btn_agregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 57, 33, 20));
 
         jLabel3.setText("Variedad:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 98, -1, -1));
@@ -344,13 +344,13 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
         jPanel1.add(txt_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 133, 123, -1));
 
-        btn_agregarnotapedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        btn_agregarnotapedido.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarNota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_agregarnotapedidoActionPerformed(evt);
+                btn_agregarNotaActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_agregarnotapedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 13, 33, 20));
+        jPanel1.add(btn_agregarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 13, 33, 20));
 
         lbl_codigo.setText("Codigo Producto:");
         jPanel1.add(lbl_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
@@ -380,14 +380,14 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, -1, -1));
 
-        btn_resfrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
-        btn_resfrescar.setText("Refrescar");
-        btn_resfrescar.addActionListener(new java.awt.event.ActionListener() {
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_resfrescarActionPerformed(evt);
+                btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_resfrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, -1, -1));
 
         tbl_detallepedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -462,7 +462,9 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 cmb_notapedido.removeAllItems();
                 cmb_nombreproducto.removeAllItems();
                 cmb_variedad.removeAllItems();
-
+                btn_refrescar.setVisible(true);
+                btn_agregarProducto.setVisible(true);
+                btn_agregarNota.setVisible(true);
                 limpiartabla();
                 mostrardatostabla("");
             }
@@ -492,17 +494,20 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         cmb_variedad.removeAllItems();
         limpiartabla();
         mostrardatostabla("");
+        btn_refrescar.setVisible(true);
+        btn_agregarProducto.setVisible(true);
+        btn_agregarNota.setVisible(true);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
-    private void btn_agregarnotapedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarnotapedidoActionPerformed
+    private void btn_agregarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarNotaActionPerformed
         mantenedorNotaPedido abrir = new mantenedorNotaPedido();
         abrir.setVisible(true);
-    }//GEN-LAST:event_btn_agregarnotapedidoActionPerformed
+    }//GEN-LAST:event_btn_agregarNotaActionPerformed
 
-    private void btn_agregarproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarproductoActionPerformed
+    private void btn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProductoActionPerformed
         mantenedorProductos abrir = new mantenedorProductos();
         abrir.setVisible(true);
-    }//GEN-LAST:event_btn_agregarproductoActionPerformed
+    }//GEN-LAST:event_btn_agregarProductoActionPerformed
 
     private void cmb_nombreproductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_nombreproductoItemStateChanged
         try{
@@ -579,6 +584,9 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             btn_eliminar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
+            btn_refrescar.setVisible(false);
+            btn_agregarProducto.setVisible(false);
+            btn_agregarNota.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null,"No selecciono fila");
         }
@@ -652,9 +660,9 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         con.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void btn_resfrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resfrescarActionPerformed
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         mostrardatostabla("");
-    }//GEN-LAST:event_btn_resfrescarActionPerformed
+    }//GEN-LAST:event_btn_refrescarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -694,12 +702,12 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_agregarnotapedido;
-    private javax.swing.JButton btn_agregarproducto;
+    private javax.swing.JButton btn_agregarNota;
+    private javax.swing.JButton btn_agregarProducto;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
-    private javax.swing.JButton btn_resfrescar;
+    private javax.swing.JButton btn_refrescar;
     private javax.swing.JComboBox cmb_nombreproducto;
     private javax.swing.JComboBox cmb_notapedido;
     private javax.swing.JComboBox cmb_variedad;

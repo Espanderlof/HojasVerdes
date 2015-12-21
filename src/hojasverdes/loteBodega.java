@@ -293,12 +293,12 @@ public class loteBodega extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cmb_nombreProducto = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        btn_agregarProducto = new javax.swing.JButton();
         txt_lote = new javax.swing.JTextField();
         txt_calibre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cmb_bodega = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        btn_agregarBodega = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txt_kilosInicial = new javax.swing.JTextField();
@@ -314,7 +314,7 @@ public class loteBodega extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_agregar = new javax.swing.JButton();
-        btn_actualizar = new javax.swing.JButton();
+        btn_refrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_lote = new javax.swing.JTable();
 
@@ -351,13 +351,13 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(cmb_nombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 13, 100, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_agregarProductoActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 13, 27, -1));
+        jPanel1.add(btn_agregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 13, 27, -1));
 
         txt_lote.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -383,13 +383,13 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(cmb_bodega, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 56, 198, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarBodega.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarBodega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_agregarBodegaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 56, 27, -1));
+        jPanel1.add(btn_agregarBodega, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 56, 27, -1));
 
         jLabel4.setText("Calibre");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 59, -1, -1));
@@ -470,14 +470,14 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 200, -1, 30));
 
-        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
-        btn_actualizar.setText("Refrescar");
-        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_actualizarActionPerformed(evt);
+                btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 110, 30));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 110, 30));
 
         tbl_lote.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -629,6 +629,9 @@ public class loteBodega extends javax.swing.JFrame {
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
             btn_eliminar.setVisible(false);
+            btn_agregarProducto.setVisible(false);
+            btn_agregarBodega.setVisible(false);
+            btn_refrescar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
         }else{
@@ -687,6 +690,9 @@ public class loteBodega extends javax.swing.JFrame {
                             cmb_bodega.setEnabled(true);
                             txt_lote.setEnabled(true);
                             txt_lote.setEditable(true);
+                            btn_agregarProducto.setVisible(true);
+                            btn_agregarBodega.setVisible(true);
+                            btn_refrescar.setVisible(true);
                             txt_lote.requestFocus();
                             txt_lote.setText("");
                             txt_calibre.setText("");
@@ -709,6 +715,9 @@ public class loteBodega extends javax.swing.JFrame {
         btn_agregar.setVisible(true);
         txt_lote.setEnabled(true);
         txt_lote.setEditable(true);
+        btn_agregarProducto.setVisible(true);
+        btn_agregarBodega.setVisible(true);
+        btn_refrescar.setVisible(true);
         txt_lote.requestFocus();
         txt_kilosInicial.setText("");
         txt_kilosFinal.setText("");
@@ -761,15 +770,15 @@ public class loteBodega extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProductoActionPerformed
         mantenedorProductos abrirP = new mantenedorProductos();
         abrirP.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_agregarProductoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_agregarBodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarBodegaActionPerformed
         mantenedorBodegas abrirB = new mantenedorBodegas();
         abrirB.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_agregarBodegaActionPerformed
 
     private void txt_loteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_loteKeyTyped
         int limite = 10;
@@ -836,13 +845,13 @@ public class loteBodega extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmb_nombreProductoFocusGained
 
-    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         cmb_elaboracion.setCalendar(c2);
         cmb_ingreso.setCalendar(c2);
         cmb_productoVariedad("");
         cmbBodega("");
         mostrardatostabla("");
-    }//GEN-LAST:event_btn_actualizarActionPerformed
+    }//GEN-LAST:event_btn_refrescarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -881,18 +890,18 @@ public class loteBodega extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
-    private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_agregarBodega;
+    private javax.swing.JButton btn_agregarProducto;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_refrescar;
     private javax.swing.JComboBox cmb_bodega;
     private com.toedter.calendar.JDateChooser cmb_elaboracion;
     private com.toedter.calendar.JDateChooser cmb_ingreso;
     private javax.swing.JComboBox cmb_nombreProducto;
     private javax.swing.JComboBox cmb_variedad;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

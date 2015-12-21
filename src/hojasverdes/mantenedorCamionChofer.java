@@ -377,6 +377,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
             btn_eliminar.setVisible(false);
+            btn_chofer.setVisible(false);
+            btn_patente.setVisible(false);
+            btn_refrescar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
         }else{
@@ -407,6 +410,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             btn_agregar.setVisible(true);
             cmb_patente.setEnabled(true);
             cmb_chofer.setEnabled(true);
+            btn_chofer.setVisible(true);
+            btn_patente.setVisible(true);
+            btn_refrescar.setVisible(true);
             cmb_patente.requestFocus();
             txt_hora.setText("");
             limpiartabla();
@@ -423,6 +429,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         btn_agregar.setVisible(true);
         cmb_patente.setEnabled(true);
         cmb_chofer.setEnabled(true);
+        btn_chofer.setVisible(true);
+        btn_patente.setVisible(true);
+        btn_refrescar.setVisible(true);
         cmb_patente.requestFocus();
         txt_hora.setText("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
