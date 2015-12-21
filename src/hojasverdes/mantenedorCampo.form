@@ -74,7 +74,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="RUT proveedor:"/>
+            <Property name="text" type="java.lang.String" value="Proveedor:"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Constraints>

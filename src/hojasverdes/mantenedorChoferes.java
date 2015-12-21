@@ -301,7 +301,11 @@ public class mantenedorChoferes extends javax.swing.JFrame {
                         }catch (SQLException ex) {
                             JOptionPane.showMessageDialog(null,"Error al agregar, rut duplicada.");
                             //sw = 1;
-                        }       
+                        }
+                        txt_direccion.setText("");
+                        txt_nomChofer.setText("");
+                        txt_rutChofer.setText("");
+                        txt_telefono.setText("");
                         limpiartabla();
                         mostrardatostabla(""); 
                     }
@@ -381,6 +385,7 @@ public class mantenedorChoferes extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_rutChofer.setEnabled(true);
+        txt_rutChofer.setEditable(true);
         txt_rutChofer.requestFocus();
         txt_rutChofer.setText("");
         txt_nomChofer.setText("");
@@ -452,11 +457,17 @@ public class mantenedorChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_direccionKeyTyped
 
     private void txt_rutChoferFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutChoferFocusLost
-            if (!validar(txt_rutChofer.getText())) {
+        if (txt_rutChofer.getText().equals("")){
+            
+        }else{
+            
+            
+        if (!validar(txt_rutChofer.getText())) {
                 JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
                 txt_rutChofer.setText("");
                 txt_rutChofer.requestFocus();
             }
+        }
     }//GEN-LAST:event_txt_rutChoferFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

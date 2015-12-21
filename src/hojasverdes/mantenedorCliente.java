@@ -342,7 +342,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
                             dto.setDireccion(txt_direccion.getText());
                             dto.setGiro(txt_giro.getText());
                             dto.setTelefono(Integer.parseInt(txt_telefono.getText()));
-                            JOptionPane.showMessageDialog(null, dto.getTelefono());
+                            //JOptionPane.showMessageDialog(null, dto.getTelefono());
                             dto.setContacto(txt_contacto.getText());
                             dto.setRazon_social(txt_razonSocial.getText());
                             sql= "INSERT INTO cliente (rut_cliente, nombre, direccion, giro, telefono, contacto, razon_social)VALUES (?,?,?,?,?,?,?)";
@@ -465,6 +465,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
         txt_rutCliente.setEnabled(true);
+        txt_rutCliente.setEditable(true);
         txt_rutCliente.requestFocus();
         txt_rutCliente.setText("");
         txt_nombre.setText("");
@@ -528,7 +529,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_direccionKeyTyped
 
     private void txt_giroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_giroKeyTyped
-        int limite = 10;
+        int limite = 30;
         if (txt_giro.getText().length() == limite) {
             evt.consume();
         }
@@ -578,11 +579,17 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_razonSocialKeyTyped
 
     private void txt_rutClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_rutClienteFocusLost
+        if (txt_rutCliente.getText().equals("")){
+            
+        }else{
+            
+        
         if (!validar(txt_rutCliente.getText())) {
                 JOptionPane.showMessageDialog(null, "Error RUT invalido", "Error", JOptionPane.ERROR_MESSAGE);
                 txt_rutCliente.setText("");
                 txt_rutCliente.requestFocus();
             }
+        }
     }//GEN-LAST:event_txt_rutClienteFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

@@ -38,14 +38,14 @@ public class mantenedorCampo extends javax.swing.JFrame {
         tbl_campo.setAutoCreateRowSorter(true);
         //ingresa las columnas de tu tabla productos
         modelo.addColumn("Codigo campo");
-        modelo.addColumn("RUT proveedor");
+        modelo.addColumn("Proveedor");
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
         tbl_campo.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         mostrardatostabla("");
-        cmbProveedor("");
+        
     }
     
     void mostrardatostabla(String valor){    
@@ -72,7 +72,8 @@ public class mantenedorCampo extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
-        }   
+        }
+        cmbProveedor("");
     }
     
     public void limpiartabla(){
@@ -153,7 +154,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
         jLabel1.setText("Codigo campo:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 16, 99, -1));
 
-        jLabel2.setText("RUT proveedor:");
+        jLabel2.setText("Proveedor:");
         jLabel2.setToolTipText("");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(349, 16, -1, -1));
 
@@ -314,7 +315,10 @@ public class mantenedorCampo extends javax.swing.JFrame {
                     }catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,"Error al agregar, campo duplicada.");
                         //sw = 1;
-                    }       
+                    }
+                    txt_codCampo.setText("");
+                    txt_direccion.setText("");
+                    txt_nomCampo.setText("");
                     limpiartabla();
                     mostrardatostabla("");
                 }
