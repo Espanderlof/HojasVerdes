@@ -542,9 +542,11 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 fila=tbl_detallepedido.getSelectedRow();
                 //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
                 cmb_notapedido.setSelectedItem(tbl_detallepedido.getValueAt(fila, 0).toString());
-                
+                String x = tbl_detallepedido.getValueAt(fila, 1).toString();
+                JOptionPane.showMessageDialog(null, cmb_notapedido.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(null, x);
                 try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_pedido WHERE nro_nota='"+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+"' and cod_producto='"+getCodProducto()+"' ");
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_pedido WHERE nro_nota='"+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+"' and cod_producto='"+x+"' ");
                     pst.executeUpdate();
                     limpiartabla();
                     mostrardatostabla("");
