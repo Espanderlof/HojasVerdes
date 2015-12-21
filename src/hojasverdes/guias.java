@@ -277,6 +277,7 @@ public class guias extends javax.swing.JFrame {
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_agregar = new javax.swing.JButton();
+        btn_actualizar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_guias = new javax.swing.JTable();
@@ -431,6 +432,15 @@ public class guias extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 210, -1, 30));
+
+        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_actualizar.setText("Refrescar datos");
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 160, -1));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -708,10 +718,18 @@ public class guias extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         cmbPatente("");
         //cmbChofer("");
         cmbProveedor("");
-    }//GEN-LAST:event_formFocusGained
+        cmb_fechaEnvio.setCalendar(c2);
+        cmb_fechaRecepcion.setCalendar(c2);
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_actualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -750,6 +768,7 @@ public class guias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
+    private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregarCampo;
     private javax.swing.JButton btn_agregarDetalle;

@@ -42,8 +42,10 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         tbl_detallepedido.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
-        txt_codproducto.setEnabled(false);
+        txt_label.setEnabled(false);
         mostrardatostabla("");
+        lbl_codigo.setVisible(false);
+        txt_label.setVisible(false);
         
     }
     
@@ -241,10 +243,11 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txt_precio = new javax.swing.JTextField();
         btn_agregarnotapedido = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        txt_codproducto = new javax.swing.JTextField();
+        lbl_codigo = new javax.swing.JLabel();
+        txt_label = new javax.swing.JTextField();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        btn_resfrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_detallepedido = new javax.swing.JTable();
 
@@ -349,15 +352,15 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
         jPanel1.add(btn_agregarnotapedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 13, 33, 20));
 
-        jLabel6.setText("Codigo Producto:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 60, -1, -1));
+        lbl_codigo.setText("Codigo Producto:");
+        jPanel1.add(lbl_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
 
-        txt_codproducto.addActionListener(new java.awt.event.ActionListener() {
+        txt_label.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_codproductoActionPerformed(evt);
+                txt_labelActionPerformed(evt);
             }
         });
-        jPanel1.add(txt_codproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 57, 93, -1));
+        jPanel1.add(txt_label, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 93, -1));
 
         btn_aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar.setText("Aceptar");
@@ -376,6 +379,15 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, -1, -1));
+
+        btn_resfrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_resfrescar.setText("Refrescar");
+        btn_resfrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_resfrescarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_resfrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, -1, -1));
 
         tbl_detallepedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -424,7 +436,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 String envio = cmb_notapedido.getSelectedItem().toString();
                 String nom = cmb_nombreproducto.getSelectedItem().toString();
                 String var = cmb_variedad.getSelectedItem().toString();
-                sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_codproducto.getText()+"";
+                sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_label.getText()+"";
                 try {
                     PreparedStatement pst = reg.prepareStatement(sql);
                     pst.executeUpdate();
@@ -505,16 +517,16 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             
         }
         String cod = getCodProducto();
-        txt_codproducto.setText(cod);
+        txt_label.setText(cod);
     }//GEN-LAST:event_cmb_nombreproductoItemStateChanged
 
-    private void txt_codproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_codproductoActionPerformed
+    private void txt_labelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_labelActionPerformed
 
-    }//GEN-LAST:event_txt_codproductoActionPerformed
+    }//GEN-LAST:event_txt_labelActionPerformed
 
     private void cmb_variedadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_variedadItemStateChanged
         String cod = getCodProducto();
-        txt_codproducto.setText(cod);
+        txt_label.setText(cod);
     }//GEN-LAST:event_cmb_variedadItemStateChanged
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -555,7 +567,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             txt_cantidad.setText(tbl_detallepedido.getValueAt(fila, 4).toString());
             txt_precio.setText(tbl_detallepedido.getValueAt(fila, 5).toString());
             String cod = getCodProducto();
-            txt_codproducto.setText(cod);
+            txt_label.setText(cod);
             cmb_notapedido.setEditable(false);
             cmb_notapedido.setEnabled(false);
             cmb_nombreproducto.setEditable(false);
@@ -640,6 +652,10 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         con.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void btn_resfrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resfrescarActionPerformed
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_resfrescarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -683,6 +699,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_resfrescar;
     private javax.swing.JComboBox cmb_nombreproducto;
     private javax.swing.JComboBox cmb_notapedido;
     private javax.swing.JComboBox cmb_variedad;
@@ -691,12 +708,12 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_codigo;
     private javax.swing.JTable tbl_detallepedido;
     private javax.swing.JTextField txt_cantidad;
-    private javax.swing.JTextField txt_codproducto;
+    private javax.swing.JTextField txt_label;
     private javax.swing.JTextField txt_precio;
     // End of variables declaration//GEN-END:variables
 }

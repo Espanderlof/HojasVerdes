@@ -124,6 +124,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
         cmb_date = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         txt_totalneto = new javax.swing.JTextField();
+        btn_refrescar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_factura = new javax.swing.JTable();
 
@@ -171,7 +172,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -189,7 +190,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, -1, -1));
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -198,7 +199,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
 
         btn_agregarnotapedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregarnotapedido.addActionListener(new java.awt.event.ActionListener() {
@@ -218,6 +219,15 @@ public class mantenedorFactura extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txt_totalneto, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 148, -1));
+
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refrescarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, -1));
 
         tbl_factura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -430,6 +440,11 @@ public class mantenedorFactura extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
+        cmb_date.setCalendar(c2);
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_refrescarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -472,6 +487,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_refrescar;
     private com.toedter.calendar.JDateChooser cmb_date;
     private javax.swing.JComboBox cmb_notapedido;
     private javax.swing.JLabel jLabel1;

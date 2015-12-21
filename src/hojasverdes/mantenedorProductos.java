@@ -235,7 +235,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 131, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, -1, -1));
 
         txt_stockactual.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

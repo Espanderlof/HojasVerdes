@@ -470,13 +470,14 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 200, -1, 30));
 
-        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Reload-20.png"))); // NOI18N
+        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_actualizar.setText("Refrescar");
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 100, 30, 30));
+        jPanel1.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 110, 30));
 
         tbl_lote.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -836,11 +837,10 @@ public class loteBodega extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_nombreProductoFocusGained
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        cmbBodega("");
-        cmb_productoVariedad("");
         cmb_elaboracion.setCalendar(c2);
         cmb_ingreso.setCalendar(c2);
-        limpiartabla();
+        cmb_productoVariedad("");
+        cmbBodega("");
         mostrardatostabla("");
     }//GEN-LAST:event_btn_actualizarActionPerformed
 

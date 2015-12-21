@@ -280,6 +280,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         txt_numBins = new javax.swing.JTextField();
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        btn_refrescar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         cmb_guiaRecepcion = new javax.swing.JComboBox();
@@ -297,6 +298,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         txt_numBins2 = new javax.swing.JTextField();
         btn_aceptar2 = new javax.swing.JButton();
         btn_cancelar2 = new javax.swing.JButton();
+        btn_refrescar2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_envio = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -406,6 +408,15 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, -1, 30));
 
+        btn_refrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar.setText("Refrescar");
+        btn_refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refrescarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -430,14 +441,14 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jPanel2.add(cmb_nomProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 56, 124, -1));
 
         jLabel6.setText("Kilogramos:");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 36, 84, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, 84, -1));
 
         txt_kilogramos2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_kilogramos2KeyTyped(evt);
             }
         });
-        jPanel2.add(txt_kilogramos2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 124, -1));
+        jPanel2.add(txt_kilogramos2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 124, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 51, 31, -1));
@@ -475,14 +486,14 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jPanel2.add(cmb_variedad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 99, 124, -1));
 
         jLabel10.setText("Numero bins:");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(348, 74, 91, -1));
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, 91, -1));
 
         txt_numBins2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_numBins2KeyTyped(evt);
             }
         });
-        jPanel2.add(txt_numBins2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 124, -1));
+        jPanel2.add(txt_numBins2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, 124, -1));
 
         btn_aceptar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/OK-20.png"))); // NOI18N
         btn_aceptar2.setText("Aceptar");
@@ -501,6 +512,15 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btn_cancelar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+
+        btn_refrescar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        btn_refrescar2.setText("Refrescar");
+        btn_refrescar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refrescar2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_refrescar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, -1, -1));
 
         tbl_envio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -970,6 +990,20 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         con.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
+        cmb_guiaEnvio("");
+        cmb_productoVariedad("");
+        limpiartablaEnvio();
+        mostrardatostablaEnvio("");
+    }//GEN-LAST:event_btn_refrescarActionPerformed
+
+    private void btn_refrescar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescar2ActionPerformed
+        cmb_guiaRecepcion("");
+        cmb_productoVariedad2("");
+        limpiartablaRecepcion();
+        mostrardatostablaRecepcion("");
+    }//GEN-LAST:event_btn_refrescar2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1016,6 +1050,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminar2;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_modificar2;
+    private javax.swing.JButton btn_refrescar;
+    private javax.swing.JButton btn_refrescar2;
     private javax.swing.JComboBox cmb_guiaEnvio;
     private javax.swing.JComboBox cmb_guiaRecepcion;
     private javax.swing.JComboBox cmb_nomProducto;

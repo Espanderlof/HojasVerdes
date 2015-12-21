@@ -136,6 +136,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
         btn_cancelar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         cmb_proveedor = new javax.swing.JComboBox();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_campo = new javax.swing.JTable();
 
@@ -199,7 +200,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, -1, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -217,7 +218,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -226,7 +227,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -237,6 +238,15 @@ public class mantenedorCampo extends javax.swing.JFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(671, 13, 19, 20));
 
         jPanel1.add(cmb_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 13, 173, -1));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        jButton2.setText("Refrescar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, -1, -1));
 
         tbl_campo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -453,6 +463,12 @@ public class mantenedorCampo extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        limpiartabla();
+        mostrardatostabla("");
+        cmbProveedor("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -496,6 +512,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
     private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox cmb_proveedor;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

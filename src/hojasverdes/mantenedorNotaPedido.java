@@ -123,6 +123,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         cmb_date = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_notapedido = new javax.swing.JTable();
 
@@ -216,6 +217,15 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         });
         jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, -1, -1));
         jPanel1.add(cmb_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 89, 146, -1));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/refresh-20.png"))); // NOI18N
+        jButton1.setText("Refrescar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
 
         tbl_notapedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -420,6 +430,12 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        cmb_date.setCalendar(c2);
+        mostrardatostabla("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -465,6 +481,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     private javax.swing.JButton btn_modificar;
     private com.toedter.calendar.JDateChooser cmb_date;
     private javax.swing.JComboBox cmb_rutcliente;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
