@@ -659,6 +659,8 @@ public class loteBodega extends javax.swing.JFrame {
             btn_eliminar.setVisible(false);
             btn_agregarProducto.setVisible(false);
             btn_agregarBodega.setVisible(false);
+            cmb_nombreProducto.setEnabled(false);
+            cmb_variedad.setEnabled(false);
             btn_refrescar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
@@ -720,6 +722,8 @@ public class loteBodega extends javax.swing.JFrame {
                             txt_lote.setEditable(true);
                             btn_agregarProducto.setVisible(true);
                             btn_agregarBodega.setVisible(true);
+                            cmb_nombreProducto.setEnabled(true);
+                            cmb_variedad.setEnabled(true);
                             btn_refrescar.setVisible(true);
                             txt_lote.requestFocus();
                             txt_lote.setText("");
@@ -746,6 +750,8 @@ public class loteBodega extends javax.swing.JFrame {
         btn_agregarProducto.setVisible(true);
         btn_agregarBodega.setVisible(true);
         btn_refrescar.setVisible(true);
+        cmb_nombreProducto.setEnabled(true);
+        cmb_variedad.setEnabled(true);
         txt_lote.requestFocus();
         txt_kilosInicial.setText("");
         txt_kilosFinal.setText("");
