@@ -196,7 +196,7 @@ public class loteBodega extends javax.swing.JFrame {
         fila=tbl_lote.getSelectedRow();
         txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
         try {
-            PreparedStatement pst = reg.prepareStatement("DELETE FROM lote_bodega WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+" and cod_bodega = "+getCodBodega()+"");
+            PreparedStatement pst = reg.prepareStatement("DELETE FROM lote_bodega WHERE cod_lote='"+Integer.parseInt(txt_lote.getText())+"' and cod_bodega = '"+getCodBodega()+"'");
             pst.executeUpdate();
             txt_lote.setText("");
         } catch (Exception e) {
