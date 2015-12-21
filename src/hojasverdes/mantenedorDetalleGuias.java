@@ -157,7 +157,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     
     void cmb_productoVariedad(String valor){
         try{
-            String sql="select nom_producto from producto";
+            String sql="select distinct(nom_producto) from producto";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
@@ -219,7 +219,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
 
     void cmb_productoVariedad2(String valor){
         try{
-            String sql="select nom_producto from producto";
+            String sql="select distinct(nom_producto) from producto";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
@@ -624,6 +624,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
                 }
+                txt_kilogramos.setText("");
+                txt_numBins.setText("");
                 limpiartablaEnvio();
                 mostrardatostablaEnvio("");
             }
@@ -820,6 +822,8 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
                 }
+                txt_kilogramos2.setText("");
+                txt_numBins2.setText("");
                 limpiartablaRecepcion();
                 mostrardatostablaRecepcion("");
             }

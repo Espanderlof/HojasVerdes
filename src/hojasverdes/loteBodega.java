@@ -62,6 +62,7 @@ public class loteBodega extends javax.swing.JFrame {
         cmbBodega("");
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
+        limpiartabla();
         mostrardatostabla("");
     }
     
@@ -109,14 +110,14 @@ public class loteBodega extends javax.swing.JFrame {
     void cmb_productoVariedad(String valor){
         cmb_nombreProducto.removeAllItems();
         try{
-            String sql="select nom_producto from producto";
+            String sql="select distinct(nom_producto) from producto";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
                 cmb_nombreProducto.addItem(rs.getString(1));
             }    
         }catch(Exception e){
-            
+            limpiartabla();
         }
     }
     
@@ -225,7 +226,7 @@ public class loteBodega extends javax.swing.JFrame {
     public void actualizarStock2(){
         
         int aux = Integer.parseInt(tbl_lote.getValueAt(fila, 6).toString());
-        JOptionPane.showMessageDialog(null,aux);
+        //JOptionPane.showMessageDialog(null,aux);
         int stock = 0;
         int sw = 0;
         try{
@@ -242,7 +243,7 @@ public class loteBodega extends javax.swing.JFrame {
             }else{
                 stock = stock + (Integer.parseInt(txt_kilosFinal.getText()) - aux);
             }
-            JOptionPane.showMessageDialog(null,stock);
+            //JOptionPane.showMessageDialog(null,stock);
             String sql3 = "update producto set stock_actual ="+stock+" where cod_producto = "+getCodProducto()+"";
             PreparedStatement pst = reg.prepareStatement(sql3);
             pst.executeUpdate();
@@ -577,6 +578,7 @@ public class loteBodega extends javax.swing.JFrame {
                                         actualizarStock();
                                         int n = pst.executeUpdate();
                                         if (n>0){
+                                            JOptionPane.showMessageDialog(null,"Lote registrado satisfactoriamente.");
                                         }
                                     } catch (SQLException ex) {
                                         JOptionPane.showMessageDialog(null,"Error al agregar.");
@@ -724,6 +726,8 @@ public class loteBodega extends javax.swing.JFrame {
         txt_calibre.setText("");
         txt_lote.setText("");
         cmb_bodega.setEnabled(true);
+        limpiartabla();
+        mostrardatostabla("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -850,6 +854,7 @@ public class loteBodega extends javax.swing.JFrame {
         cmb_ingreso.setCalendar(c2);
         cmb_productoVariedad("");
         cmbBodega("");
+        limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
 
