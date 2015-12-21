@@ -45,7 +45,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
         tbl_factura.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
-        
+        txt_totalneto.setEditable(false);
         cmb_date.setCalendar(c2);
         mostrardatostabla("");
     }
@@ -99,6 +99,25 @@ public class mantenedorFactura extends javax.swing.JFrame {
            i-=1;
        }
     }
+    
+    public int totalNeto(){
+        int totalNeto=0;
+        int cant = 0;
+        int prec = 0;
+        try{
+            String sql="select cantidad, precio from detalle_pedido where nro_nota='"+cmb_notapedido.getSelectedItem().toString()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                cant = Integer.parseInt(rs.getString(1));
+                prec = Integer.parseInt(rs.getString(2));
+                totalNeto = totalNeto + (cant * prec);
+            }   
+        }catch(Exception e){
+            
+        }
+        return totalNeto;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -151,6 +170,11 @@ public class mantenedorFactura extends javax.swing.JFrame {
         jLabel2.setText("Nota pedido:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 54, 79, -1));
 
+        cmb_notapedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_notapedidoActionPerformed(evt);
+            }
+        });
         jPanel1.add(cmb_notapedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 51, 148, -1));
 
         jLabel3.setText("Fecha:");
@@ -450,6 +474,10 @@ public class mantenedorFactura extends javax.swing.JFrame {
         cmb_date.setCalendar(c2);
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
+
+    private void cmb_notapedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_notapedidoActionPerformed
+        txt_totalneto.setText(Integer.toString(totalNeto()));
+    }//GEN-LAST:event_cmb_notapedidoActionPerformed
 
     /**
      * @param args the command line arguments

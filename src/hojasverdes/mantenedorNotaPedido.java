@@ -124,6 +124,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         btn_cancelar = new javax.swing.JButton();
         cmb_date = new com.toedter.calendar.JDateChooser();
         btn_refrescar = new javax.swing.JButton();
+        btn_factura = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_notapedido = new javax.swing.JTable();
 
@@ -179,7 +180,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                 btn_agregarDetalleActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_agregarDetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 84, -1, -1));
+        jPanel1.add(btn_agregarDetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, -1, -1));
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -225,7 +226,16 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, -1, -1));
+
+        btn_factura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/facturas.png"))); // NOI18N
+        btn_factura.setText("Generar factura");
+        btn_factura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_facturaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, -1, -1));
 
         tbl_notapedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -297,6 +307,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         cmb_date.setCalendar(c2);
         btn_agregarDetalle.setVisible(true);
         btn_agregarCliente.setVisible(true);
+        btn_factura.setVisible(true);
         btn_refrescar.setVisible(true);
         
         limpiartabla();
@@ -317,6 +328,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         cmb_date.setCalendar(c2);
         btn_agregarDetalle.setVisible(true);
         btn_agregarCliente.setVisible(true);
+        btn_factura.setVisible(true);
         btn_refrescar.setVisible(true);
         limpiartabla();
         mostrardatostabla("");
@@ -387,6 +399,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             btn_cancelar.setVisible(true);
             btn_agregarDetalle.setVisible(false);
             btn_agregarCliente.setVisible(false);
+            btn_factura.setVisible(false);
             btn_refrescar.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null,"No selecciono fila");
@@ -444,6 +457,11 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
 
+    private void btn_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_facturaActionPerformed
+        mantenedorFactura abrirFactura = new mantenedorFactura();
+        abrirFactura.setVisible(true);
+    }//GEN-LAST:event_btn_facturaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -486,6 +504,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     private javax.swing.JButton btn_agregarDetalle;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_factura;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_refrescar;
     private com.toedter.calendar.JDateChooser cmb_date;
