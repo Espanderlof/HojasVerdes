@@ -281,6 +281,32 @@ public class loteBodega extends javax.swing.JFrame {
         }
         return datos;
     }
+    
+    public void actualizarStock3(){
+        int aux = Integer.parseInt(tbl_lote.getValueAt(fila, 6).toString());
+        cmb_nombreProducto.setSelectedItem(tbl_lote.getValueAt(fila, 1).toString());
+        cmb_variedad.setSelectedItem(tbl_lote.getValueAt(fila, 2).toString());
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ='"+getCodProducto()+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+            //aux = 200
+            //stock = 1500
+            //nuevo = 100
+            stock = stock - aux;
+            
+            String sql3 = "update producto set stock_actual ="+stock+" where cod_producto = '"+getCodProducto()+"'";
+            PreparedStatement pst = reg.prepareStatement(sql3);
+            pst.executeUpdate();
+        }catch(Exception e){
+            
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -736,7 +762,7 @@ public class loteBodega extends javax.swing.JFrame {
             if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
             //qui se pone lo que hara si le das aceptar
                 txt_kilosFinal.setText("0");
-                actualizarStock2();
+                actualizarStock3();
                 eliminarLB(fila);
                 eliminarLote(fila);
                 limpiartabla();

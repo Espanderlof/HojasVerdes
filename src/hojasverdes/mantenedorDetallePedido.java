@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 public class mantenedorDetallePedido extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableModel modelo2 = new DefaultTableModel();
@@ -25,6 +26,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     private TableRowSorter trsfiltro;
     int columna=0;
     String sql;
+    int fila;
     /**
      * Creates new form mantenedorDetallePedido
      */
@@ -217,7 +219,63 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             return false;
         }
     }
-
+    
+    public void actualizarStock2(){
+        int aux = Integer.parseInt(tbl_detallepedido.getValueAt(fila, 4).toString());
+        String cod = tbl_detallepedido.getValueAt(fila, 1).toString();
+        JOptionPane.showMessageDialog(null,aux);
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ='"+cod+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+            JOptionPane.showMessageDialog(null,stock);
+            //aux = 200
+            //stock = 1500
+            //nuevo = 100
+            JOptionPane.showMessageDialog(null, Integer.parseInt(txt_cantidad.getText()));
+            if (aux > Integer.parseInt(txt_cantidad.getText())){
+                stock = stock + (aux - Integer.parseInt(txt_cantidad.getText()));
+            }else{
+                stock = stock + (Integer.parseInt(txt_cantidad.getText()) - aux);
+            }
+            JOptionPane.showMessageDialog(null,stock);
+            
+            String sql3 = "update producto set stock_actual ="+stock+" where cod_producto = '"+cod+"'";
+            PreparedStatement pst = reg.prepareStatement(sql3);
+            pst.executeUpdate();
+        }catch(Exception e){
+            
+        }
+    }
+    
+    public void actualizarStock3(){
+        int aux = Integer.parseInt(tbl_detallepedido.getValueAt(fila, 4).toString());
+        String cod = tbl_detallepedido.getValueAt(fila, 1).toString();
+        int stock = 0;
+        int sw = 0;
+        try{
+            String sql="select stock_actual from producto where cod_producto ='"+cod+"'";
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                stock = (Integer.parseInt(rs.getString(1)));
+            }
+            //aux = 200
+            //stock = 1500
+            //nuevo = 100
+            stock = stock + aux;            
+            String sql3 = "update producto set stock_actual ="+stock+" where cod_producto = '"+cod+"'";
+            PreparedStatement pst = reg.prepareStatement(sql3);
+            pst.executeUpdate();
+        }catch(Exception e){
+            
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -433,6 +491,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             if (txt_precio.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Debe ingresar precio");
             }else{
+                actualizarStock2();
                 String envio = cmb_notapedido.getSelectedItem().toString();
                 String nom = cmb_nombreproducto.getSelectedItem().toString();
                 String var = cmb_variedad.getSelectedItem().toString();
@@ -539,7 +598,9 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         if (fila >= 0){   
             if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
             //qui se pone lo que hara si le das aceptar
+                
                 fila=tbl_detallepedido.getSelectedRow();
+                actualizarStock3();
                 //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
                 cmb_notapedido.setSelectedItem(tbl_detallepedido.getValueAt(fila, 0).toString());
                 String x = tbl_detallepedido.getValueAt(fila, 1).toString();
