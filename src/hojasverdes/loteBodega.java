@@ -107,6 +107,7 @@ public class loteBodega extends javax.swing.JFrame {
 
     
     void cmb_productoVariedad(String valor){
+        cmb_nombreProducto.removeAllItems();
         try{
             String sql="select nom_producto from producto";
             Statement st = reg.createStatement();
@@ -134,6 +135,7 @@ public class loteBodega extends javax.swing.JFrame {
     }
     
     void cmbBodega(String valor){
+        cmb_bodega.removeAllItems();
         try{
             String sql="select nom_bodega from bodega";
             Statement st = reg.createStatement();
@@ -312,6 +314,7 @@ public class loteBodega extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_agregar = new javax.swing.JButton();
+        btn_actualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_lote = new javax.swing.JTable();
 
@@ -319,6 +322,11 @@ public class loteBodega extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+        });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
             }
         });
 
@@ -334,6 +342,11 @@ public class loteBodega extends javax.swing.JFrame {
         cmb_nombreProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_nombreProductoActionPerformed(evt);
+            }
+        });
+        cmb_nombreProducto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cmb_nombreProductoFocusGained(evt);
             }
         });
         jPanel1.add(cmb_nombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 13, 100, -1));
@@ -363,6 +376,11 @@ public class loteBodega extends javax.swing.JFrame {
         jLabel3.setText("Bodega");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 59, -1, -1));
 
+        cmb_bodega.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cmb_bodegaFocusGained(evt);
+            }
+        });
         jPanel1.add(cmb_bodega, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 56, 198, -1));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -451,6 +469,14 @@ public class loteBodega extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 200, -1, 30));
+
+        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Reload-20.png"))); // NOI18N
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 100, 30, 30));
 
         tbl_lote.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -797,6 +823,27 @@ public class loteBodega extends javax.swing.JFrame {
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void cmb_bodegaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmb_bodegaFocusGained
+
+    }//GEN-LAST:event_cmb_bodegaFocusGained
+
+    private void cmb_nombreProductoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmb_nombreProductoFocusGained
+        
+    }//GEN-LAST:event_cmb_nombreProductoFocusGained
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        cmbBodega("");
+        cmb_productoVariedad("");
+        cmb_elaboracion.setCalendar(c2);
+        cmb_ingreso.setCalendar(c2);
+        limpiartabla();
+        mostrardatostabla("");
+    }//GEN-LAST:event_btn_actualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -834,6 +881,7 @@ public class loteBodega extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;
+    private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;

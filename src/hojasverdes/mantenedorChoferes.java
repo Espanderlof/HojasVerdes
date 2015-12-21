@@ -437,7 +437,7 @@ public class mantenedorChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nomChoferKeyTyped
 
     private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
-        int limite = 10;
+        int limite = 8;
         if (txt_telefono.getText().length() == limite) {
             evt.consume();
         }

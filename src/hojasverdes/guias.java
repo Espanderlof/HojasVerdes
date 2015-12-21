@@ -287,6 +287,11 @@ public class guias extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -701,6 +706,12 @@ public class guias extends javax.swing.JFrame {
         // TODO add your handling code here:
         cnx.cerrar();
     }//GEN-LAST:event_formWindowClosing
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        cmbPatente("");
+        //cmbChofer("");
+        cmbProveedor("");
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

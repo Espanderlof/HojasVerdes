@@ -541,7 +541,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_giroKeyTyped
 
     private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
-        int limite = 9;
+        int limite = 8;
         if (txt_telefono.getText().length() == limite) {
             evt.consume();
         }

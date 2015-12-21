@@ -464,7 +464,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_direccionproveedorKeyTyped
 
     private void txt_telefonoproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoproveedorKeyTyped
-        int limite = 9;
+        int limite = 8;
         if (txt_telefonoproveedor.getText().length() == limite) {
             evt.consume();
         }
