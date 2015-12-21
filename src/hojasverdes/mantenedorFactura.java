@@ -331,6 +331,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
         btn_eliminar.setVisible(true);
         btn_modificar.setVisible(true);
         btn_agregar.setVisible(true);
+        txt_numerofactura.setEditable(true);
         txt_numerofactura.setEnabled(true);
         txt_numerofactura.requestFocus();
         txt_numerofactura.setText("");
@@ -472,6 +473,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
 
     private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         cmb_date.setCalendar(c2);
+        limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
 
