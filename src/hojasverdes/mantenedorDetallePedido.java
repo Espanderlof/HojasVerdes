@@ -92,7 +92,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             }
         try{
                 cmb_nombreproducto.removeAllItems();
-                String sql="select nom_producto from producto";
+                String sql="select distinct(nom_producto) from producto";
                 Statement st = reg.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()){
@@ -297,7 +297,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         });
         jPanel1.add(cmb_variedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 95, 155, -1));
 
-        jLabel4.setText("Cantidad:");
+        jLabel4.setText("Cantidad (Kg):");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 136, -1, -1));
 
         txt_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -544,7 +544,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 cmb_notapedido.setSelectedItem(tbl_detallepedido.getValueAt(fila, 0).toString());
                 
                 try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_pedido WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+getCodProducto()+" ");
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM detalle_pedido WHERE nro_nota='"+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+"' and cod_producto='"+getCodProducto()+"' ");
                     pst.executeUpdate();
                     limpiartabla();
                     mostrardatostabla("");
@@ -622,6 +622,9 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
                     }
+                    txt_cantidad.setText("");
+                    txt_label.setText("");
+                    txt_precio.setText("");
                     limpiartabla();
                     mostrardatostabla("");
                 }
@@ -661,6 +664,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
+        limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
 

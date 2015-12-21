@@ -454,6 +454,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
     private void btn_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refrescarActionPerformed
         
         cmb_date.setCalendar(c2);
+        limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
 
