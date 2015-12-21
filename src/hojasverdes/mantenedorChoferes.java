@@ -417,11 +417,6 @@ public class mantenedorChoferes extends javax.swing.JFrame {
         if (txt_rutChofer.getText().length() == limite) {
             evt.consume();
         }
-        char t = evt.getKeyChar();
-        if (Character.isLetter(t)) {
-            evt.consume();
-            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
-        }
     }//GEN-LAST:event_txt_rutChoferKeyTyped
 
     private void txt_nomChoferKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nomChoferKeyTyped
