@@ -144,6 +144,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     //-------------------- Detalle envio ------------------------------------------------------------------------
     
     void cmb_guiaEnvio(String valor){
+        cmb_guiaEnvio.removeAllItems();
         try{
             String sql="select cod_envio from guia_envio order by cod_envio";
             Statement st = reg.createStatement();
@@ -156,6 +157,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }
     
     void cmb_productoVariedad(String valor){
+        cmb_nomProducto.removeAllItems();
         try{
             String sql="select distinct(nom_producto) from producto";
             Statement st = reg.createStatement();
@@ -206,6 +208,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     //--------------------------------------- Guia recepcion ------------------------------------------------------------
     
     void cmb_guiaRecepcion(String valor){
+        cmb_guiaRecepcion.removeAllItems();
         try{
             String sql="select cod_recepcion from guia_recepcion order by cod_recepcion";
             Statement st = reg.createStatement();
@@ -218,6 +221,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
     }
 
     void cmb_productoVariedad2(String valor){
+        cmb_nomProducto2.removeAllItems();
         try{
             String sql="select distinct(nom_producto) from producto";
             Statement st = reg.createStatement();
@@ -361,7 +365,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, -1, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -415,7 +419,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -469,7 +473,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 btn_modificar2ActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_modificar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, -1, -1));
+        jPanel2.add(btn_modificar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, -1, -1));
 
         btn_eliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar2.setText("Eliminar");
@@ -520,7 +524,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 btn_refrescar2ActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_refrescar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, -1, -1));
+        jPanel2.add(btn_refrescar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, -1, -1));
 
         tbl_envio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -652,6 +656,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
             cmb_variedad.setEnabled(false);
             btn_agregar.setVisible(false);
             btn_modificar.setVisible(false);
+            btn_refrescar2.setVisible(false);
             btn_eliminar.setVisible(false);
             btn_aceptar.setVisible(true);
             btn_cancelar.setVisible(true);
@@ -710,6 +715,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
                 limpiartablaEnvio();
                 mostrardatostablaEnvio("");
                 btn_agregarProducto.setVisible(true);
+                btn_refrescar2.setVisible(true);
                 btn_refrescar.setVisible(true);
                 btn_agregarProducto2.setVisible(true);
                 btn_agregar2.setVisible(true);
@@ -749,6 +755,7 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         btn_agregarProducto.setVisible(true);
         btn_refrescar.setVisible(true);
         btn_agregarProducto2.setVisible(true);
+        btn_refrescar2.setVisible(true);
         btn_agregar2.setVisible(true);
         btn_modificar2.setVisible(true);
         btn_eliminar2.setVisible(true);

@@ -99,6 +99,7 @@ public class guias extends javax.swing.JFrame {
     
     void cmbPatente(String valor){
         try{
+            cmb_patente.removeAllItems();
             String sql="select distinct(patente) from camion_chofer";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -563,10 +564,10 @@ public class guias extends javax.swing.JFrame {
                 pst.setDate(6, dto.getFecha());
                 int n = pst.executeUpdate();
                 if (n>0){
-                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente en Guia Envio.");
                 }                
             }catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,"Error al agregar,");
+                JOptionPane.showMessageDialog(null,"Error al agregar, Guia_Envio");
                 //sw = 1;
             }
 
@@ -582,10 +583,10 @@ public class guias extends javax.swing.JFrame {
                 pst.setDate(7, dto2.getFecha_recepcion());
                 int n = pst.executeUpdate();
                 if (n>0){
-                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente.");
+                    JOptionPane.showMessageDialog(null,"Registrado satisfactoriamente Guia Recepcion.");
                 }                
             }catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,"Error al agregar");
+                JOptionPane.showMessageDialog(null,"Error al agregar, Guia Recepcion");
                 //sw = 1;
             }
             txt_guia.setText("");

@@ -201,7 +201,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -247,7 +247,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
         tbl_campo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -359,7 +359,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                 if (txt_direccion.getText().equals("")){
                     JOptionPane.showMessageDialog(null,"Debe ingresar direccion");
                 }else{
-                    sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = "+getRutProveedor()+"  WHERE cod_campo="+Integer.parseInt(txt_codCampo.getText())+" ";
+                    sql="UPDATE campo SET nom_campo='"+txt_nomCampo.getText()+"', direccion ='"+txt_direccion.getText()+"', rut_proveedor = '"+getRutProveedor()+"'  WHERE cod_campo='"+Integer.parseInt(txt_codCampo.getText())+"' ";
                     try {
                         PreparedStatement pst = reg.prepareStatement(sql);
                         pst.executeUpdate();

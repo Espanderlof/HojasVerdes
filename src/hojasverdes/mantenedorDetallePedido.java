@@ -82,7 +82,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     public void llenarcmb(){
         try{
                 cmb_notapedido.removeAllItems();
-                String sql="select nro_nota from nota_pedido";
+                String sql="select nro_nota from nota_pedido order by nro_nota";
                 Statement st = reg.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()){
@@ -223,7 +223,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
     public void actualizarStock2(){
         int aux = Integer.parseInt(tbl_detallepedido.getValueAt(fila, 4).toString());
         String cod = tbl_detallepedido.getValueAt(fila, 1).toString();
-        JOptionPane.showMessageDialog(null,aux);
+        //JOptionPane.showMessageDialog(null,aux);
         int stock = 0;
         int sw = 0;
         try{
@@ -233,17 +233,17 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             while (rs.next()){
                 stock = (Integer.parseInt(rs.getString(1)));
             }
-            JOptionPane.showMessageDialog(null,stock);
+            //JOptionPane.showMessageDialog(null,stock);
             //aux = 200
             //stock = 1500
             //nuevo = 100
-            JOptionPane.showMessageDialog(null, Integer.parseInt(txt_cantidad.getText()));
+            //JOptionPane.showMessageDialog(null, Integer.parseInt(txt_cantidad.getText()));
             if (aux > Integer.parseInt(txt_cantidad.getText())){
                 stock = stock + (aux - Integer.parseInt(txt_cantidad.getText()));
             }else{
                 stock = stock + (Integer.parseInt(txt_cantidad.getText()) - aux);
             }
-            JOptionPane.showMessageDialog(null,stock);
+            //JOptionPane.showMessageDialog(null,stock);
             
             String sql3 = "update producto set stock_actual ="+stock+" where cod_producto = '"+cod+"'";
             PreparedStatement pst = reg.prepareStatement(sql3);
@@ -445,7 +445,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, -1, -1));
 
         tbl_detallepedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

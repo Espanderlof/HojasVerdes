@@ -347,7 +347,7 @@ public class mantenedorChoferes extends javax.swing.JFrame {
                     if (txt_direccion.getText().equals("")){
                         JOptionPane.showMessageDialog(null,"Debe ingresar direccion chofer");
                     }else{
-                        sql="UPDATE chofer SET nom_chofer='"+txt_nomChofer.getText()+"',telefono= "+Integer.parseInt(txt_telefono.getText())+", direccion='"+txt_direccion.getText()+"'  WHERE rut_chofer="+Integer.parseInt(txt_rutChofer.getText())+"";
+                        sql="UPDATE chofer SET nom_chofer='"+txt_nomChofer.getText()+"',telefono='"+Integer.parseInt(txt_telefono.getText())+"', direccion='"+txt_direccion.getText()+"'  WHERE rut_chofer='"+Integer.parseInt(txt_rutChofer.getText())+"'";
                         try {
                             PreparedStatement pst = reg.prepareStatement(sql);
                             pst.executeUpdate();

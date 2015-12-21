@@ -80,7 +80,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
     public void llenarcmb(){
         try{
                 cmb_notapedido.removeAllItems();
-                String sql="select nro_nota from nota_pedido";
+                String sql="select nro_nota from nota_pedido order by nro_nota";
                 Statement st = reg.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()){
@@ -196,7 +196,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, -1, -1));
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -214,7 +214,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -223,7 +223,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
 
         btn_agregarNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregarNota.addActionListener(new java.awt.event.ActionListener() {
@@ -251,7 +251,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, -1));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
 
         tbl_factura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

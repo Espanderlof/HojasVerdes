@@ -94,6 +94,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
     
     void cmbPatente(String valor){
         try{
+            cmb_patente.removeAllItems();
             String sql="select patente from camion order by patente";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -106,6 +107,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
     
     void cmbChofer(String valor){
         try{
+            cmb_chofer.removeAllItems();
             String sql="select nom_chofer from chofer order by nom_chofer";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -212,7 +214,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, -1, -1));
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, -1, -1));
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -221,7 +223,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -230,7 +232,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, -1, -1));
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -281,7 +283,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 110, 30));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 110, 30));
 
         tbl_camionChofer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

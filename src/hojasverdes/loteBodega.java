@@ -400,7 +400,7 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(txt_calibre, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 56, 181, -1));
 
-        jLabel3.setText("Bodega");
+        jLabel3.setText("Bodega:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 59, -1, -1));
 
         cmb_bodega.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -418,10 +418,10 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(btn_agregarBodega, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 56, 27, -1));
 
-        jLabel4.setText("Calibre");
+        jLabel4.setText("Calibre:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 59, -1, -1));
 
-        jLabel5.setText("Kilos inicial");
+        jLabel5.setText("Kilos Inicial:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
 
         txt_kilosInicial.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -431,7 +431,7 @@ public class loteBodega extends javax.swing.JFrame {
         });
         jPanel1.add(txt_kilosInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 105, 181, -1));
 
-        jLabel6.setText("Kilos final");
+        jLabel6.setText("Kilos Final:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 108, -1, -1));
 
         txt_kilosFinal.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -444,7 +444,7 @@ public class loteBodega extends javax.swing.JFrame {
         jLabel7.setText("Elaboracion:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 160, -1, -1));
 
-        jLabel8.setText("Ingreso bodega:");
+        jLabel8.setText("Ingreso Bodega:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 160, -1, -1));
         jPanel1.add(cmb_elaboracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 154, 181, -1));
         jPanel1.add(cmb_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 154, 198, -1));
@@ -467,7 +467,7 @@ public class loteBodega extends javax.swing.JFrame {
                 btn_aceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
+        jPanel1.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/update.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -476,7 +476,7 @@ public class loteBodega extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -486,7 +486,7 @@ public class loteBodega extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 200, -1, -1));
+        jPanel1.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 200, -1, -1));
 
         btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_agregar.setText("Agregar");
@@ -504,7 +504,7 @@ public class loteBodega extends javax.swing.JFrame {
                 btn_refrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 110, 30));
+        jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 200, 110, 30));
 
         tbl_lote.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
