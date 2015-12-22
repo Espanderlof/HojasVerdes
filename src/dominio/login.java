@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 
 public class login {
-    
+    String Usuario;
     
     public int validar_ingreso(){
        conectar cnx = new conectar();
@@ -45,4 +45,16 @@ public class login {
     return resultado;
     
     }
+
+    public String guardarUsuario(){
+            Usuario = Login.txt_usuario.getText();
+        return Usuario;
+    }
+
+    public String getUsuario() {
+        return Usuario;
+    }
+    
+    
+    
 }

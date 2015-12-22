@@ -5,6 +5,7 @@
  */
 package hojasverdes;
 
+import dominio.login;
 /**
  *
  * @author Jaime
@@ -18,6 +19,8 @@ public class menu extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Menu");
+        login op = new login();
+        txt_usuario.setText(op.guardarUsuario());
     }
 
     /**
@@ -35,6 +38,7 @@ public class menu extends javax.swing.JFrame {
         btn_compra = new javax.swing.JButton();
         btn_salir = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        txt_usuario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,6 +129,7 @@ public class menu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
+        getContentPane().add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 70, 20));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondomenu.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -201,5 +206,6 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    public static javax.swing.JLabel txt_usuario;
     // End of variables declaration//GEN-END:variables
 }

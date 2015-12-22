@@ -148,20 +148,17 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_usuarioActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
+            
+        if (validar.validar_ingreso()==1) {
             menu abrir = new menu();
             abrir.setVisible(true);
+            validar.guardarUsuario();
             this.setVisible(false);
-       /* if (validar.validar_ingreso()==1) {
-            
         }else{
             JOptionPane.showMessageDialog(null, "Acceso Denegado\n"
             + "Por favor ingrese un usuario y/o contraseña correctos.","Acceso Denegago",
             JOptionPane.ERROR_MESSAGE);
-        }*/
-        
-        
-        
-        
+        }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

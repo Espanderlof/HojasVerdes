@@ -6,6 +6,7 @@
 package hojasverdes;
 
 import dominio.usuario;
+import hojasverdes.menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -131,6 +132,7 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -451,7 +453,13 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
                 fila = tbl_usuario.getSelectedRow();
                 txt_rut.setText(tbl_usuario.getValueAt(fila, 0).toString());
-                try {
+                String usuario1 = menu.txt_usuario.getText();
+                if (txt_rut.getText().equals(usuario1)){
+                    
+                JOptionPane.showMessageDialog(null,"No puede eliminar el Usuario logueado!!!.");
+                txt_rut.setText("");
+                }else{
+                    try {
                     PreparedStatement pst = reg.prepareStatement("DELETE FROM usuario WHERE rut="+Integer.parseInt(txt_rut.getText()+""));
                     pst.executeUpdate();
                     limpiartabla();
@@ -459,6 +467,7 @@ public class mantenedorUsuarios extends javax.swing.JFrame {
                     txt_rut.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                }
                 }
             }else{
                 
