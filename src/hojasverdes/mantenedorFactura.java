@@ -7,7 +7,7 @@ package hojasverdes;
 
 import dominio.factura;
 import java.sql.Connection;
-
+import dominio.fechas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,9 +66,11 @@ public class mantenedorFactura extends javax.swing.JFrame {
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
                 datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
+                datos[3]=fechas.deDateToString(rs.getDate(4));
                 modelo.addRow(datos);
             }
+            Calendar c3 = new GregorianCalendar();
+            cmb_date.setCalendar(c3);
             tbl_factura.setModel(modelo);
             
         } catch (SQLException ex) {
@@ -380,8 +382,8 @@ public class mantenedorFactura extends javax.swing.JFrame {
             String rut=(tbl_factura.getValueAt(fila, 1).toString());
             cmb_notapedido.setSelectedItem(rut);
             txt_totalneto.setText(tbl_factura.getValueAt(fila, 2).toString());
-            String fecha=(tbl_factura.getValueAt(fila, 3).toString());
-            
+            Date fecha = fechas.deStringToDate(tbl_factura.getValueAt(fila, 3).toString());
+            cmb_date.setDate(fecha);
             
             /*String[] fechArray = fecha.split("/");
             int año = Integer.valueOf(fechArray[0]);

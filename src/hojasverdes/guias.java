@@ -5,6 +5,7 @@
  */
 package hojasverdes;
 
+import dominio.fechas;
 import dominio.camion;
 import dominio.guiaEnvio;
 import dominio.guiaRecepcion;
@@ -51,6 +52,8 @@ public class guias extends javax.swing.JFrame {
         tbl_guias.setModel(modelo);
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
+        txt_fechaPassEnvio.setVisible(false);
+        txt_fechaPassRecepcion.setVisible(false);
         cmbPatente("");
         //cmbChofer("");
         cmbProveedor("");
@@ -74,15 +77,19 @@ public class guias extends javax.swing.JFrame {
             while(rs.next()){
                 //aqui se agregan los campos
                 datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
+                datos[1]=fechas.deDateToString(rs.getDate(2));
+                datos[2]=fechas.deDateToString(rs.getDate(3));
                 datos[3]=rs.getString(4);
                 datos[4]=rs.getString(5);
                 datos[5]=rs.getString(6);
                 datos[6]=rs.getString(7);
                 modelo.addRow(datos);
+                
             }
-            tbl_guias.setModel(modelo);
+                Calendar c3 = new GregorianCalendar();
+                cmb_fechaEnvio.setCalendar(c3);
+                cmb_fechaRecepcion.setCalendar(c3);
+                tbl_guias.setModel(modelo);
             
         } catch (SQLException ex) {
             Logger.getLogger(producto.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +123,7 @@ public class guias extends javax.swing.JFrame {
         cmb_chofer.removeAllItems();
         try{
             //String sql="select distinct(rut_chofer) from camion_chofer";
-            String sql="select c.nom_chofer from chofer c, camion_chofer cc where cc.patente ='"+valor+"' and c.rut_chofer = cc.rut_chofer";
+            String sql="select distinct(c.nom_chofer) from chofer c, camion_chofer cc where cc.patente ='"+valor+"' and c.rut_chofer = cc.rut_chofer";
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
@@ -279,6 +286,8 @@ public class guias extends javax.swing.JFrame {
         btn_cancelar = new javax.swing.JButton();
         btn_agregar = new javax.swing.JButton();
         btn_refrescar = new javax.swing.JButton();
+        txt_fechaPassRecepcion = new javax.swing.JLabel();
+        txt_fechaPassEnvio = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_guias = new javax.swing.JTable();
@@ -443,6 +452,12 @@ public class guias extends javax.swing.JFrame {
         });
         jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 160, -1));
 
+        txt_fechaPassRecepcion.setText("fecha pass recepcion");
+        jPanel1.add(txt_fechaPassRecepcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, 20));
+
+        txt_fechaPassEnvio.setText("fecha pass envio");
+        jPanel1.add(txt_fechaPassEnvio, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, 20));
+
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -551,7 +566,7 @@ public class guias extends javax.swing.JFrame {
             dto2.setCod_recepcion(Integer.parseInt(txt_guia.getText()));
             dto2.setRut_chofer(getRutChofer());
             Date fecha2 = cmb_fechaRecepcion.getDate();
-            java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
             dto2.setFecha_recepcion(sqlfecha2);
             sql= "INSERT INTO guia_envio (cod_envio, cod_campo, rut_proveedor, rut_chofer, patente, fecha_envio)VALUES (?,?,?,?,?,?)";
             try {
@@ -589,6 +604,8 @@ public class guias extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Error al agregar, Guia Recepcion");
                 //sw = 1;
             }
+            txt_fechaPassRecepcion.setText("");
+            txt_fechaPassEnvio.setText("");
             txt_guia.setText("");
             limpiartabla();
             mostrardatostabla(""); 
@@ -599,6 +616,12 @@ public class guias extends javax.swing.JFrame {
         int fila=tbl_guias.getSelectedRow();
         if (fila>=0){
             txt_guia.setText(tbl_guias.getValueAt(fila, 0).toString());
+            txt_fechaPassEnvio.setText(tbl_guias.getValueAt(fila, 1).toString());
+            Date fecha = fechas.deStringToDate(tbl_guias.getValueAt(fila, 1).toString());
+            cmb_fechaEnvio.setDate(fecha);
+            txt_fechaPassRecepcion.setText(tbl_guias.getValueAt(fila, 2).toString());
+            Date fecha1 = fechas.deStringToDate(tbl_guias.getValueAt(fila, 2).toString());
+            cmb_fechaRecepcion.setDate(fecha1);
             cmb_patente.setSelectedItem(tbl_guias.getValueAt(fila, 3).toString());
             String nom = getNomChofer(fila);
             cmb_chofer.setSelectedItem(nom);
@@ -628,15 +651,15 @@ public class guias extends javax.swing.JFrame {
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
             pst.executeUpdate();
-            limpiartabla();
-            mostrardatostabla("");
+            //limpiartabla();
+            //mostrardatostabla("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         
-        Date fecha2 = cmb_fechaEnvio.getDate();
-        java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+        Date fecha2 = cmb_fechaRecepcion.getDate();
+        java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
         sql="UPDATE guia_recepcion SET cod_campo='"+getCodCampo()+"',rut_proveedor='"+getRutProveedor()+"', rut_chofer='"+getRutChofer()+"', patente ='"+cmb_patente.getSelectedItem().toString()+"', fecha_recepcion='"+sqlfecha2+"'  WHERE cod_recepcion='"+Integer.parseInt(txt_guia.getText())+"'";
         try {
             PreparedStatement pst = reg.prepareStatement(sql);
@@ -659,6 +682,8 @@ public class guias extends javax.swing.JFrame {
         txt_guia.setEditable(true);
         txt_guia.requestFocus();
         txt_guia.setText("");
+        txt_fechaPassEnvio.setText("");
+        txt_fechaPassRecepcion.setText("");
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_aceptarActionPerformed
@@ -676,6 +701,10 @@ public class guias extends javax.swing.JFrame {
         btn_refrescar.setVisible(true);
         txt_guia.requestFocus();
         txt_guia.setText("");
+        txt_fechaPassEnvio.setText("");
+        txt_fechaPassRecepcion.setText("");
+        limpiartabla();
+        mostrardatostabla("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -805,6 +834,8 @@ public class guias extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbl_guias;
+    private javax.swing.JLabel txt_fechaPassEnvio;
+    private javax.swing.JLabel txt_fechaPassRecepcion;
     private javax.swing.JTextField txt_guia;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,7 @@ package hojasverdes;
 
 import dominio.notapedido;
 import java.sql.Connection;
-
+import dominio.fechas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,9 +67,11 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             while (rs.next()){
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
+                datos[2]=fechas.deDateToString(rs.getDate(3));
                 modelo.addRow(datos);
             }
+            Calendar c3 = new GregorianCalendar();
+            cmb_date.setCalendar(c3);
             tbl_notapedido.setModel(modelo);
             
         } catch (SQLException ex) {
@@ -377,7 +379,9 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
             
             String rut=(tbl_notapedido.getValueAt(fila, 1).toString());
             cmb_rutcliente.setSelectedItem(rut);
-            String fecha=(tbl_notapedido.getValueAt(fila, 2).toString());
+            Date fecha1 = fechas.deStringToDate(tbl_notapedido.getValueAt(fila, 2).toString());
+            cmb_date.setDate(fecha1);
+            
             
             
             /*String[] fechArray = fecha.split("/");

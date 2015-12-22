@@ -377,6 +377,11 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jPanel1.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         btn_agregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarProductoActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_agregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 51, 32, 20));
 
         jLabel7.setText("Variedad:");
@@ -455,6 +460,11 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         jPanel2.add(txt_kilogramos2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 124, -1));
 
         btn_agregarProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregarProducto2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarProducto2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_agregarProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 51, 31, -1));
 
         btn_agregar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
@@ -1053,6 +1063,16 @@ public class mantenedorDetalleGuias extends javax.swing.JFrame {
         limpiartablaRecepcion();
         mostrardatostablaRecepcion("");
     }//GEN-LAST:event_btn_refrescar2ActionPerformed
+
+    private void btn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProductoActionPerformed
+        mantenedorProductos abrirCC = new mantenedorProductos();
+        abrirCC.setVisible(true);
+    }//GEN-LAST:event_btn_agregarProductoActionPerformed
+
+    private void btn_agregarProducto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProducto2ActionPerformed
+        mantenedorProductos abrirCC = new mantenedorProductos();
+        abrirCC.setVisible(true);
+    }//GEN-LAST:event_btn_agregarProducto2ActionPerformed
 
     /**
      * @param args the command line arguments

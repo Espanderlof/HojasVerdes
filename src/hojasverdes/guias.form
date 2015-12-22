@@ -372,6 +372,26 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="javax.swing.JLabel" name="txt_fechaPassRecepcion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="fecha pass recepcion"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="330" y="40" width="-1" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txt_fechaPassEnvio">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="fecha pass envio"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="110" y="40" width="-1" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel5">

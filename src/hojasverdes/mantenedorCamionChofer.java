@@ -6,6 +6,7 @@
 package hojasverdes;
 
 import dominio.camion;
+import dominio.fechas;
 import dominio.camionChofer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -52,6 +55,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         btn_aceptar.setVisible(false);
         btn_cancelar.setVisible(false);
         cmb_date.setCalendar(c2);
+        txt_fechapass.setVisible(false);
         mostrardatostabla("");
         cmbPatente("");
         cmbChofer("");
@@ -73,9 +77,21 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 //aqui se agregan los campos
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
+                
+                //Date date = new Date();
+                //date = rs.getDate(3);
+                //fechas.deDateToString(rs.getDate(3));
+                //System.out.println(date.toString());
+                //DateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
+		//String dateConvertido = fecha.format(date);
+		//System.out.println(dateConvertido);
+                datos[2]=fechas.deDateToString(rs.getDate(3));;
+                //datos[2]=dateConvertido;
                 datos[3]=rs.getString(4);
                 modelo.addRow(datos);
+                Calendar c3 = new GregorianCalendar();
+                cmb_date.setCalendar(c3);
+                
             }
             tbl_camionChofer.setModel(modelo);
             
@@ -173,6 +189,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         btn_patente = new javax.swing.JButton();
         btn_chofer = new javax.swing.JButton();
         btn_refrescar = new javax.swing.JButton();
+        txt_fechapass = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_camionChofer = new javax.swing.JTable();
 
@@ -285,6 +302,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         });
         jPanel1.add(btn_refrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 110, 30));
 
+        txt_fechapass.setText("fecha pass");
+        jPanel1.add(txt_fechapass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 70, 20));
+
         tbl_camionChofer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -362,6 +382,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
                 //sw = 1;
             }
             txt_hora.setText("");
+            txt_fechapass.setText("");
             limpiartabla();
             mostrardatostabla("");
         }
@@ -373,6 +394,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         if (fila>=0){
             cmb_patente.setSelectedItem(tbl_camionChofer.getValueAt(fila, 0).toString());
             cmb_chofer.setSelectedItem(getNomChofer(fila));
+            txt_fechapass.setText(tbl_camionChofer.getValueAt(fila, 2).toString());
+            Date fecha = fechas.deStringToDate(tbl_camionChofer.getValueAt(fila, 2).toString());
+            cmb_date.setDate(fecha);
             txt_hora.setText(tbl_camionChofer.getValueAt(fila, 3).toString());
             cmb_patente.setEnabled(false);
             cmb_chofer.setEnabled(false);
@@ -394,13 +418,18 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Debe ingresar hora uso");
         }else{
             Date fecha = cmb_date.getDate();
+            //JOptionPane.showMessageDialog(null,fecha);
             java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-            sql="UPDATE camion_chofer SET fecha_uso='"+sqlfecha+"',hora_uso='"+txt_hora.getText()+"' WHERE patente='"+cmb_patente.getSelectedItem().toString()+"' and rut_chofer="+getRutChofer()+"";
+            //JOptionPane.showMessageDialog(null,sqlfecha);
+            Date sqlfechaclave1 = fechas.deStringToDate(txt_fechapass.getText());
+            java.sql.Date sqlfechaclave = new java.sql.Date(sqlfechaclave1.getTime());
+            sql="UPDATE camion_chofer SET fecha_uso='"+sqlfecha+"',hora_uso='"+txt_hora.getText()+"' WHERE patente='"+cmb_patente.getSelectedItem().toString()+"' and rut_chofer='"+getRutChofer()+"' and fecha_uso='"+sqlfechaclave+"'";
             try {
                 PreparedStatement pst = reg.prepareStatement(sql);
                 pst.executeUpdate();
                 limpiartabla();
                 mostrardatostabla("");
+                //JOptionPane.showMessageDialog(null,"actualizo");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(null,e.getMessage());
@@ -417,6 +446,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             btn_refrescar.setVisible(true);
             cmb_patente.requestFocus();
             txt_hora.setText("");
+            txt_fechapass.setText("");
             limpiartabla();
             mostrardatostabla("");
         }
@@ -436,6 +466,9 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
         btn_refrescar.setVisible(true);
         cmb_patente.requestFocus();
         txt_hora.setText("");
+        txt_fechapass.setText("");
+        limpiartabla();
+        mostrardatostabla("");
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -445,14 +478,18 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
             //qui se pone lo que hara si le das aceptar
                 fila=tbl_camionChofer.getSelectedRow();
                 String patente = tbl_camionChofer.getValueAt(fila, 0).toString();
+                txt_fechapass.setText(tbl_camionChofer.getValueAt(fila, 2).toString());
                 String chofer = getRutChofer();
                 try {
-                    PreparedStatement pst = reg.prepareStatement("DELETE FROM camion_chofer WHERE patente='"+patente+"' and rut_chofer ="+chofer+"");
+                    PreparedStatement pst = reg.prepareStatement("DELETE FROM camion_chofer WHERE patente='"+
+                            patente+"' and rut_chofer ='"+chofer+"' and fecha_uso='"+txt_fechapass.getText()+"'");
                     pst.executeUpdate();
                     limpiartabla();
+                    txt_fechapass.setText("");
                     mostrardatostabla("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar
@@ -540,6 +577,7 @@ public class mantenedorCamionChofer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_camionChofer;
+    private javax.swing.JLabel txt_fechapass;
     private javax.swing.JTextField txt_hora;
     // End of variables declaration//GEN-END:variables
 }

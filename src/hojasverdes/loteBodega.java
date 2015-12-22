@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package hojasverdes;
-
+import dominio.fechas;
 import dominio.bodegaLote;
 import dominio.camion;
 import dominio.lote;
@@ -21,10 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Fralkayg
- */
+
 public class loteBodega extends javax.swing.JFrame {
     
     DefaultTableModel modelo = new DefaultTableModel();
@@ -87,10 +84,14 @@ public class loteBodega extends javax.swing.JFrame {
                 datos[4]=rs.getString(5);
                 datos[5]=rs.getString(6);
                 datos[6]=rs.getString(7);
-                datos[7]=rs.getString(8);
-                datos[8]=rs.getString(9);
+                
+                datos[7]=fechas.deDateToString(rs.getDate(8));
+                datos[8]=fechas.deDateToString(rs.getDate(9));
                 modelo.addRow(datos);
             }
+            Calendar c3 = new GregorianCalendar();
+            cmb_elaboracion.setCalendar(c3);
+            cmb_ingreso.setCalendar(c3);
             tbl_lote.setModel(modelo);
             
         } catch (SQLException ex) {
@@ -181,7 +182,6 @@ public class loteBodega extends javax.swing.JFrame {
     }
     
     public void eliminarLote(int fila){
-        fila = tbl_lote.getSelectedRow();
         txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
         try {
             PreparedStatement pst = reg.prepareStatement("DELETE FROM lote WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+"");
@@ -193,8 +193,9 @@ public class loteBodega extends javax.swing.JFrame {
     }
     
     public void eliminarLB(int fila){
-        fila=tbl_lote.getSelectedRow();
         txt_lote.setText(tbl_lote.getValueAt(fila, 0).toString());
+        cmb_bodega.setSelectedItem(tbl_lote.getValueAt(fila, 4).toString());
+        
         try {
             PreparedStatement pst = reg.prepareStatement("DELETE FROM lote_bodega WHERE cod_lote='"+Integer.parseInt(txt_lote.getText())+"' and cod_bodega = '"+getCodBodega()+"'");
             pst.executeUpdate();
@@ -476,7 +477,7 @@ public class loteBodega extends javax.swing.JFrame {
                 btn_modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
+        jPanel1.add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 100, -1));
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_cancelar.setText("Cancelar");
@@ -590,7 +591,7 @@ public class loteBodega extends javax.swing.JFrame {
                                     dto2.setCod_bodega(getCodBodega());
                                     dto2.setCod_lote(Integer.parseInt(txt_lote.getText()));
                                     Date fecha2 = cmb_ingreso.getDate();
-                                    java.sql.Date sqlfecha2 = new java.sql.Date(fecha.getTime());
+                                    java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
                                     dto2.setFecha(sqlfecha2);
                                     sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
                                     try {
@@ -651,6 +652,10 @@ public class loteBodega extends javax.swing.JFrame {
             cmb_bodega.setSelectedItem(tbl_lote.getValueAt(fila, 4).toString());
             txt_kilosInicial.setText(tbl_lote.getValueAt(fila, 5).toString());
             txt_kilosFinal.setText(tbl_lote.getValueAt(fila, 6).toString());
+            Date fecha1 = fechas.deStringToDate(tbl_lote.getValueAt(fila, 7).toString());
+            cmb_elaboracion.setDate(fecha1);
+            Date fecha2 = fechas.deStringToDate(tbl_lote.getValueAt(fila, 8).toString());
+            cmb_ingreso.setDate(fecha2);
             txt_lote.setEditable(false);
             txt_lote.setEnabled(false);
             cmb_bodega.setEnabled(false);
@@ -692,8 +697,7 @@ public class loteBodega extends javax.swing.JFrame {
                             try {
                                 PreparedStatement pst = reg.prepareStatement(sql);
                                 pst.executeUpdate();
-                                limpiartabla();
-                                mostrardatostabla("");
+                                
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
                                 JOptionPane.showMessageDialog(null,e.getMessage());
@@ -705,8 +709,7 @@ public class loteBodega extends javax.swing.JFrame {
                             try{
                                 PreparedStatement pst = reg.prepareStatement(sql);
                                 pst.executeUpdate();
-                                limpiartabla();
-                                mostrardatostabla("");
+                                
                             }catch (Exception e){
                                 System.out.println(e.getMessage());
                                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -767,6 +770,7 @@ public class loteBodega extends javax.swing.JFrame {
         if (fila >= 0){   
             if(JOptionPane.showConfirmDialog(null, new Object[]{"Seguro que desea Eliminar fila seleccionada?"},"Eliminar",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.YES_OPTION){
             //qui se pone lo que hara si le das aceptar
+                
                 txt_kilosFinal.setText("0");
                 actualizarStock3();
                 eliminarLB(fila);
