@@ -366,6 +366,7 @@ public class mantenedorFactura extends javax.swing.JFrame {
                     txt_numerofactura.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
                 

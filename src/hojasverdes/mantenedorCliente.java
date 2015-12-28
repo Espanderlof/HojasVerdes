@@ -492,6 +492,7 @@ public class mantenedorCliente extends javax.swing.JFrame {
                     txt_rutCliente.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar

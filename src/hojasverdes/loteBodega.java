@@ -189,6 +189,7 @@ public class loteBodega extends javax.swing.JFrame {
             txt_lote.setText("");
             } catch (Exception e) {
                System.out.println(e.getMessage());
+               JOptionPane.showMessageDialog(null,e.getMessage());
             }
     }
     
@@ -202,6 +203,7 @@ public class loteBodega extends javax.swing.JFrame {
             txt_lote.setText("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
     }
     
@@ -566,80 +568,89 @@ public class loteBodega extends javax.swing.JFrame {
                     if (txt_kilosFinal.getText().equals("")){
                         JOptionPane.showMessageDialog(null,"Debe ingresar kilos final.");
                     }else{
-                        if (Integer.parseInt(txt_kilosInicial.getText()) < Integer.parseInt(txt_kilosFinal.getText())){
-                            JOptionPane.showMessageDialog(null,"Kilos iniciales no puede ser inferior a kilos final");
+                        if (Integer.parseInt(txt_kilosInicial.getText()) == 0){
+                            JOptionPane.showMessageDialog(null,"Kilos inicial no puede ser 0.");
                         }else{
-                            int vLote = verificarLote();
-                            if (vLote == Integer.parseInt(txt_lote.getText())){
-                                JOptionPane.showMessageDialog(null,"Error, codigo lote repetido.");
+                            if (Integer.parseInt(txt_kilosFinal.getText()) == 0){
+                                JOptionPane.showMessageDialog(null, "Kilos final no puede ser 0.");
                             }else{
-                                int []vLB=new int[2];
-                                vLB = verificarLB();
-                                if (vLB[0] == Integer.parseInt(txt_lote.getText()) && vLB[1] == getCodBodega()){
-                                    JOptionPane.showMessageDialog(null,"Error, codigos repetidos.");
+                                if (Integer.parseInt(txt_kilosInicial.getText()) < Integer.parseInt(txt_kilosFinal.getText())){
+                                    JOptionPane.showMessageDialog(null,"Kilos iniciales no puede ser inferior a kilos final");
                                 }else{
-                                    lote dto = new lote();
-                                    dto.setCod_lote(Integer.parseInt(txt_lote.getText()));
-                                    dto.setCod_producto(getCodProducto());
-                                    dto.setCalibre(Integer.parseInt(txt_calibre.getText()));
-                                    dto.setKilos_inicial(Integer.parseInt(txt_kilosInicial.getText()));
-                                    dto.setKilos_final(Integer.parseInt(txt_kilosFinal.getText()));
-                                    Date fecha = cmb_elaboracion.getDate();
-                                    java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-                                    dto.setFecha(sqlfecha);
+                                    int vLote = verificarLote();
+                                    if (vLote == Integer.parseInt(txt_lote.getText())){
+                                        JOptionPane.showMessageDialog(null,"Error, codigo lote repetido.");
+                                    }else{
+                                        int []vLB=new int[2];
+                                        vLB = verificarLB();
+                                        if (vLB[0] == Integer.parseInt(txt_lote.getText()) && vLB[1] == getCodBodega()){
+                                            JOptionPane.showMessageDialog(null,"Error, codigos repetidos.");
+                                        }else{
+                                            lote dto = new lote();
+                                            dto.setCod_lote(Integer.parseInt(txt_lote.getText()));
+                                            dto.setCod_producto(getCodProducto());
+                                            dto.setCalibre(Integer.parseInt(txt_calibre.getText()));
+                                            dto.setKilos_inicial(Integer.parseInt(txt_kilosInicial.getText()));
+                                            dto.setKilos_final(Integer.parseInt(txt_kilosFinal.getText()));
+                                            Date fecha = cmb_elaboracion.getDate();
+                                            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+                                            dto.setFecha(sqlfecha);
 
-                                    bodegaLote dto2 = new bodegaLote();
-                                    dto2.setCod_bodega(getCodBodega());
-                                    dto2.setCod_lote(Integer.parseInt(txt_lote.getText()));
-                                    Date fecha2 = cmb_ingreso.getDate();
-                                    java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
-                                    dto2.setFecha(sqlfecha2);
-                                    sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
-                                    try {
-                                        PreparedStatement pst = reg.prepareStatement(sql);
-                                        pst.setInt(1, dto.getCod_lote());
-                                        pst.setInt(2, dto.getCod_producto());
-                                        pst.setInt(3, dto.getCalibre());
-                                        pst.setDate(4, dto.getFecha());
-                                        pst.setInt(5, dto.getKilos_inicial());
-                                        pst.setInt(6, dto.getKilos_final());
-                                        actualizarStock();
-                                        int n = pst.executeUpdate();
-                                        if (n>0){
-                                            JOptionPane.showMessageDialog(null,"Lote registrado satisfactoriamente.");
+                                            bodegaLote dto2 = new bodegaLote();
+                                            dto2.setCod_bodega(getCodBodega());
+                                            dto2.setCod_lote(Integer.parseInt(txt_lote.getText()));
+                                            Date fecha2 = cmb_ingreso.getDate();
+                                            java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
+                                            dto2.setFecha(sqlfecha2);
+                                            sql = "INSERT INTO lote (cod_lote, cod_producto, calibre, fecha, kilos_inicial, kilos_final) VALUES (?,?,?,?,?,?)";
+                                            try {
+                                                PreparedStatement pst = reg.prepareStatement(sql);
+                                                pst.setInt(1, dto.getCod_lote());
+                                                pst.setInt(2, dto.getCod_producto());
+                                                pst.setInt(3, dto.getCalibre());
+                                                pst.setDate(4, dto.getFecha());
+                                                pst.setInt(5, dto.getKilos_inicial());
+                                                pst.setInt(6, dto.getKilos_final());
+                                                actualizarStock();
+                                                int n = pst.executeUpdate();
+                                                if (n>0){
+                                                    JOptionPane.showMessageDialog(null,"Lote registrado satisfactoriamente.");
+                                                }
+                                            } catch (SQLException ex) {
+                                                JOptionPane.showMessageDialog(null,"Error al agregar.");
+                                            }
+                                            sql= "INSERT INTO lote_bodega (cod_bodega, cod_lote, fecha_ingreso)VALUES (?,?,?)";
+                                            try {
+                                                PreparedStatement pst=reg.prepareStatement(sql);
+                                                pst.setInt(1, dto2.getCod_bodega());
+                                                pst.setInt(2, dto2.getCod_lote());
+                                                pst.setDate(3, dto2.getFecha());
+                                                int n = pst.executeUpdate();
+                                                if (n>0){
+                                                }                
+                                            }catch (SQLException ex) {
+                                                JOptionPane.showMessageDialog(null,"Error al agregar.");
+                                                //sw = 1;
+                                            }
+                                            txt_lote.setText("");
+                                            txt_calibre.setText("");
+                                            txt_kilosInicial.setText("");
+                                            txt_kilosFinal.setText("");
+                                            cmb_elaboracion.setCalendar(c2);
+                                            cmb_ingreso.setCalendar(c2);
+                                            limpiartabla();
+                                            mostrardatostabla("");
                                         }
-                                    } catch (SQLException ex) {
-                                        JOptionPane.showMessageDialog(null,"Error al agregar.");
-                                    }
-                                    sql= "INSERT INTO lote_bodega (cod_bodega, cod_lote, fecha_ingreso)VALUES (?,?,?)";
-                                    try {
-                                        PreparedStatement pst=reg.prepareStatement(sql);
-                                        pst.setInt(1, dto2.getCod_bodega());
-                                        pst.setInt(2, dto2.getCod_lote());
-                                        pst.setDate(3, dto2.getFecha());
-                                        int n = pst.executeUpdate();
-                                        if (n>0){
-                                        }                
-                                    }catch (SQLException ex) {
-                                        JOptionPane.showMessageDialog(null,"Error al agregar.");
-                                        //sw = 1;
                                     }
                                 }
+
+                                }
                             }
-                            
                         }
                     }
                 }
             }
-        }
-                                    txt_lote.setText("");
-                                    txt_calibre.setText("");
-                                    txt_kilosInicial.setText("");
-                                    txt_kilosFinal.setText("");
-                                    cmb_elaboracion.setCalendar(c2);
-                                    cmb_ingreso.setCalendar(c2);
-                                    limpiartabla();
-                                    mostrardatostabla("");
+                                    
         
     }//GEN-LAST:event_btn_agregarActionPerformed
 
@@ -688,59 +699,67 @@ public class loteBodega extends javax.swing.JFrame {
                     if (txt_kilosFinal.getText().equals("")){
                         JOptionPane.showMessageDialog(null,"Debe ingresar kilos final.");
                     }else{
-                        if (Integer.parseInt(txt_kilosInicial.getText()) < Integer.parseInt(txt_kilosFinal.getText())){
-                            JOptionPane.showMessageDialog(null,"Kilos iniciales no puede ser inferior a kilos final");
+                         if (Integer.parseInt(txt_kilosInicial.getText()) == 0){
+                            JOptionPane.showMessageDialog(null,"Kilos inicial no puede ser 0.");
                         }else{
-                            actualizarStock2();
-                            Date fecha = cmb_elaboracion.getDate();
-                            java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
-                            sql = "Update lote SET cod_producto="+getCodProducto()+",calibre="+Integer.parseInt(txt_calibre.getText())+",fecha='"+sqlfecha+"',kilos_inicial="+Integer.parseInt(txt_kilosInicial.getText())+",kilos_final="+Integer.parseInt(txt_kilosFinal.getText())+" WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+"";
-                            try {
-                                PreparedStatement pst = reg.prepareStatement(sql);
-                                pst.executeUpdate();
-                                
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
-                                JOptionPane.showMessageDialog(null,e.getMessage());
-                            }
+                            if (Integer.parseInt(txt_kilosFinal.getText()) == 0){
+                                JOptionPane.showMessageDialog(null, "Kilos final no puede ser 0.");
+                            }else{
+                                if (Integer.parseInt(txt_kilosInicial.getText()) < Integer.parseInt(txt_kilosFinal.getText())){
+                                    JOptionPane.showMessageDialog(null,"Kilos iniciales no puede ser inferior a kilos final");
+                                }else{
+                                    actualizarStock2();
+                                    Date fecha = cmb_elaboracion.getDate();
+                                    java.sql.Date sqlfecha = new java.sql.Date(fecha.getTime());
+                                    sql = "Update lote SET cod_producto="+getCodProducto()+",calibre="+Integer.parseInt(txt_calibre.getText())+",fecha='"+sqlfecha+"',kilos_inicial="+Integer.parseInt(txt_kilosInicial.getText())+",kilos_final="+Integer.parseInt(txt_kilosFinal.getText())+" WHERE cod_lote="+Integer.parseInt(txt_lote.getText())+"";
+                                    try {
+                                        PreparedStatement pst = reg.prepareStatement(sql);
+                                        pst.executeUpdate();
 
-                            Date fecha2 = cmb_ingreso.getDate();
-                            java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
-                            sql = "update lote_bodega set fecha_ingreso='"+sqlfecha2+"' where cod_bodega ="+getCodBodega()+" and cod_lote="+Integer.parseInt(txt_lote.getText())+" ";
-                            try{
-                                PreparedStatement pst = reg.prepareStatement(sql);
-                                pst.executeUpdate();
-                                
-                            }catch (Exception e){
-                                System.out.println(e.getMessage());
-                                JOptionPane.showMessageDialog(null, e.getMessage());
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        JOptionPane.showMessageDialog(null,e.getMessage());
+                                    }
+
+                                    Date fecha2 = cmb_ingreso.getDate();
+                                    java.sql.Date sqlfecha2 = new java.sql.Date(fecha2.getTime());
+                                    sql = "update lote_bodega set fecha_ingreso='"+sqlfecha2+"' where cod_bodega ="+getCodBodega()+" and cod_lote="+Integer.parseInt(txt_lote.getText())+" ";
+                                    try{
+                                        PreparedStatement pst = reg.prepareStatement(sql);
+                                        pst.executeUpdate();
+
+                                    }catch (Exception e){
+                                        System.out.println(e.getMessage());
+                                        JOptionPane.showMessageDialog(null, e.getMessage());
+                                    }
+                                    int fila=tbl_lote.getSelectedRow();
+                                    btn_aceptar.setVisible(false);
+                                    btn_cancelar.setVisible(false);
+                                    btn_eliminar.setVisible(true);
+                                    btn_modificar.setVisible(true);
+                                    btn_agregar.setVisible(true);
+                                    cmb_bodega.setEnabled(true);
+                                    txt_lote.setEnabled(true);
+                                    txt_lote.setEditable(true);
+                                    btn_agregarProducto.setVisible(true);
+                                    btn_agregarBodega.setVisible(true);
+                                    cmb_nombreProducto.setEnabled(true);
+                                    cmb_variedad.setEnabled(true);
+                                    btn_refrescar.setVisible(true);
+                                    txt_lote.requestFocus();
+                                    txt_lote.setText("");
+                                    txt_calibre.setText("");
+                                    txt_kilosInicial.setText("");
+                                    txt_kilosFinal.setText("");
+                                    limpiartabla();
+                                    mostrardatostabla("");
+                                }
                             }
-                            int fila=tbl_lote.getSelectedRow();
-                            btn_aceptar.setVisible(false);
-                            btn_cancelar.setVisible(false);
-                            btn_eliminar.setVisible(true);
-                            btn_modificar.setVisible(true);
-                            btn_agregar.setVisible(true);
-                            cmb_bodega.setEnabled(true);
-                            txt_lote.setEnabled(true);
-                            txt_lote.setEditable(true);
-                            btn_agregarProducto.setVisible(true);
-                            btn_agregarBodega.setVisible(true);
-                            cmb_nombreProducto.setEnabled(true);
-                            cmb_variedad.setEnabled(true);
-                            btn_refrescar.setVisible(true);
-                            txt_lote.requestFocus();
-                            txt_lote.setText("");
-                            txt_calibre.setText("");
-                            txt_kilosInicial.setText("");
-                            txt_kilosFinal.setText("");
-                            limpiartabla();
-                            mostrardatostabla("");
+                         }
+                    }
                         }
                     }
                 }
-            }
-        }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed

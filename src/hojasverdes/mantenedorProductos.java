@@ -326,6 +326,12 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 if (Integer.parseInt(txt_precio.getText()) == 0){
                     JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 }else{
+                    if (Integer.parseInt(txt_stockCritico.getText()) == 0){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar stock critico.");
+                    }else{
+                        if (Integer.parseInt(txt_stockactual.getText()) == 0){
+                            JOptionPane.showMessageDialog(null,"Debe ingresar stock actual.");
+                        }else{   
                     cod      = txt_codProducto.getText();
                     nom      = txt_nomProducto.getText();
                     variedad = txt_variedad.getText();
@@ -361,6 +367,9 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     }else{
                         txt_codProducto.requestFocus();
                     }
+                        }
+                    }
+                    
                 }
             }
         }                                     
@@ -408,32 +417,40 @@ public class mantenedorProductos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un precio mayor a cero para el producto.");
                 txt_precio.requestFocus();
             }else{
-                sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"', stock_actual='"+txt_stockactual.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
-                try {
-                    PreparedStatement pst = reg.prepareStatement(sql);
-                    pst.executeUpdate();
-                    limpiartabla();
-                    mostrardatostabla("");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    JOptionPane.showMessageDialog(null,e.getMessage());
+                if (Integer.parseInt(txt_stockCritico.getText()) == 0){
+                        JOptionPane.showMessageDialog(null,"Debe ingresar stock critico.");
+                    }else{
+                        if (Integer.parseInt(txt_stockactual.getText()) == 0){
+                            JOptionPane.showMessageDialog(null,"Debe ingresar stock actual.");
+                        }else{   
+                            sql="UPDATE producto SET nom_producto='"+txt_nomProducto.getText()+"',variedad='"+txt_variedad.getText()+"', precio='"+txt_precio.getText()+"', stock_critico='"+txt_stockCritico.getText()+"', stock_actual='"+txt_stockactual.getText()+"' WHERE cod_producto='"+txt_codProducto.getText()+"'";
+                            try {
+                                PreparedStatement pst = reg.prepareStatement(sql);
+                                pst.executeUpdate();
+                                limpiartabla();
+                                mostrardatostabla("");
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                JOptionPane.showMessageDialog(null,e.getMessage());
+                            }
+                                btn_aceptar.setVisible(false);
+                                btn_cancelar.setVisible(false);
+                                btn_eliminar.setVisible(true);
+                                btn_modificar.setVisible(true);
+                                btn_agregar.setVisible(true);
+                                txt_codProducto.setEnabled(true);
+                                txt_codProducto.setEditable(true);
+                                txt_codProducto.requestFocus();
+                                txt_nomProducto.setText("");
+                                txt_variedad.setText("");
+                                txt_precio.setText("");
+                                txt_stockCritico.setText("");
+                                txt_codProducto.setText("");
+                                txt_stockactual.setText("");
+                                limpiartabla();
+                                mostrardatostabla("");
+                        }
                 }
-                    btn_aceptar.setVisible(false);
-                    btn_cancelar.setVisible(false);
-                    btn_eliminar.setVisible(true);
-                    btn_modificar.setVisible(true);
-                    btn_agregar.setVisible(true);
-                    txt_codProducto.setEnabled(true);
-                    txt_codProducto.setEditable(true);
-                    txt_codProducto.requestFocus();
-                    txt_nomProducto.setText("");
-                    txt_variedad.setText("");
-                    txt_precio.setText("");
-                    txt_stockCritico.setText("");
-                    txt_codProducto.setText("");
-                    txt_stockactual.setText("");
-                    limpiartabla();
-                    mostrardatostabla("");
             }
         }
     }//GEN-LAST:event_btn_aceptarActionPerformed
@@ -453,6 +470,7 @@ public class mantenedorProductos extends javax.swing.JFrame {
                     txt_codProducto.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar

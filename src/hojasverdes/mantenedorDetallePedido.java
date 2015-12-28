@@ -56,7 +56,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         int cod;
         String sql="";
         if(valor.equals("")){
-            sql = "SELECT d.nro_nota, d.cod_producto, p.nom_producto, p.variedad, d.cantidad, d.precio FROM detalle_pedido d, producto p where d.cod_producto = p.cod_producto";
+            sql = "SELECT d.nro_nota, d.cod_producto, p.nom_producto, p.variedad, d.cantidad, d.precio FROM detalle_pedido d, producto p where d.cod_producto = p.cod_producto ";
         }else{
             sql = "SELECT * FROM detalle_pedido WHERE nro_nota='"+valor+"'";
         }
@@ -342,7 +342,11 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         jLabel1.setText("Seleccione nota pedido:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 16, -1, -1));
 
-        cmb_notapedido.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_notapedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_notapedidoActionPerformed(evt);
+            }
+        });
         jPanel1.add(cmb_notapedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 13, 155, -1));
 
         jLabel2.setText("Nombre producto:");
@@ -511,41 +515,45 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             if (txt_precio.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Debe ingresar precio");
             }else{
-                actualizarStock2();
-                String envio = cmb_notapedido.getSelectedItem().toString();
-                String nom = cmb_nombreproducto.getSelectedItem().toString();
-                String var = cmb_variedad.getSelectedItem().toString();
-                sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_label.getText()+"";
-                try {
-                    PreparedStatement pst = reg.prepareStatement(sql);
-                    pst.executeUpdate();
-                    limpiartabla();
-                    mostrardatostabla("");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    JOptionPane.showMessageDialog(null,e.getMessage());
+                if (Integer.parseInt(txt_precio.getText()) == 0){
+                    JOptionPane.showMessageDialog(null,"Kilos inicial no puede ser 0.");
+                 }else{
+                        //actualizarStock2();
+                        String envio = cmb_notapedido.getSelectedItem().toString();
+                        String nom = cmb_nombreproducto.getSelectedItem().toString();
+                        String var = cmb_variedad.getSelectedItem().toString();
+                        sql="UPDATE detalle_pedido SET cantidad="+Integer.parseInt(txt_cantidad.getText())+",precio= "+Integer.parseInt(txt_precio.getText())+"  WHERE nro_nota="+Integer.parseInt(cmb_notapedido.getSelectedItem().toString())+" and cod_producto="+txt_label.getText()+"";
+                        try {
+                            PreparedStatement pst = reg.prepareStatement(sql);
+                            pst.executeUpdate();
+                            limpiartabla();
+                            mostrardatostabla("");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            JOptionPane.showMessageDialog(null,e.getMessage());
+                        }
+                        btn_aceptar.setVisible(false);
+                        btn_cancelar.setVisible(false);
+                        btn_eliminar.setVisible(true);
+                        btn_modificar.setVisible(true);
+                        btn_agregar.setVisible(true);
+                        //cmb_guiaEnvio.setEditable(true);
+                        cmb_notapedido.setEnabled(true);
+                        //cmb_nomProducto.setEditable(true);
+                        cmb_nombreproducto.setEnabled(true);
+                        //cmb_variedad.setEditable(true);
+                        cmb_variedad.setEnabled(true);
+                        txt_cantidad.setText("");
+                        txt_precio.setText("");
+                        cmb_notapedido.removeAllItems();
+                        cmb_nombreproducto.removeAllItems();
+                        cmb_variedad.removeAllItems();
+                        btn_refrescar.setVisible(true);
+                        btn_agregarProducto.setVisible(true);
+                        btn_agregarNota.setVisible(true);
+                        limpiartabla();
+                        mostrardatostabla("");
                 }
-                btn_aceptar.setVisible(false);
-                btn_cancelar.setVisible(false);
-                btn_eliminar.setVisible(true);
-                btn_modificar.setVisible(true);
-                btn_agregar.setVisible(true);
-                //cmb_guiaEnvio.setEditable(true);
-                cmb_notapedido.setEnabled(true);
-                //cmb_nomProducto.setEditable(true);
-                cmb_nombreproducto.setEnabled(true);
-                //cmb_variedad.setEditable(true);
-                cmb_variedad.setEnabled(true);
-                txt_cantidad.setText("");
-                txt_precio.setText("");
-                cmb_notapedido.removeAllItems();
-                cmb_nombreproducto.removeAllItems();
-                cmb_variedad.removeAllItems();
-                btn_refrescar.setVisible(true);
-                btn_agregarProducto.setVisible(true);
-                btn_agregarNota.setVisible(true);
-                limpiartabla();
-                mostrardatostabla("");
             }
         }
     }//GEN-LAST:event_btn_aceptarActionPerformed
@@ -620,7 +628,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             //qui se pone lo que hara si le das aceptar
                 
                 fila=tbl_detallepedido.getSelectedRow();
-                actualizarStock3();
+                //actualizarStock3();
                 //txt_patente.setText(tbl_camiones.getValueAt(fila, 0).toString());
                 cmb_notapedido.setSelectedItem(tbl_detallepedido.getValueAt(fila, 0).toString());
                 String x = tbl_detallepedido.getValueAt(fila, 1).toString();
@@ -633,6 +641,7 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
                     mostrardatostabla("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar
@@ -682,38 +691,42 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
             if (txt_precio.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Debe ingresar precio");
             }else{
-                if (!verificarStock2()){
-                    JOptionPane.showMessageDialog(null,"Stock de producto insuficiente para realizar el pedido.");
-                }else{
-                    detallePedido dto = new detallePedido();
-                    dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
-                    dto.setCod_producto(Integer.parseInt(getCodProducto()));
-                    dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
-                    dto.setPrecio(Integer.parseInt(txt_precio.getText()));
-                    verificarStock3();
-                    sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
-                    try {
-                        PreparedStatement pst = reg.prepareStatement(sql);
-                        pst.setInt(1, dto.getNro_nota());
-                        pst.setInt(2, dto.getCod_producto());
-                        pst.setInt(3, dto.getCantidad());
-                        pst.setInt(4, dto.getPrecio());
-                        int n = pst.executeUpdate();
-                        if (n>0){
-                            JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                 if (Integer.parseInt(txt_precio.getText()) == 0){
+                    JOptionPane.showMessageDialog(null,"Kilos inicial no puede ser 0.");
+                 }else{
+                        if (!verificarStock2()){
+                            JOptionPane.showMessageDialog(null,"Stock de producto insuficiente para realizar el pedido.");
+                        }else{
+                            detallePedido dto = new detallePedido();
+                            dto.setNro_nota(Integer.parseInt(cmb_notapedido.getSelectedItem().toString()));
+                            dto.setCod_producto(Integer.parseInt(getCodProducto()));
+                            dto.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+                            dto.setPrecio(Integer.parseInt(txt_precio.getText()));
+                            //verificarStock3();
+                            sql = "INSERT INTO detalle_pedido (nro_nota, cod_producto, cantidad, precio) VALUES (?,?,?,?)";
+                            try {
+                                PreparedStatement pst = reg.prepareStatement(sql);
+                                pst.setInt(1, dto.getNro_nota());
+                                pst.setInt(2, dto.getCod_producto());
+                                pst.setInt(3, dto.getCantidad());
+                                pst.setInt(4, dto.getPrecio());
+                                int n = pst.executeUpdate();
+                                if (n>0){
+                                    JOptionPane.showMessageDialog(null,"Detalle envio registrado satisfactoriamente.");
+                                }
+                            } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                            }
+                            txt_cantidad.setText("");
+                            txt_label.setText("");
+                            txt_precio.setText("");
+                            limpiartabla();
+                            mostrardatostabla("");
                         }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null,"Error al agregar, codigos duplicado.");
+                 }
+
                     }
-                    txt_cantidad.setText("");
-                    txt_label.setText("");
-                    txt_precio.setText("");
-                    limpiartabla();
-                    mostrardatostabla("");
                 }
-                
-            }
-        }
         
     }//GEN-LAST:event_btn_agregarActionPerformed
 
@@ -750,6 +763,10 @@ public class mantenedorDetallePedido extends javax.swing.JFrame {
         limpiartabla();
         mostrardatostabla("");
     }//GEN-LAST:event_btn_refrescarActionPerformed
+
+    private void cmb_notapedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_notapedidoActionPerformed
+
+    }//GEN-LAST:event_cmb_notapedidoActionPerformed
 
     /**
      * @param args the command line arguments

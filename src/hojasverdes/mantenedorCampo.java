@@ -424,6 +424,7 @@ public class mantenedorCampo extends javax.swing.JFrame {
                     txt_codCampo.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar

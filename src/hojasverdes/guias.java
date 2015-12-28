@@ -722,6 +722,7 @@ public class guias extends javax.swing.JFrame {
                     mostrardatostabla("");
                 }catch(Exception e){
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
                 try {
                     PreparedStatement pst = reg.prepareStatement("DELETE FROM guia_envio WHERE cod_envio="+Integer.parseInt(txt_guia.getText())+"");
@@ -730,6 +731,7 @@ public class guias extends javax.swing.JFrame {
                     mostrardatostabla("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
             //aqui se pone lo que hara si le das cancelar

@@ -429,6 +429,7 @@ public class mantenedorProveedores extends javax.swing.JFrame {
                     txt_rutproveedor.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
                 

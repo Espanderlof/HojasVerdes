@@ -39,6 +39,7 @@ public class menu extends javax.swing.JFrame {
         btn_salir = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         txt_usuario = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -129,7 +130,13 @@ public class menu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
+
+        txt_usuario.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         getContentPane().add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 70, 20));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        jLabel2.setText("Cuenta:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondomenu.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -205,6 +212,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JButton btn_salir;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JLabel txt_usuario;
     // End of variables declaration//GEN-END:variables

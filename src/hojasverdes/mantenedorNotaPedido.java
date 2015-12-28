@@ -425,6 +425,7 @@ public class mantenedorNotaPedido extends javax.swing.JFrame {
                     txt_codigonotapedido.setText("");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(null,e.getMessage());
                 }
             }else{
                 
